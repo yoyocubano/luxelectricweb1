@@ -1,0 +1,85 @@
+<div class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col items-center justify-center p-4 font-display">
+  <div class="w-full max-w-2xl mx-auto">
+    
+    <!-- Start Screen -->
+    @if (gameState() === 'start') {
+      <div class="bg-white dark:bg-[#1a2632] rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-8 text-center flex flex-col items-center gap-6 animate-fade-in">
+        <div class="size-20 bg-blue-600/10 text-blue-600 rounded-full flex items-center justify-center">
+          <span class="material-symbols-outlined !text-5xl">bolt</span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-black">Voltaje Veloz</h1>
+        <p class="text-gray-600 dark:text-gray-400 max-w-md">
+          Responde 10 preguntas sobre normativa lo más rápido que puedas. ¡Cada segundo cuenta para demostrar que eres el más rápido del tablero!
+        </p>
+        <button (click)="startGame()" class="w-full md:w-auto flex items-center justify-center gap-3 rounded-xl h-14 px-8 bg-blue-600 text-white text-lg font-bold hover:bg-blue-700 transition-transform hover:scale-105 shadow-lg shadow-blue-500/30">
+          <span class="material-symbols-outlined">play_circle</span>
+          <span>¡Empezar Juego!</span>
+        </button>
+      </div>
+    }
+
+    <!-- Playing Screen -->
+    @if (gameState() === 'playing' && currentQuestion()) {
+      <div class="bg-white dark:bg-[#1a2632] rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-6 md:p-8 flex flex-col gap-6 animate-fade-in">
+        <!-- Header -->
+        <div class="flex justify-between items-center gap-4">
+          <div>
+            <p class="text-sm font-bold text-blue-600">Pregunta {{ currentQuestionIndex() + 1 }} / {{ questions().length }}</p>
+            <p class="text-xs text-gray-500">Puntuación: {{ score() }}</p>
+          </div>
+          <div class="flex items-center gap-2 font-bold text-lg" [class.text-red-500]="timeLeft() <= 5">
+            <span class="material-symbols-outlined">timer</span>
+            <span>{{ timeLeft() }}s</span>
+          </div>
+        </div>
+        <!-- Progress Bar -->
+        <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+          <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-500" [style.width]="((currentQuestionIndex() + 1) / questions().length) * 100 + '%'"></div>
+        </div>
+
+        <!-- Question -->
+        <h2 class="text-xl md:text-2xl font-semibold min-h-[96px]">{{ currentQuestion().question }}</h2>
+
+        <!-- Answers -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          @for (option of currentQuestion().options; track $index) {
+            <button (click)="selectAnswer($index)" [disabled]="isAnswered()"
+                    class="p-4 rounded-lg border-2 text-left font-medium transition-all duration-300 disabled:cursor-not-allowed"
+                    [class]="!isAnswered() ? 'border-gray-300 dark:border-gray-600 hover:bg-blue-600/10 hover:border-blue-600' :
+                             $index === currentQuestion().correctAnswerIndex ? 'bg-green-500 border-green-500 text-white transform scale-105 shadow-lg' :
+                             $index === selectedAnswer() ? 'bg-red-500 border-red-500 text-white' :
+                             'border-gray-300 dark:border-gray-700 opacity-50'">
+              <span class="font-bold mr-2">{{ ['A', 'B', 'C', 'D'][$index] }}.</span>
+              <span>{{ option }}</span>
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Finished Screen -->
+    @if (gameState() === 'finished') {
+      <div class="bg-white dark:bg-[#1a2632] rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-8 text-center flex flex-col items-center gap-6 animate-fade-in">
+        <div class="size-20 rounded-full flex items-center justify-center"
+             [ngClass]="score() >= 7 ? 'bg-green-100 dark:bg-green-900/30 text-green-500' : 'bg-red-100 dark:bg-red-900/30 text-red-500'">
+          <span class="material-symbols-outlined !text-5xl">{{ score() >= 7 ? 'emoji_events' : 'sentiment_dissatisfied' }}</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-black">¡Juego Terminado!</h1>
+        <p class="text-5xl font-black">{{ score() }} <span class="text-3xl font-bold text-gray-500">/ {{ questions().length }}</span></p>
+        <p class="text-gray-600 dark:text-gray-400 text-lg">{{ finalScoreMessage() }}</p>
+
+        <div class="flex flex-col md:flex-row gap-4 w-full mt-4">
+          <button (click)="restartGame()" class="w-full flex items-center justify-center gap-3 rounded-xl h-12 px-6 bg-blue-600 text-white font-bold hover:bg-blue-700 transition-transform hover:scale-105 shadow-lg shadow-blue-500/30">
+            <span class="material-symbols-outlined">refresh</span>
+            <span>Jugar de Nuevo</span>
+          </button>
+          <a routerLink="/games" class="w-full flex items-center justify-center gap-2 rounded-xl h-12 px-6 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors">
+            <span class="material-symbols-outlined">sports_esports</span>
+            <span>Ver otros juegos</span>
+          </a>
+        </div>
+      </div>
+    }
+
+  </div>
+</div>

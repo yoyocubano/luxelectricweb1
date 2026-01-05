@@ -1,0 +1,7 @@
+{
+  "name": "LuxEléctrico - Asistente de Examen",
+  "description": "Una aplicación web integral para ayudar a los aspirantes a electricistas en Luxemburgo a prepararse para su examen. Incluye teoría, simulacros prácticos, juegos interactivos y un simulador de entrevistas, todo con un toque amigable y motivador.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

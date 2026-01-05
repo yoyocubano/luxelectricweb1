@@ -1,0 +1,108 @@
+
+<div class="bg-gray-50 dark:bg-gray-900 font-display text-gray-900 dark:text-white min-h-screen flex flex-col overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111418] px-10 py-3 sticky top-0 z-50">
+  <div class="flex items-center gap-8">
+    <div class="flex items-center gap-4">
+      <div class="size-8 text-blue-600"><span class="material-symbols-outlined !text-3xl">bolt</span></div>
+      <h2 class="text-lg font-bold">LuxElectric Prep</h2>
+    </div>
+    <nav class="hidden md:flex items-center gap-9">
+      <a routerLink="/dashboard" class="text-sm font-medium hover:text-blue-600 transition-colors">Inicio</a>
+      <a routerLink="/theory" class="text-sm font-medium hover:text-blue-600 transition-colors">Teoría</a>
+      <a routerLink="/practice" class="text-sm font-bold text-blue-600 transition-colors">Práctica</a>
+      <a routerLink="/games" class="text-sm font-medium hover:text-blue-600 transition-colors">Juegos</a>
+      <a routerLink="/simulator" class="text-sm font-medium hover:text-blue-600 transition-colors">Simulador</a>
+    </nav>
+  </div>
+  <div class="flex items-center gap-4">
+    <button class="flex size-10 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+      <span class="material-symbols-outlined">notifications</span>
+    </button>
+  </div>
+</header>
+<!-- Main Layout -->
+<div class="flex flex-1 max-w-[1600px] w-full mx-auto px-4 md:px-8 py-6 gap-6">
+<!-- Left Sidebar -->
+<aside class="hidden lg:flex flex-col w-80 shrink-0 gap-6 sticky top-24 h-[calc(100vh-8rem)]">
+  <div class="bg-white dark:bg-[#1a222c] rounded-xl flex-1 border border-gray-200 dark:border-gray-800 shadow-sm flex flex-col overflow-hidden">
+    <div class="p-5 border-b border-gray-100 dark:border-gray-800">
+      <h1 class="text-base font-bold">Guía de Montaje</h1>
+      <p class="text-gray-500 dark:text-gray-400 text-sm">Motor Trifásico</p>
+    </div>
+    <div class="overflow-y-auto flex-1 p-2 space-y-1">
+      @for(step of steps; track step.id) {
+        <button class="w-full flex items-center gap-3 px-3 py-3 text-left rounded-lg transition-colors"
+                [class]="step.status === 'active' ? 'bg-blue-600/10 border-blue-600/20' : 'hover:bg-gray-100 dark:hover:bg-gray-800'">
+            @if (step.status === 'done') {
+            <div class="size-6 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 shrink-0">
+                <span class="material-symbols-outlined text-[16px]">check</span>
+            </div>
+            <span class="text-sm font-medium text-gray-500 dark:text-gray-400 line-through">{{ step.title }}</span>
+            } @else if (step.status === 'active') {
+            <div class="size-6 rounded-full bg-blue-600 flex items-center justify-center text-white shrink-0 font-bold text-xs">{{ step.id }}</div>
+            <div class="flex flex-col">
+                <span class="text-sm font-bold">{{ step.title }}</span>
+                <span class="text-xs text-blue-600 font-medium">En curso</span>
+            </div>
+            } @else {
+            <div class="size-6 rounded-full border border-gray-300 dark:border-gray-600 flex items-center justify-center text-gray-500 dark:text-gray-400 shrink-0 text-xs font-medium">{{ step.id }}</div>
+            <span class="text-sm font-medium">{{ step.title }}</span>
+            }
+        </button>
+      }
+    </div>
+  </div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col gap-6 min-w-0">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div>
+      <h1 class="text-3xl md:text-4xl font-black">Conexión del Motor Trifásico</h1>
+      <p class="text-gray-500 dark:text-gray-400 text-lg">Configuración Estrella-Triángulo según norma LUX-N01.</p>
+    </div>
+  </div>
+  <div class="bg-white dark:bg-[#1a222c] rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm overflow-hidden">
+    <div class="p-6 md:p-8 flex flex-col gap-8">
+        <div class="flex flex-col gap-6">
+            <div class="flex gap-4">
+                <div class="size-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">1</div>
+                <div class="flex flex-col gap-2 pb-4">
+                    <h3 class="text-lg font-bold">Identificación de Terminales</h3>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">Abre la caja de bornes. Tienes que ver U1, V1, W1 y W2, U2, V2. Con el multímetro, comprueba que cada bobina (U1 con U2, etc.) tiene continuidad. Si no, hay tremendo problema.</p>
+                </div>
+            </div>
+             <div class="flex gap-4">
+                <div class="size-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">2</div>
+                <div class="flex flex-col gap-2 pb-4">
+                    <h3 class="text-lg font-bold">Selección de Puentes (Estrella vs Triángulo)</h3>
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed">Para la red de 400V y un motor 230/400V, la conexión es <strong>Estrella</strong>. Esto significa que unes los tres finales (W2, U2, V2) con las chapitas. ¡Facilito!</p>
+                    <div class="mt-2 bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                        <p class="font-bold text-amber-800 dark:text-amber-400 text-sm">¡Ojo, pillo!</p>
+                        <p class="text-amber-700 dark:text-amber-300 text-sm">Si le metes Triángulo a 400V, vas a ver un fogonazo que ni el malecón a las 12. Lee la placa, compadre.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-blue-600/5 dark:bg-blue-900/10 rounded-xl p-5 border border-blue-200 dark:border-blue-800">
+                <h4 class="text-base font-bold text-blue-800 dark:text-blue-300 mb-4 flex items-center gap-2"><span class="material-symbols-outlined">psychology</span> Justificación Técnica (Pa' que no te enredes)</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400"><strong>Cálculo de Sección:</strong> La corriente del motor es 5.8A. El cable de 2.5mm² aguanta 20A. Como 20A es más que 5.8A, ese cable va de maravilla. ¡OK!</p>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mt-2"><strong>Código de Colores:</strong> L1: Marrón, L2: Negro, L3: Gris, Tierra (PE): Verde-Amarillo. ¡Apréndetelo como el himno nacional!</p>
+            </div>
+            <div class="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-900/10 dark:to-teal-900/10 border border-green-100 dark:border-green-900/30 rounded-xl p-5">
+                <h4 class="text-base font-bold text-green-800 dark:text-green-300 mb-2">Tip del Cubano: La Pura Cepa de la Limpieza</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">En el examen, la limpieza es el 20% de la nota. ¡No seas chapucero! Ponle bridas cada 10cm, que los cables queden rectos como una palma. Deja un "lazo" de cable antes del borne para que no quede tenso. ¡Un trabajo fino enamora al examinador!</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-gray-100 dark:bg-[#111418] p-6 border-t border-gray-200 dark:border-gray-800 flex justify-between items-center">
+        <button class="flex items-center gap-2 text-gray-500 font-bold text-sm hover:text-gray-900 transition-colors">
+            <span class="material-symbols-outlined">arrow_back</span>Paso Anterior</button>
+        <button class="flex items-center justify-center gap-2 rounded-lg h-12 px-8 bg-blue-600 text-white text-base font-bold hover:bg-blue-700 transition-colors shadow-lg shadow-blue-500/30">
+            <span>Siguiente: Montaje del Tablero</span>
+            <span class="material-symbols-outlined">arrow_forward</span>
+        </button>
+    </div>
+  </div>
+</main>
+</div>
+</div>

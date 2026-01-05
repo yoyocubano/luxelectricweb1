@@ -1,0 +1,233 @@
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
+  <!-- Navigation -->
+  <header class="bg-white dark:bg-[#1a2632] border-b border-solid border-b-[#f0f2f5] dark:border-b-[#2a3642] sticky top-0 z-50">
+    <div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center">
+      <div class="flex flex-col max-w-[960px] flex-1">
+        <div class="flex items-center justify-between whitespace-nowrap py-3">
+          <div class="flex items-center gap-4">
+            <div class="size-8 text-blue-600 flex items-center justify-center">
+              <span class="material-symbols-outlined" style="font-size: 32px;">bolt</span>
+            </div>
+            <h2 class="text-lg font-bold">{{ 'header.luxelectric' | i18n }}</h2>
+          </div>
+          <!-- Desktop Menu -->
+          <div class="hidden md:flex flex-1 justify-end gap-8">
+            <nav class="flex items-center gap-9">
+              <a class="text-sm font-bold text-blue-600" routerLink="/dashboard">{{ 'header.nav.home' | i18n }}</a>
+              <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/theory">{{ 'header.nav.theory' | i18n }}</a>
+              <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/practice">{{ 'header.nav.practice' | i18n }}</a>
+              <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/games">{{ 'header.nav.games' | i18n }}</a>
+              <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/simulator">{{ 'header.nav.simulator' | i18n }}</a>
+            </nav>
+            <div class="flex gap-3 items-center border-l pl-8 border-gray-200 dark:border-gray-700">
+              <button class="flex items-center justify-center rounded-lg size-10 bg-[#f0f2f5] dark:bg-[#2a3642] hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                <span class="material-symbols-outlined">notifications</span>
+              </button>
+              <div class="relative">
+                <button (click)="toggleLangMenu()" class="flex items-center justify-center rounded-lg w-16 h-10 bg-[#f0f2f5] dark:bg-[#2a3642] hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                  <span class="text-xs font-bold">{{ i18n.lang().toUpperCase() }}</span>
+                  <span class="material-symbols-outlined text-base">expand_more</span>
+                </button>
+                @if(isLangMenuOpen()) {
+                  <div class="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-lg shadow-xl z-50 border dark:border-gray-700 overflow-hidden">
+                    @for(lang of i18n.supportedLangs; track lang.code) {
+                      <a (click)="changeLang(lang.code)" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">{{ lang.name }}</a>
+                    }
+                  </div>
+                }
+              </div>
+              <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-blue-600 cursor-pointer" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBjiVBH7moAmAQcJB-uQGjPaW284lU2yGBNBYSKp00YURbVHoWCkXIG-kRaghpzdP0BTJaDKBWLb3Vly-yrXO_TGk0drfo6p0-9auT7-FRG6wXmZ2a-w30Y3bz-ZHZIF20lj6BI2kBVpWREiTbwX6qir0irVmEcwjgb4KVFMz0gsISZ8VLLEzVi3e_OrYk_sFWau_XXFSiM4_xNa8VAKIpX4YpZYlhv34LbZIESVR3S3kVpGzXOek6wyYsMl4z9h7XfgCNaJE772fU");'></div>
+            </div>
+          </div>
+          <!-- Mobile Menu Icon -->
+          <div class="md:hidden">
+            <span class="material-symbols-outlined">menu</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="flex h-full grow flex-col">
+    <!-- Hero Section -->
+    <div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-5">
+      <div class="layout-content-container flex flex-col max-w-[960px] flex-1">
+        <div class="flex flex-col gap-6 px-4 py-8 md:gap-8 bg-white dark:bg-[#1a2632] rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-700 via-white to-red-600 opacity-80"></div>
+          <div class="flex flex-col gap-6 md:justify-center flex-1 z-10">
+            <div class="flex flex-col gap-2 text-left">
+              <h1 class="text-4xl font-black md:text-5xl">{{ 'dashboard.hero.title' | i18n }}</h1>
+              <h2 class="text-gray-500 dark:text-gray-300 text-sm md:text-base mt-2">{{ 'dashboard.hero.subtitle' | i18n }}</h2>
+            </div>
+            
+            <div class="mt-2 bg-red-500/10 border border-red-500/20 text-red-500 dark:text-red-300 p-4 rounded-xl flex items-center justify-center gap-4 shadow-inner">
+                <span class="material-symbols-outlined text-4xl animate-pulse">calendar_month</span>
+                <div class="text-center">
+                    <p class="text-4xl font-black">{{ diasRestantes() }}</p>
+                    <p class="text-sm font-bold uppercase tracking-wider">{{ 'dashboard.hero.countdown' | i18n }}</p>
+                </div>
+                <span class="material-symbols-outlined text-4xl animate-pulse">emergency</span>
+            </div>
+
+            <div class="flex mt-4">
+              <button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-blue-600 hover:bg-blue-700 text-white text-base font-bold transition-colors shadow-lg shadow-blue-500/20">
+                <span>{{ 'dashboard.hero.cta' | i18n }}</span>
+                <span class="material-symbols-outlined ml-2 text-sm">arrow_forward</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Stats Section -->
+    <div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-2">
+      <div class="flex flex-col max-w-[960px] flex-1">
+        <h2 class="text-[22px] font-bold px-4 pb-3 pt-5">{{ 'dashboard.progress.title' | i18n }}</h2>
+        <div class="flex flex-wrap gap-4 px-4">
+          <!-- Stat Card 1 -->
+          <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#1a2632] border border-gray-100 dark:border-gray-800 shadow-sm transition-transform hover:-translate-y-1 duration-300">
+            <div class="flex justify-between items-center mb-2">
+              <div class="bg-blue-50 dark:bg-blue-900/30 p-2 rounded-lg text-blue-600">
+                <span class="material-symbols-outlined">donut_large</span>
+              </div>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">{{ 'dashboard.progress.general' | i18n }}</p>
+            <p class="text-3xl font-bold">{{ progresoGeneral() }}%</p>
+            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 mt-2">
+              <div class="bg-blue-600 h-1.5 rounded-full" [style.width]="progresoGeneral() + '%'"></div>
+            </div>
+          </div>
+          <!-- Stat Card 2 -->
+          <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#1a2632] border border-gray-100 dark:border-gray-800 shadow-sm transition-transform hover:-translate-y-1 duration-300">
+            <div class="flex justify-between items-center mb-2">
+              <div class="bg-red-50 dark:bg-red-900/30 p-2 rounded-lg text-red-500">
+                <span class="material-symbols-outlined">local_fire_department</span>
+              </div>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">{{ 'dashboard.progress.streak' | i18n }}</p>
+            <p class="text-3xl font-bold">{{ rachaActual() }} {{ 'dashboard.progress.streakUnit' | i18n }}</p>
+            <p class="text-xs text-gray-500 mt-2">{{ 'dashboard.progress.streakSub' | i18n }}</p>
+          </div>
+          <!-- Stat Card 3 -->
+          <div class="flex min-w-[158px] flex-1 flex-col gap-2 rounded-xl p-6 bg-white dark:bg-[#1a2632] border border-gray-100 dark:border-gray-800 shadow-sm transition-transform hover:-translate-y-1 duration-300">
+            <div class="flex justify-between items-center mb-2">
+              <div class="bg-green-50 dark:bg-green-900/30 p-2 rounded-lg text-green-600">
+                <span class="material-symbols-outlined">verified</span>
+              </div>
+            </div>
+            <p class="text-gray-500 dark:text-gray-400 text-sm font-medium">{{ 'dashboard.progress.approved' | i18n }}</p>
+            <p class="text-3xl font-bold">{{ examenesAprobados() }}</p>
+            <p class="text-xs text-gray-500 mt-2">{{ 'dashboard.progress.level' | i18n }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+     <!-- Study Plan Section -->
+    <div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-2">
+      <div class="flex flex-col max-w-[960px] flex-1 px-4">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 rounded-xl shadow-lg flex flex-col md:flex-row items-center gap-6">
+          <div class="shrink-0">
+            <span class="material-symbols-outlined !text-6xl text-white/50">checklist</span>
+          </div>
+          <div class="flex-1 text-center md:text-left">
+            <h3 class="font-bold text-2xl">{{ 'dashboard.studyPlan.title' | i18n }}</h3>
+            <p class="text-white/80 mt-1">{{ 'dashboard.studyPlan.description1' | i18n }} <strong class="font-black text-white">{{ recommendedDailyStudy() }} {{ i18n.t('dashboard.studyPlan.description2') }}</strong></p>
+          </div>
+          <div class="bg-white/10 p-4 rounded-lg text-center">
+            <p class="font-black text-3xl">{{ recommendedDailyStudy() > 0 ? '65/35' : '--' }}</p>
+            <p class="text-xs font-bold uppercase tracking-wider">{{ 'dashboard.studyPlan.ratio' | i18n }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Main Modules Section -->
+    <div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-5">
+      <div class="flex flex-col max-w-[960px] flex-1">
+        <h2 class="text-[22px] font-bold px-4 pb-3 pt-5">{{ 'dashboard.modules.title' | i18n }}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 px-4">
+          <!-- Theory Card -->
+          <div class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1a2632] shadow-md border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all cursor-pointer" [routerLink]="['/theory']">
+            <div class="h-32 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCS7CZG7oK7w5PH2eEjPrYOR-aaxJbA76O4A88lGU6VAqlkRbhsAWEaGcx2Zph_pSEgfOTf_9Xc5yMXqWNvjRs_yalb4StHA_eun0_sGCAAhTtqYWb3KtXDSUfy3yG6HC4RRh4kqMUBwvGkVw9OcSsBiocXcp8_q530wPVYY52CvNBXqNKgm2LlO8xwXJkuElkv5G3JqSU5SmVra1J4S40_AduVGk0as03Rj9ZINlCak0iu2-NdMie6A0BmaCS-K2zDWosdse_UXic");'>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
+            <div class="p-5 flex flex-col grow">
+              <h3 class="text-lg font-bold mb-2">{{ 'dashboard.modules.theory.title' | i18n }}</h3>
+              <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 flex-grow">{{ 'dashboard.modules.theory.description' | i18n }}</p>
+              <button class="w-full h-10 rounded-lg bg-[#f0f2f5] dark:bg-[#2a3642] font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">{{ 'dashboard.modules.theory.cta' | i18n }}</button>
+            </div>
+          </div>
+          <!-- Practice Card -->
+          <div class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1a2632] shadow-md border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all cursor-pointer" [routerLink]="['/practice']">
+            <div class="h-32 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxpftwAIvVxKB7ck1qw22jvzs0EZn4qJQo0XNZXcXQ_9gR4_Z2rsjxK346YFojPRvnj-4FNx-DC0Z44M6xqLREPAkQ7LX9m7fiQSYhu5w-SvsPH8ekBTxxzt15AdNoD8uh0ELRx0DpQolTp3cHP3s1GzYfQ5LnO3ibevUy5YG700DieLHq-ujmKlqUSWfA98aTY_rNzxcYIBjBt-nOkMNHsF5GicVJVI4kq7XsWENnhgW5mJr6vo5PtRWCh1LbZu1FlaFDGV1Ox2Q");'>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
+            <div class="p-5 flex flex-col grow">
+              <h3 class="text-lg font-bold mb-2">{{ 'dashboard.modules.practice.title' | i18n }}</h3>
+              <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 flex-grow">{{ 'dashboard.modules.practice.description' | i18n }}</p>
+              <button class="w-full h-10 rounded-lg bg-[#f0f2f5] dark:bg-[#2a3642] font-bold text-sm hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">{{ 'dashboard.modules.practice.cta' | i18n }}</button>
+            </div>
+          </div>
+          <!-- Games Card -->
+          <div class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1a2632] shadow-md border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all cursor-pointer" [routerLink]="['/games']">
+            <div class="h-32 bg-cover bg-center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDh9HuV1jkvlcBrysO8iNVUfj3xsMX1rYpKlEjoOiAq-4stLP0M4A6ZROuoPWM2P8RnpS-kvXDmPQ6v9x2vzPJjid9jbXa_1AmsVk1F21M4P8hBTGzz0tHciJa2eJ0shFDutl3RE2MD_MqGWzeTaVQdmgHGdWsIiW51OSar_dcZRwo_ua-ZVNKc_PBgKwAA90kBjhvA2aeGrIwwf4eTjbQJ2OMwOT9WWCCK9BgD4qMyrtVDZnGYg6A-ChezzdcS1ebCfJQPKntmOt0");'>
+              <div class="absolute inset-0 bg-gradient-to-tr from-red-600/30 to-blue-600/30 mix-blend-multiply"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+            </div>
+            <div class="p-5 flex flex-col grow">
+              <h3 class="text-lg font-bold mb-2">{{ 'dashboard.modules.games.title' | i18n }}</h3>
+              <p class="text-gray-500 dark:text-gray-400 text-sm mb-6 flex-grow">{{ 'dashboard.modules.games.description' | i18n }}</p>
+              <button class="w-full h-10 rounded-lg bg-blue-600 text-white font-bold text-sm hover:bg-blue-700 transition-colors">{{ 'dashboard.modules.games.cta' | i18n }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Recent Achievements -->
+    <div class="px-4 md:px-10 lg:px-40 flex flex-1 justify-center py-5 mb-10">
+      <div class="flex flex-col max-w-[960px] flex-1">
+        <div class="flex items-center justify-between px-4 pb-3 pt-5">
+          <h2 class="text-[22px] font-bold">{{ 'dashboard.achievements.title' | i18n }}</h2>
+          <a class="text-sm font-medium text-blue-600 hover:underline" href="#">{{ 'dashboard.achievements.viewAll' | i18n }}</a>
+        </div>
+        <div class="flex gap-4 px-4 overflow-x-auto pb-4">
+          <!-- Badges here -->
+          <div class="flex items-center gap-3 bg-white dark:bg-[#1a2632] p-3 rounded-lg border border-gray-100 dark:border-gray-800 min-w-[200px] opacity-60">
+            <div class="bg-yellow-100 dark:bg-yellow-900/30 p-2 rounded-full text-yellow-600"><span class="material-symbols-outlined">emoji_events</span></div>
+            <div>
+              <p class="text-sm font-bold">{{ 'dashboard.achievements.badge1' | i18n }}</p>
+              <p class="text-xs text-gray-500">{{ 'dashboard.achievements.locked' | i18n }}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 bg-white dark:bg-[#1a2632] p-3 rounded-lg border border-gray-100 dark:border-gray-800 min-w-[200px] opacity-60">
+            <div class="bg-blue-100 dark:bg-blue-900/30 p-2 rounded-full text-blue-600"><span class="material-symbols-outlined">bolt</span></div>
+            <div>
+              <p class="text-sm font-bold">{{ 'dashboard.achievements.badge2' | i18n }}</p>
+              <p class="text-xs text-gray-500">{{ 'dashboard.achievements.locked' | i18n }}</p>
+            </div>
+          </div>
+           <div class="flex items-center gap-3 bg-white dark:bg-[#1a2632] p-3 rounded-lg border border-gray-100 dark:border-gray-800 min-w-[200px] opacity-60">
+            <div class="bg-red-100 dark:bg-red-900/30 p-2 rounded-full text-red-500"><span class="material-symbols-outlined">workspace_premium</span></div>
+            <div>
+              <p class="text-sm font-bold">{{ 'dashboard.achievements.badge3' | i18n }}</p>
+              <p class="text-xs text-gray-500">{{ 'dashboard.achievements.locked' | i18n }}</p>
+            </div>
+          </div>
+           <div class="flex items-center gap-3 bg-white dark:bg-[#1a2632] p-3 rounded-lg border border-gray-100 dark:border-gray-800 min-w-[200px] opacity-60">
+            <div class="bg-gray-100 dark:bg-gray-700 p-2 rounded-full text-gray-400"><span class="material-symbols-outlined">lock</span></div>
+            <div>
+              <p class="text-sm font-bold">{{ 'dashboard.achievements.badge4' | i18n }}</p>
+              <p class="text-xs text-gray-500">{{ 'dashboard.achievements.locked' | i18n }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- Footer -->
+  <footer class="bg-white dark:bg-[#1a2632] border-t border-[#f0f2f5] dark:border-gray-800 py-8">
+    <div class="flex justify-center">
+      <div class="max-w-[960px] flex-1 px-4 md:px-10 lg:px-40 text-center">
+        <p class="text-sm text-gray-500 dark:text-gray-400">{{ 'dashboard.footer' | i18n }}</p>
+      </div>
+    </div>
+  </footer>
+</div>
