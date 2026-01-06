@@ -35,8 +35,20 @@ export class DatabaseService {
         return data;
     }
 
-    // Método para sembrar los datos iniciales (Solo ejecutar una vez)
+    // Método para sembrar los datos iniciales (Limpia la basura vieja primero)
     async seedInitialData(questions: ExamQuestion[]) {
+        // 1. Purgar todo lo que haya (Ciclos del agua y demás basura)
+        const { error: deleteError } = await this.supabase.client
+            .from('exam_questions')
+            .delete()
+            .neq('id', 0); // Hack para borrar todo
+
+        if (deleteError) {
+            console.error('Error limpiando tabla:', deleteError);
+            throw deleteError;
+        }
+
+        // 2. Insertar las 50+ preguntas reales de PIFQU
         const { data, error } = await this.supabase.client
             .from('exam_questions')
             .insert(questions);
