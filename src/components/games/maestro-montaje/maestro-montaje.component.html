@@ -86,28 +86,28 @@
             <main class="flex-1 p-8 bg-gray-200 dark:bg-gray-800/50 min-h-[500px] relative">
                 <div class="bg-gray-300 dark:bg-gray-700 w-[350px] h-[450px] mx-auto rounded-lg shadow-inner p-4 relative">
                     <!-- Placed Items will appear here -->
-                    @if (placedItems().find(i => i.id === 'duct-top')) {
+                    @if (isItemPlaced('duct-top')) {
                         <div class="absolute top-4 left-4 h-10 w-[318px] bg-gray-400 dark:bg-gray-600 rounded flex items-center justify-center text-xs text-white/50">CANALETA</div>
                     }
-                     @if (placedItems().find(i => i.id === 'rail1')) {
+                     @if (isItemPlaced('rail1')) {
                         <div class="absolute top-20 left-4 h-5 w-[318px] bg-gray-500 dark:bg-gray-800 rounded flex items-center justify-center text-xs text-white/50">CARRIL DIN</div>
                     }
-                     @if (placedItems().find(i => i.id === 'duct-mid')) {
+                     @if (isItemPlaced('duct-mid')) {
                         <div class="absolute top-32 left-4 h-10 w-[318px] bg-gray-400 dark:bg-gray-600 rounded flex items-center justify-center text-xs text-white/50">CANALETA</div>
                     }
-                    @if (placedItems().find(i => i.id === 'rail2')) {
+                    @if (isItemPlaced('rail2')) {
                         <div class="absolute top-48 left-4 h-5 w-[318px] bg-gray-500 dark:bg-gray-800 rounded flex items-center justify-center text-xs text-white/50">CARRIL DIN</div>
                     }
 
                     <!-- Components -->
                      <div class="absolute top-[68px] left-[100px] flex gap-2">
-                        @if (placedItems().find(i => i.id === 'q1')) {
+                        @if (isItemPlaced('q1')) {
                             <div class="size-16 bg-white dark:bg-gray-900 rounded shadow-md flex items-center justify-center flex-col text-xs font-bold">Q1<span class="material-symbols-outlined">memory</span></div>
                         }
-                        @if (placedItems().find(i => i.id === 'km1')) {
+                        @if (isItemPlaced('km1')) {
                             <div class="size-16 bg-white dark:bg-gray-900 rounded shadow-md flex items-center justify-center flex-col text-xs font-bold">KM1<span class="material-symbols-outlined">memory</span></div>
                         }
-                         @if (placedItems().find(i => i.id === 'f1')) {
+                         @if (isItemPlaced('f1')) {
                             <div class="size-16 bg-white dark:bg-gray-900 rounded shadow-md flex items-center justify-center flex-col text-xs font-bold">F1<span class="material-symbols-outlined">memory</span></div>
                         }
                     </div>

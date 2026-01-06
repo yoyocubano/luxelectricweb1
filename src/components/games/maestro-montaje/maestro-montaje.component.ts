@@ -31,7 +31,7 @@ interface Wire {
 export class MaestroMontajeComponent {
   gameState = signal<GameState>('start');
   playState = signal<PlayState>('layout');
-  
+
   // Game elements
   inventoryMaster = signal<Draggable[]>([
     { id: 'duct-top', name: 'Canaleta Superior', type: 'duct', placed: false, width: 300, height: 40 },
@@ -43,10 +43,10 @@ export class MaestroMontajeComponent {
     { id: 'f1', name: 'Relé Térmico F1', type: 'component', placed: false, width: 50, height: 60 },
   ]);
   inventory = signal<Draggable[]>([]);
-  
+
   placedItems = signal<Draggable[]>([]);
   wires = signal<Wire[]>([]);
-  
+
   cleanliness = signal(100);
   isWiringCorrect = signal(false);
   finalScore = signal(0);
@@ -58,12 +58,12 @@ export class MaestroMontajeComponent {
 
   constructor(private progressService: ProgressService) {
     effect(() => {
-        if (this.layoutPlaced()) {
-            setTimeout(() => this.playState.set('components'), 500);
-        }
-        if (this.componentsPlaced()) {
-            setTimeout(() => this.playState.set('wiring'), 500);
-        }
+      if (this.layoutPlaced()) {
+        setTimeout(() => this.playState.set('components'), 500);
+      }
+      if (this.componentsPlaced()) {
+        setTimeout(() => this.playState.set('wiring'), 500);
+      }
     });
   }
 
@@ -77,7 +77,7 @@ export class MaestroMontajeComponent {
     this.cleanliness.set(100);
     this.isWiringCorrect.set(false);
   }
-  
+
   placeItem(item: Draggable) {
     if (item.placed) return;
 
@@ -85,7 +85,7 @@ export class MaestroMontajeComponent {
     const targetState = item.type === 'duct' || item.type === 'rail' ? 'layout' : 'components';
     if (this.playState() !== targetState) return;
 
-    this.inventory.update(inv => 
+    this.inventory.update(inv =>
       inv.map(i => i.id === item.id ? { ...i, placed: true } : i)
     );
     this.placedItems.update(items => [...items, item]);
@@ -93,35 +93,35 @@ export class MaestroMontajeComponent {
 
   // This is a simplified simulation of wiring for the game
   addWire(isNeat: boolean) {
-      if (this.playState() !== 'wiring') return;
-      
-      const id = `wire-${this.wires().length + 1}`;
-      this.wires.update(w => [...w, { id, from: 'a', to: 'b', isNeat }]);
+    if (this.playState() !== 'wiring') return;
 
-      if(!isNeat) {
-          this.cleanliness.update(c => Math.max(0, c - 15));
-      }
+    const id = `wire-${this.wires().length + 1}`;
+    this.wires.update(w => [...w, { id, from: 'a', to: 'b', isNeat }]);
+
+    if (!isNeat) {
+      this.cleanliness.update(c => Math.max(0, c - 15));
+    }
   }
 
   checkWork() {
     // Simplified validation
     const hasMessyWires = this.wires().some(w => !w.isNeat);
     this.isWiringCorrect.set(this.wires().length > 5 && this.componentsPlaced()); // At least 6 wires and all components
-    
+
     const cleanlinessScore = this.cleanliness();
     const correctnessScore = this.isWiringCorrect() ? 100 : 0;
-    
+
     const calculatedScore = Math.round((correctnessScore * 0.7) + (cleanlinessScore * 0.3));
     this.finalScore.set(calculatedScore);
-    
+
     this.progressService.completeGame(calculatedScore, 100);
 
     if (!this.isWiringCorrect()) {
-        this.feedbackMessage.set('¡Asere, te faltan cables o componentes! Revisa el esquema, que algo no está bien conectado.');
+      this.feedbackMessage.set('¡Asere, te faltan cables o componentes! Revisa el esquema, que algo no está bien conectado.');
     } else if (hasMessyWires) {
-        this.feedbackMessage.set('Funciona, pero ¡qué chapucería! Usa las canaletas, que para eso están. La limpieza es clave.');
+      this.feedbackMessage.set('Funciona, pero ¡qué chapucería! Usa las canaletas, que para eso están. La limpieza es clave.');
     } else {
-        this.feedbackMessage.set('¡Fino filipino! Trabajo de maestro. Limpio, ordenado y funcionando. ¡Estás listo pa\'l examen!');
+      this.feedbackMessage.set('¡Fino filipino! Trabajo de maestro. Limpio, ordenado y funcionando. ¡Estás listo pa\'l examen!');
     }
 
     this.gameState.set('finished');
@@ -129,5 +129,10 @@ export class MaestroMontajeComponent {
 
   restartGame() {
     this.startGame();
+  }
+
+  // Helper method for template - checks if an item is placed
+  isItemPlaced(itemId: string): boolean {
+    return this.placedItems().some(item => item.id === itemId);
   }
 }
