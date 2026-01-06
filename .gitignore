@@ -24,3 +24,40 @@ dist-ssr
 *.sw?
 .angular/
 node_modules/
+
+# ============================================
+# 🔐 SECURITY - SENSITIVE FILES
+# ============================================
+
+# Environment files with secrets
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# Real environment with API keys (use environment.example.ts as template)
+src/environments/environment.ts
+src/environments/environment.prod.ts
+
+# Documentation with credentials (keep locally, never push)
+docs/SUPABASE_CONFIG_FINAL.md
+docs/*API*.md
+docs/*SECRET*.md
+docs/*PASSWORD*.md
+docs/*CREDENTIALS*.md
+
+# Firebase / Supabase service account keys
+**/serviceAccountKey.json
+**/*-firebase-adminsdk-*.json
+**/supabase-key.json
+
+# SSL Certificates
+*.pem
+*.key
+*.crt
+
+# Backup files that might contain secrets
+*.bak
+*.backup
+*_backup.*
