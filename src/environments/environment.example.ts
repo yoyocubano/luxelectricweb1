@@ -15,11 +15,15 @@ export const environment = {
     // Get your keys from: https://app.supabase.com/project/YOUR_PROJECT/settings/api
     supabaseUrl: 'https://YOUR_PROJECT_ID.supabase.co',
     supabaseKey: 'YOUR_SUPABASE_ANON_KEY_HERE',
-    
+
     // Google Gemini API Key
     // Get your key from: https://aistudio.google.com/app/apikey
-    googleApiKey: 'YOUR_GOOGLE_GEMINI_API_KEY_HERE',
-    
+    googleApiKey: 'AIzaSyDkEt5W1oAI7gYQu8A-cmSLkDbdwj5UpA8',
+
+    // DeepSeek API Key (Alternative)
+    // Get your key from: https://platform.deepseek.com/
+    deepseekApiKey: 'sk-ee8de57e3144456aa0b13285ada8c0eb',
+
     // Environment flag
     production: false
 };

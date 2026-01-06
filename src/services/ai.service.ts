@@ -8,6 +8,7 @@
 
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../environments/environment';
+import { AI_CONFIG } from '../config/ai-prompts';
 
 export interface ChatMessage {
     role: 'user' | 'model' | 'system';
@@ -25,50 +26,42 @@ interface EdgeFunctionResponse {
     providedIn: 'root'
 })
 export class AiService {
-    // 🔐 SECURITY: API key removed from client
+    // 🔐 SECURITY: API key removed from client (Legacy)
     // Now using Supabase Edge Function as secure proxy
     private edgeFunctionUrl = `${environment.supabaseUrl}/functions/v1/gemini-chat`;
 
-    // Fallback to direct API call if Edge Function not deployed yet
-    // TODO: Remove this fallback once Edge Function is in production
-    private useFallback = true; // Set to false when Edge Function is deployed
-    private fallbackApiKey = environment.googleApiKey;
-    private fallbackApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+    // System prompt from centralized config
+    private systemPrompt = AI_CONFIG.systemPrompt;
+
+    // AI Provider Configuration
+    private provider = signal<'gemini' | 'deepseek'>('gemini');
+
+    // Fallback Settings
+    private useFallback = true;
+    private googleApiKey = environment.googleApiKey;
+    private deepseekApiKey = (environment as any).deepseekApiKey;
+
+    private geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+    private deepseekUrl = `https://api.deepseek.com/chat/completions`;
 
     isLoading = signal(false);
-
-    // System prompt stored here for fallback mode
-    // In production, this is handled by the Edge Function
-    private systemPrompt = `
-    Eres el "Entrenador Cubano" de LuxElectro. Tu misión es preparar a los estudiantes para el examen de certificación de electricistas en Luxemburgo (Certificat de Capacité Professionnelle - CCP).
-    
-    ESTILO DE COMUNICACIÓN:
-    - Eres dinámico, motivador y usas jerga cubana amigable ("¡Asere!", "¡Dale gas!", "Oye mira...", "¡Qué bolá!").
-    - Eres un experto técnico serio cuando se trata de seguridad eléctrica y reglamentación técnica.
-    - Hablas principalmente en español, pero conoces los términos técnicos en francés.
-    
-    METODOLOGÍA:
-    1. Realizas preguntas cortas y directas sobre: Motores trifásicos, Esquemas de mando y potencia, Protección (Magnetotérmicos, Diferenciales), Tierras, y Ley de Ohm.
-    2. Evalúas la respuesta del estudiante. Si es correcta, lo felicitas con entusiasmo. Si es incorrecta, le explicas el concepto de forma clara pero firme.
-    3. Simulas la parte "Oral" del examen, donde la explicación técnica es vital.
-    
-    ¡Mantén la energía alta y asegúrate de que el estudiante se sienta listo para el 19 de enero!
-  `;
 
     async chat(messages: ChatMessage[]): Promise<string> {
         this.isLoading.set(true);
         try {
             if (this.useFallback) {
-                // Fallback: Direct API call (development only)
-                console.warn('⚠️ Using fallback direct API call. Deploy Edge Function for production!');
-                return await this.chatDirectFallback(messages);
+                // Fallback: Direct API call
+                if (this.provider() === 'deepseek') {
+                    return await this.chatDeepSeek(messages);
+                }
+                return await this.chatGeminiFallback(messages);
             }
 
             // 🔐 SECURE: Call Edge Function (API key is server-side)
             return await this.chatViaEdgeFunction(messages);
         } catch (error) {
             console.error('AI Service Error:', error);
-            return "Oye, se me cayó la fase... Revisa tu conexión, que no puedo hablar ahora.";
+            return AI_CONFIG.defaultErrorMessage;
         } finally {
             this.isLoading.set(false);
         }
@@ -124,10 +117,9 @@ export class AiService {
     }
 
     /**
-     * ⚠️ FALLBACK: Direct API call (DEVELOPMENT ONLY)
-     * TODO: Remove once Edge Function is deployed to production
+     * ⚠️ FALLBACK: Gemini Direct API call
      */
-    private async chatDirectFallback(messages: ChatMessage[]): Promise<string> {
+    private async chatGeminiFallback(messages: ChatMessage[]): Promise<string> {
         const contents = messages
             .filter(m => m.role !== 'system')
             .map(m => ({
@@ -141,12 +133,12 @@ export class AiService {
             },
             contents: contents,
             generationConfig: {
-                temperature: 0.7,
-                maxOutputTokens: 800,
+                temperature: AI_CONFIG.models.gemini.temperature,
+                maxOutputTokens: AI_CONFIG.models.gemini.maxTokens,
             }
         };
 
-        const response = await fetch(`${this.fallbackApiUrl}?key=${this.fallbackApiKey}`, {
+        const response = await fetch(`${this.geminiUrl}?key=${this.googleApiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -156,11 +148,61 @@ export class AiService {
 
         if (data.error) {
             console.error('Gemini Error:', data.error);
-            return "¡Asere, tengo un cortocircuito en los servidores! Inténtalo de nuevo en un ratico.";
+            throw new Error(data.error.message || 'Gemini API Error');
         }
 
         return data.candidates?.[0]?.content?.parts?.[0]?.text ||
             "No recibí respuesta de la IA.";
     }
-}
 
+    /**
+     * 🚀 ALTERNATIVE: DeepSeek Direct API call
+     */
+    private async chatDeepSeek(messages: ChatMessage[]): Promise<string> {
+        if (!this.deepseekApiKey || this.deepseekApiKey.includes('YOUR_')) {
+            throw new Error('DeepSeek API Key missing. Set it in environment.ts');
+        }
+
+        const history = messages
+            .filter(m => m.role !== 'system')
+            .map(m => ({
+                role: m.role === 'model' ? 'assistant' : m.role,
+                content: m.content
+            }));
+
+        const body = {
+            model: "deepseek-chat",
+            messages: [
+                { role: "system", content: this.systemPrompt },
+                ...history
+            ],
+            stream: false,
+            temperature: AI_CONFIG.models.deepseek.temperature
+        };
+
+        const response = await fetch(this.deepseekUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.deepseekApiKey}`
+            },
+            body: JSON.stringify(body)
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+            console.error('DeepSeek Error:', data.error);
+            throw new Error(data.error.message || 'DeepSeek API Error');
+        }
+
+        return data.choices?.[0]?.message?.content || "No recibí respuesta de DeepSeek.";
+    }
+
+    /**
+     * Public method to switch provider
+     */
+    setProvider(provider: 'gemini' | 'deepseek') {
+        this.provider.set(provider);
+    }
+}

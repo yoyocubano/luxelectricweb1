@@ -26,5 +26,9 @@ export const APP_ROUTES: Routes = [
   { path: 'games/cableado-maestro', component: CableadoMaestroComponent },
   { path: 'games/simulador-logico', component: SimuladorLogicoComponent },
   { path: 'simulator', component: SimulatorComponent },
+  {
+    path: 'circuit-editor',
+    loadComponent: () => import('./components/circuit-editor/circuit-editor.component').then(m => m.CircuitEditorComponent)
+  },
   { path: '**', redirectTo: 'dashboard' } // Wildcard route for a 404 page
 ];

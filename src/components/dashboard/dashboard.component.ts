@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   recommendedDailyStudy = signal(0);
   isLangMenuOpen = signal(false);
   isMobileMenuOpen = signal(false);
+  currentYear = signal(new Date().getFullYear());
 
   constructor(public i18n: I18nService, private progressService: ProgressService) {
     this.progresoGeneral = this.progressService.progresoGeneral;
@@ -39,10 +40,10 @@ export class DashboardComponent implements OnInit {
 
     let examDate = new Date(today.getFullYear(), 0, 19); // Month is 0-indexed, 0 = January
     examDate.setHours(0, 0, 0, 0);
-    
+
     // If the exam date for this year has already passed, set it for next year.
     if (today > examDate) {
-        examDate.setFullYear(today.getFullYear() + 1);
+      examDate.setFullYear(today.getFullYear() + 1);
     }
 
     const diffTime = examDate.getTime() - today.getTime();

@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 interface Resource {
     id: string;
     name: string;
-    type: 'pdf' | 'image' | 'doc';
+    type: 'pdf' | 'image' | 'doc' | 'video' | 'audio';
     url: string;
     category: string;
     description: string;
@@ -32,16 +32,20 @@ export class ResourcesComponent {
         { id: 'pdf4', name: 'Examen 2018-2019', type: 'pdf', url: 'assets/pdfs/PIFQU_2018_2019_DAP_ELF_161_F.pdf', category: 'Exámenes', description: 'Preguntas y esquemas del año 2018.' },
         { id: 'pdf5', name: 'Examen 2017-2018', type: 'pdf', url: 'assets/pdfs/PIFQU_2017_2018_DAP_ELF_161_F.pdf', category: 'Exámenes', description: 'Preguntas y esquemas del año 2017.' },
         { id: 'pdf6', name: 'Ejercicios DC3ELF 1-23', type: 'pdf', url: 'assets/pdfs/DC3ELF exercices 1-15_1-23.pdf', category: 'Ejercicios', description: 'Cuaderno completo de ejercicios prácticos.' },
+        { id: 'pdf7', name: 'Repaso Final Industrial', type: 'pdf', url: 'assets/pdfs/Repaso_Final_Electricidad_Industrial.pdf', category: 'Teoría', description: 'Resumen completo para el repaso de teoría industrial.' },
 
-        // Esquemas de ayer (NotebookLM)
-        { id: 'doc1', name: 'Resumen Fórmulas', type: 'doc', url: '#', category: 'Teoría', description: 'Compendio de fórmulas de Ohm, Watt, Trifásica.' },
+        // Multimedia - User Ideas
+        { id: 'vid1', name: 'Fórmulas Clave (Video)', type: 'video', url: 'assets/media/Fórmulas_Clave_Electricista.mp4', category: 'Teoría', description: 'Video explicativo sobre fórmulas esenciales.' },
+        { id: 'aud1', name: 'Ley de Ohm y Cerveza', type: 'audio', url: 'assets/media/Ley_de_Ohm,_Cerveza_y_Arranque_Estrella-Triángulo.m4a', category: 'Teoría', description: 'Explicación magistral de la Ley de Ohm usando la analogía de la cerveza.' },
+        { id: 'aud2', name: 'Lógica y Motores', type: 'audio', url: 'assets/media/Lógica_cableada_Motor_Industrial_Mando_y_Potencia.m4a', category: 'Teoría', description: 'Audio sobre lógica cableada y motores industriales.' },
 
-        // Imágenes de ejercicios (Muestra representativa)
+        // Esquemas
         { id: 'img1', name: 'Esquema Potencia', type: 'image', url: 'assets/images/exercises/IMG_0930.PNG', category: 'Esquemas', description: 'Circuito de potencia para arranque de motor.' },
         { id: 'img2', name: 'Esquema Control', type: 'image', url: 'assets/images/exercises/IMG_0931.PNG', category: 'Esquemas', description: 'Lógica de contactores para marcha/paro.' },
         { id: 'img3', name: 'Cálculo de Secciones', type: 'image', url: 'assets/images/exercises/IMG_0932.PNG', category: 'Ejercicios', description: 'Ejercicio práctico de caída de tensión.' },
         { id: 'img4', name: 'Arranque Estrella', type: 'image', url: 'assets/images/exercises/IMG_0933.PNG', category: 'Esquemas', description: 'Esquema de conexiones Y/Δ.' },
-        { id: 'img5', name: 'Inversión Giro', type: 'image', url: 'assets/images/exercises/IMG_0935.PNG', category: 'Esquemas', description: 'Circuito completo de inversión de giro.' }
+        { id: 'img5', name: 'Inversión Giro', type: 'image', url: 'assets/images/exercises/IMG_0935.PNG', category: 'Esquemas', description: 'Circuito completo de inversión de giro.' },
+        { id: 'img6', name: 'Esquema Lógico Real', type: 'image', url: 'assets/images/exercises/IMG_0940.PNG', category: 'Esquemas', description: 'Diagrama técnico del tablero industrial.' }
     ]);
 
     filteredResources = computed(() => {
@@ -72,7 +76,10 @@ export class ResourcesComponent {
     downloadResource(resource: Resource) {
         const link = document.createElement('a');
         link.href = resource.url;
-        link.download = `${resource.name}.${resource.type === 'pdf' ? 'pdf' : 'png'}`;
+        const extension = resource.type === 'pdf' ? 'pdf' :
+            resource.type === 'video' ? 'mp4' :
+                resource.type === 'audio' ? 'm4a' : 'png';
+        link.download = `${resource.name}.${extension}`;
         link.click();
     }
 }

@@ -47,1172 +47,1087 @@
     </header>
     <div class="flex flex-1 h-[calc(100vh-65px)] overflow-hidden">
         <!-- Sidebar Navigation -->
-        <aside
-            class="hidden lg:flex flex-col w-72 h-full border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-[#111a22] overflow-y-auto">
-            <div class="p-4 flex flex-col gap-6">
-                <div class="flex items-center gap-3 px-2">
-                    <div class="bg-blue-600/10 p-2 rounded-lg text-blue-600">
-                        <span class="material-symbols-outlined">school</span>
+        <aside class="w-80 bg-white dark:bg-[#111a22] border-r border-gray-200 dark:border-gray-800 flex flex-col z-20">
+            <div class="p-8 pb-4">
+                <div class="flex items-center gap-3 mb-8">
+                    <div
+                        class="size-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
+                        <span class="material-symbols-outlined text-2xl">menu_book</span>
                     </div>
-                    <div class="flex flex-col">
-                        <h1 class="text-base font-semibold">Módulos de Estudio</h1>
-                        <p class="text-gray-500 dark:text-gray-400 text-xs">Examen Luxemburgo 2024</p>
+                    <div>
+                        <h2 class="text-xl font-black uppercase italic tracking-tighter leading-none">
+                            LuxElectro</h2>
+                        <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Knowledge
+                            Base</span>
                     </div>
                 </div>
-                <div class="flex flex-col gap-1">
-                    <h3 class="px-3 text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Fundamentos</h3>
-                    <a (click)="selectTopic('motors')"
-                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer"
-                        [class]="activeTopic() === 'motors' ? 'bg-blue-600/10 dark:bg-blue-600/20 border-l-4 border-blue-600' : 'hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors'">
-                        <span class="material-symbols-outlined"
-                            [class]="activeTopic() === 'motors' ? 'text-blue-600' : 'text-gray-500'"
-                            [style]="activeTopic() === 'motors' ? 'font-variation-settings: \'FILL\' 1;' : ''">settings_motion_mode</span>
+
+                <nav class="space-y-1">
+                    <button (click)="selectTopic('dashboard')"
+                        [class]="activeTopic() === 'dashboard' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
+                        class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
+                        <span class="material-symbols-outlined">dashboard</span>
+                        <span class="text-xs font-black uppercase tracking-widest">{{
+                            'theory.dashboard' | i18n }}</span>
+                    </button>
+
+                    <div class="py-4">
+                        <p class="px-4 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2">
+                            {{ 'theory.modules.title' | i18n }}</p>
+
+                        <button (click)="selectTopic('motors')"
+                            [class]="activeTopic() === 'motors' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
+                            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
+                            <span class="material-symbols-outlined">bolt</span>
+                            <span class="text-xs font-black uppercase tracking-widest">{{
+                                'theory.topics.motors.title' | i18n }}</span>
+                        </button>
+
+                        <button (click)="selectTopic('formulas')"
+                            [class]="activeTopic() === 'formulas' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
+                            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
+                            <span class="material-symbols-outlined">calculate</span>
+                            <span class="text-xs font-black uppercase tracking-widest">{{
+                                'theory.topics.formulas.title' | i18n }}</span>
+                        </button>
+
+                        <button (click)="selectTopic('installations')"
+                            [class]="activeTopic() === 'installations' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
+                            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
+                            <span class="material-symbols-outlined">home_repair_service</span>
+                            <span class="text-xs font-black uppercase tracking-widest">{{
+                                'theory.topics.installations.title' | i18n }}</span>
+                        </button>
+
+                        <button (click)="selectTopic('schematics')"
+                            [class]="activeTopic() === 'schematics' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
+                            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
+                            <span class="material-symbols-outlined">schema</span>
+                            <span class="text-xs font-black uppercase tracking-widest">{{
+                                'theory.topics.schematics.title' | i18n }}</span>
+                        </button>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- Language Selector in Sidebar -->
+            <div class="mt-auto p-8 border-t border-gray-100 dark:border-gray-800">
+                <div class="relative">
+                    <button (click)="toggleLangMenu()"
+                        class="w-full flex items-center gap-3 px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl text-xs font-black uppercase tracking-widest">
+                        <span class="material-symbols-outlined text-lg">language</span>
+                        <span>{{ i18n.lang() === 'es' ? 'Español' : 'Français' }}</span>
+                        <span class="material-symbols-outlined ml-auto text-lg transition-transform"
+                            [class.rotate-180]="isLangMenuOpen()">expand_more</span>
+                    </button>
+
+                    @if (isLangMenuOpen()) {
+                    <div
+                        class="absolute bottom-full left-0 w-full mb-2 bg-white dark:bg-[#1a2632] rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-slide-up">
+                        <button (click)="changeLang('es')"
+                            class="w-full px-6 py-4 text-left text-xs font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-colors">{{
+                            'lang.es' | i18n }}</button>
+                        <button (click)="changeLang('fr')"
+                            class="w-full px-6 py-4 text-left text-xs font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-colors">{{
+                            'lang.fr' | i18n }}</button>
+                    </div>
+                    }
+                </div>
+
+                <a routerLink="/dashboard"
+                    class="mt-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">
+                    <span class="material-symbols-outlined text-sm">arrow_back</span>
+                    {{ 'theory.backToHome' | i18n }}
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-gray-50 dark:bg-[#0a0f14] scroll-smooth">
+
+            <!-- Top Header (Contextual) -->
+            @if (activeTopic() !== 'dashboard') {
+            <header
+                class="sticky top-0 z-10 bg-white/80 dark:bg-[#0a0f14]/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 px-10 py-6 flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-black uppercase italic tracking-tighter">
+                        {{ (activeTopic() === 'motors' ? 'theory.topics.motors.title' :
+                        activeTopic() === 'formulas' ? 'theory.topics.formulas.title' :
+                        activeTopic() === 'installations' ? 'theory.topics.installations.title'
+                        :
+                        'theory.topics.schematics.title') | i18n }}
+                    </h1>
+                    <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-1">
+                        LuxElectro • Module {{ activeTopic() }}
+                    </p>
+                </div>
+
+                <!-- Sub-tabs Navigation -->
+                <div
+                    class="flex items-center gap-2 p-1 bg-gray-100 dark:bg-[#111a22] rounded-2xl border border-gray-200 dark:border-gray-800">
+                    @if (activeTopic() === 'motors') {
+                    <button (click)="selectTab('general')"
+                        [class]="activeTab() === 'general' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.motors.tabs.general' | i18n }}</button>
+                    <button (click)="selectTab('direct')"
+                        [class]="activeTab() === 'direct' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.motors.tabs.direct' | i18n }}</button>
+                    <button (click)="selectTab('stardelta')"
+                        [class]="activeTab() === 'stardelta' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.motors.tabs.stardelta' | i18n }}</button>
+                    <button (click)="selectTab('inversion')"
+                        [class]="activeTab() === 'inversion' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.motors.tabs.inversion' | i18n }}</button>
+                    }
+                    <!-- Similar logic for other topics... -->
+                    @if (activeTopic() === 'formulas') {
+                    <button (click)="selectTab('resistance')"
+                        [class]="activeTab() === 'resistance' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.formulas.tabs.resistance' | i18n }}</button>
+                    <button (click)="selectTab('power')"
+                        [class]="activeTab() === 'power' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.formulas.tabs.power' | i18n }}</button>
+                    <button (click)="selectTab('threephase')"
+                        [class]="activeTab() === 'threephase' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.formulas.tabs.threephase' | i18n }}</button>
+                    }
+                    @if (activeTopic() === 'installations') {
+                    <button (click)="selectTab('voltageDrop')"
+                        [class]="activeTab() === 'voltageDrop' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.installations.tabs.voltageDrop' | i18n }}</button>
+                    <button (click)="selectTab('conduits')"
+                        [class]="activeTab() === 'conduits' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.installations.tabs.conduits' | i18n }}</button>
+                    <button (click)="selectTab('grounding')"
+                        [class]="activeTab() === 'grounding' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.installations.tabs.grounding' | i18n }}</button>
+                    }
+                    @if (activeTopic() === 'schematics') {
+                    <button (click)="selectTab('powerControl')"
+                        [class]="activeTab() === 'powerControl' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.schematics.tabs.powerControl' | i18n }}</button>
+                    <button (click)="selectTab('standard')"
+                        [class]="activeTab() === 'standard' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
+                        class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
+                        'theory.topics.schematics.tabs.standard' | i18n }}</button>
+                    }
+                </div>
+            </header>
+            }
+
+            <div class="p-10 max-w-5xl mx-auto animate-fade-in relative z-0">
+
+                @if (activeTopic() === 'dashboard') {
+                <div class="px-6 md:px-10 py-10 max-w-7xl mx-auto w-full">
+                    <header class="mb-12">
+                        <h1 class="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase">
+                            {{ 'theory.dashboard_view.title' | i18n }}
+                        </h1>
+                        <p class="text-gray-500 dark:text-gray-400 text-lg max-w-3xl">{{
+                            'theory.dashboard_view.description' | i18n }}</p>
+                    </header>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+                        <!-- Ventana: Motores -->
                         <div
-                            class="bg-gray-50 dark:bg-[#0a0f14] text-gray-900 dark:text-white transition-colors duration-200 min-h-screen font-display">
-                            <div class="relative flex h-screen w-full overflow-hidden">
+                            class="group bg-white dark:bg-[#111a22] rounded-3xl border border-gray-200 dark:border-gray-800 transition-all hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden flex flex-col">
+                            <div class="h-56 relative overflow-hidden">
+                                <img src="assets/images/premium/motor_3d.png" alt="Motor Premium 3D"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent">
+                                </div>
+                                <div class="absolute bottom-6 left-8 z-10">
+                                    <h2 class="text-3xl font-black text-white uppercase tracking-tighter italic">
+                                        Motores
+                                        Trifásicos</h2>
+                                    <p class="text-blue-400 text-sm font-black uppercase tracking-widest">
+                                        Máquinas
+                                        Asíncronas</p>
+                                </div>
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">
+                                    Aprende sobre el
+                                    campo magnético giratorio, deslizamiento y el famoso
+                                    arranque Estrella-Triángulo (Y/Δ).
+                                </p>
+                                <div class="mt-auto flex flex-col sm:flex-row gap-4">
+                                    <button (click)="selectTopic('motors')"
+                                        class="flex-1 px-6 py-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Ver
+                                        Teoría</button>
+                                    <a routerLink="/games/voltaje-veloz"
+                                        class="flex-1 px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
+                                        <span class="material-symbols-outlined text-sm">play_arrow</span>
+                                        Practicar
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
 
-                                <!-- Sidebar Navigation -->
-                                <aside
-                                    class="w-80 bg-white dark:bg-[#111a22] border-r border-gray-200 dark:border-gray-800 flex flex-col z-20">
-                                    <div class="p-8 pb-4">
-                                        <div class="flex items-center gap-3 mb-8">
-                                            <div
-                                                class="size-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
-                                                <span class="material-symbols-outlined text-2xl">menu_book</span>
-                                            </div>
-                                            <div>
-                                                <h2
-                                                    class="text-xl font-black uppercase italic tracking-tighter leading-none">
-                                                    LuxElectro</h2>
-                                                <span
-                                                    class="text-[10px] font-black uppercase tracking-widest text-gray-400">Knowledge
-                                                    Base</span>
-                                            </div>
+                        <!-- Ventana: Fórmulas -->
+                        <div
+                            class="group bg-white dark:bg-[#111a22] rounded-3xl border border-gray-200 dark:border-gray-800 transition-all hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/10 overflow-hidden flex flex-col">
+                            <div class="h-56 relative overflow-hidden">
+                                <img src="assets/images/premium/formulas.png" alt="Formulas Dashboard"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent">
+                                </div>
+                                <div class="absolute bottom-6 left-8 z-10">
+                                    <h2 class="text-3xl font-black text-white uppercase tracking-tighter italic">
+                                        Fórmulas
+                                        Clave</h2>
+                                    <p class="text-teal-400 text-sm font-black uppercase tracking-widest">
+                                        Leyes de la
+                                        Electricidad</p>
+                                </div>
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">
+                                    El machete
+                                    matemático para el examen: potencias trifásicas, cálculos de
+                                    sección y eficiencia.</p>
+                                <div class="mt-auto flex flex-col sm:flex-row gap-4">
+                                    <button (click)="selectTopic('formulas')"
+                                        class="flex-1 px-6 py-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Ver
+                                        Teoría</button>
+                                    <a routerLink="/calculators"
+                                        class="flex-1 px-6 py-4 bg-teal-600 hover:bg-teal-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20">
+                                        <span class="material-symbols-outlined text-sm">functions</span>
+                                        Herramientas
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ventana: Normativa -->
+                        <div
+                            class="group bg-white dark:bg-[#111a22] rounded-3xl border border-gray-200 dark:border-gray-800 transition-all hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-500/10 overflow-hidden flex flex-col">
+                            <div class="h-56 relative overflow-hidden">
+                                <img src="assets/images/exercises/IMG_0930.PNG" alt="Placa Motor Real"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent">
+                                </div>
+                                <div class="absolute bottom-6 left-8 z-10">
+                                    <h2 class="text-3xl font-black text-white uppercase tracking-tighter italic">
+                                        Normativa
+                                        LUX</h2>
+                                    <p class="text-amber-400 text-sm font-black uppercase tracking-widest">
+                                        PNC, IP e
+                                        Instalaciones</p>
+                                </div>
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">
+                                    Instalaciones según
+                                    el estándar de Luxemburgo. Seguridad y coordinación de
+                                    protecciones.</p>
+                                <div class="mt-auto flex flex-col sm:flex-row gap-4">
+                                    <button (click)="selectTopic('installations')"
+                                        class="flex-1 px-6 py-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Ver
+                                        Teoría</button>
+                                    <a routerLink="/simulator"
+                                        class="flex-1 px-6 py-4 bg-amber-600 hover:bg-amber-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20">
+                                        <span class="material-symbols-outlined text-sm">quiz</span>
+                                        Examen Real
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ventana: Esquemas -->
+                        <div
+                            class="group bg-white dark:bg-[#111a22] rounded-3xl border border-gray-200 dark:border-gray-800 transition-all hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/10 overflow-hidden flex flex-col">
+                            <div class="h-56 relative overflow-hidden">
+                                <img src="assets/images/exercises/IMG_0940.PNG" alt="Esquema Lógico Real"
+                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0">
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent">
+                                </div>
+                                <div class="absolute bottom-6 left-8 z-10">
+                                    <h2 class="text-3xl font-black text-white uppercase tracking-tighter italic">
+                                        Esquemas y
+                                        Lógica</h2>
+                                    <p class="text-purple-400 text-sm font-black uppercase tracking-widest">
+                                        KNX y
+                                        Automatización</p>
+                                </div>
+                            </div>
+                            <div class="p-8 flex-1 flex flex-col">
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">
+                                    Domina el mando y
+                                    la potencia. Lógica binaria aplicada a edificios
+                                    inteligentes y PLC.</p>
+                                <div class="mt-auto flex flex-col sm:flex-row gap-4">
+                                    <button (click)="selectTopic('schematics')"
+                                        class="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Ver
+                                        Teoría</button>
+                                    <a routerLink="/games/simulador-logico"
+                                        class="flex-1 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20">
+                                        <span class="material-symbols-outlined text-sm">terminal</span>
+                                        Simulador Pro
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+
+                @if (activeTopic() === 'motors') {
+                <div>
+                    <!-- Breadcrumbs & Heading Section -->
+                    <div class="px-6 md:px-10 pt-8 pb-4">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                            <div>
+                                <h1 class="text-3xl md:text-4xl font-black mb-2">Motores
+                                    Trifásicos Asíncronos</h1>
+                                <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-3xl">
+                                    Óyeme, aquí te va
+                                    el chisme completo de los motores pa' que no te cojan fuera
+                                    de base en el examen.</p>
+                            </div>
+                            <button
+                                class="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm">
+                                <span class="material-symbols-outlined text-lg">download</span>
+                                Descargar PDF
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Tabs -->
+                    <div
+                        class="sticky top-[65px] z-40 bg-gray-50 dark:bg-gray-900 px-6 md:px-10 pt-2 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex overflow-x-auto gap-8">
+                            <button (click)="selectTab('general')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'general' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Generalidades</p>
+                            </button>
+                            <button (click)="selectTab('connection')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'connection' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Conexión Estrella/Triángulo</p>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="px-6 md:px-10 py-8 max-w-5xl mx-auto w-full">
+                        @if (activeTab() === 'general') {
+                        <div>
+                            <div
+                                class="bg-white dark:bg-[#111a22] rounded-xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-800 mb-8">
+                                <div class="flex items-start justify-between gap-4 mb-6">
+                                    <div class="flex items-center gap-3">
+                                        <div class="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
+                                            <span class="material-symbols-outlined text-blue-600">info</span>
                                         </div>
-
-                                        <nav class="space-y-1">
-                                            <button (click)="selectTopic('dashboard')"
-                                                [class]="activeTopic() === 'dashboard' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
-                                                class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
-                                                <span class="material-symbols-outlined">dashboard</span>
-                                                <span class="text-xs font-black uppercase tracking-widest">{{
-                                                    'theory.dashboard' | i18n }}</span>
-                                            </button>
-
-                                            <div class="py-4">
-                                                <p
-                                                    class="px-4 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400 mb-2">
-                                                    {{ 'theory.modules.title' | i18n }}</p>
-
-                                                <button (click)="selectTopic('motors')"
-                                                    [class]="activeTopic() === 'motors' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
-                                                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
-                                                    <span class="material-symbols-outlined">bolt</span>
-                                                    <span class="text-xs font-black uppercase tracking-widest">{{
-                                                        'theory.topics.motors.title' | i18n }}</span>
-                                                </button>
-
-                                                <button (click)="selectTopic('formulas')"
-                                                    [class]="activeTopic() === 'formulas' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
-                                                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
-                                                    <span class="material-symbols-outlined">calculate</span>
-                                                    <span class="text-xs font-black uppercase tracking-widest">{{
-                                                        'theory.topics.formulas.title' | i18n }}</span>
-                                                </button>
-
-                                                <button (click)="selectTopic('installations')"
-                                                    [class]="activeTopic() === 'installations' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
-                                                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
-                                                    <span class="material-symbols-outlined">home_repair_service</span>
-                                                    <span class="text-xs font-black uppercase tracking-widest">{{
-                                                        'theory.topics.installations.title' | i18n }}</span>
-                                                </button>
-
-                                                <button (click)="selectTopic('schematics')"
-                                                    [class]="activeTopic() === 'schematics' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800'"
-                                                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300">
-                                                    <span class="material-symbols-outlined">schema</span>
-                                                    <span class="text-xs font-black uppercase tracking-widest">{{
-                                                        'theory.topics.schematics.title' | i18n }}</span>
-                                                </button>
-                                            </div>
-                                        </nav>
+                                        <h3 class="text-xl font-bold">Principio de
+                                            Funcionamiento</h3>
                                     </div>
-
-                                    <!-- Language Selector in Sidebar -->
-                                    <div class="mt-auto p-8 border-t border-gray-100 dark:border-gray-800">
-                                        <div class="relative">
-                                            <button (click)="toggleLangMenu()"
-                                                class="w-full flex items-center gap-3 px-4 py-3 bg-gray-100 dark:bg-gray-800 rounded-xl text-xs font-black uppercase tracking-widest">
-                                                <span class="material-symbols-outlined text-lg">language</span>
-                                                <span>{{ i18n.lang() === 'es' ? 'Español' : 'Français' }}</span>
-                                                <span
-                                                    class="material-symbols-outlined ml-auto text-lg transition-transform"
-                                                    [class.rotate-180]="isLangMenuOpen()">expand_more</span>
-                                            </button>
-
-                                            @if (isLangMenuOpen()) {
-                                            <div
-                                                class="absolute bottom-full left-0 w-full mb-2 bg-white dark:bg-[#1a2632] rounded-xl shadow-2xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-slide-up">
-                                                <button (click)="changeLang('es')"
-                                                    class="w-full px-6 py-4 text-left text-xs font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-colors">{{
-                                                    'lang.es' | i18n }}</button>
-                                                <button (click)="changeLang('fr')"
-                                                    class="w-full px-6 py-4 text-left text-xs font-black uppercase tracking-widest hover:bg-blue-600 hover:text-white transition-colors">{{
-                                                    'lang.fr' | i18n }}</button>
-                                            </div>
-                                            }
-                                        </div>
-
-                                        <a routerLink="/dashboard"
-                                            class="mt-4 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">
-                                            <span class="material-symbols-outlined text-sm">arrow_back</span>
-                                            {{ 'theory.backToHome' | i18n }}
-                                        </a>
-                                    </div>
-                                </aside>
-
-                                <!-- Main Content Area -->
-                                <main class="flex-1 overflow-y-auto bg-gray-50 dark:bg-[#0a0f14] scroll-smooth">
-
-                                    <!-- Top Header (Contextual) -->
-                                    @if (activeTopic() !== 'dashboard') {
-                                    <header
-                                        class="sticky top-0 z-10 bg-white/80 dark:bg-[#0a0f14]/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800 px-10 py-6 flex items-center justify-between">
-                                        <div>
-                                            <h1 class="text-2xl font-black uppercase italic tracking-tighter">
-                                                {{ (activeTopic() === 'motors' ? 'theory.topics.motors.title' :
-                                                activeTopic() === 'formulas' ? 'theory.topics.formulas.title' :
-                                                activeTopic() === 'installations' ? 'theory.topics.installations.title'
-                                                :
-                                                'theory.topics.schematics.title') | i18n }}
-                                            </h1>
-                                            <p class="text-xs font-bold uppercase tracking-widest text-gray-500 mt-1">
-                                                LuxElectro • Module {{ activeTopic() }}
-                                            </p>
-                                        </div>
-
-                                        <!-- Sub-tabs Navigation -->
+                                    <span
+                                        class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold px-2 py-1 rounded uppercase">Fundamental</span>
+                                </div>
+                                <div
+                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                                    <p class="leading-relaxed mb-4">Los motores asíncronos
+                                        trifásicos son los que mandan en
+                                        la industria de Luxemburgo. Son duros como un Caguayo y
+                                        piden poco mantenimiento. La
+                                        magia está en un <strong>campo magnético
+                                            giratorio</strong> que se forma en el
+                                        estator, y eso pone a girar el rotor como una matraka.
+                                    </p>
+                                    <p class="leading-relaxed">Pa'l examen, mi socio, tienes que
+                                        saberte la diferencia entre
+                                        la velocidad de sincronismo (el jefe) y la velocidad
+                                        real del rotor (el empleado).
+                                        De ahí sale el famoso <strong>deslizamiento</strong> (el
+                                        chivatón que dice cuánto se
+                                        está quedando atrás el rotor).</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                                <div
+                                    class="lg:col-span-2 bg-white dark:bg-[#111a22] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+                                    <h3 class="text-lg font-bold mb-4">Componentes Principales
+                                    </h3>
+                                    <div
+                                        class="aspect-video w-full rounded-lg bg-gray-100 dark:bg-gray-800 relative overflow-hidden group cursor-pointer">
+                                        <img alt="Motor eléctrico desarmado"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWCHK1JYcvb1pJyml7hsSwVPo-FJiKeLViT3LH4Kxsh_fFaajLmvPI9EWfA_gOM_sicqEw7JKnyECny9LyUOdK2cLmotKdE4XNXSHaY7Wz3fJ_1TPrwfGMapkBIZ4gzctfFqw-j7ysPA9_9w3yG7hAogGgVdXQSEIIDqcVVu2MsZn6VuzkXtAfB7bZXwT1ssIBRmd5-_mRBJwqYu-GcdgG81evF8J78HMybEaVjUKkrGNKZYrOHDcP4hMxQKu9Joabi7i8tm15rms" />
                                         <div
-                                            class="flex items-center gap-2 p-1 bg-gray-100 dark:bg-[#111a22] rounded-2xl border border-gray-200 dark:border-gray-800">
-                                            @if (activeTopic() === 'motors') {
-                                            <button (click)="selectTab('general')"
-                                                [class]="activeTab() === 'general' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.motors.tabs.general' | i18n }}</button>
-                                            <button (click)="selectTab('direct')"
-                                                [class]="activeTab() === 'direct' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.motors.tabs.direct' | i18n }}</button>
-                                            <button (click)="selectTab('stardelta')"
-                                                [class]="activeTab() === 'stardelta' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.motors.tabs.stardelta' | i18n }}</button>
-                                            <button (click)="selectTab('inversion')"
-                                                [class]="activeTab() === 'inversion' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.motors.tabs.inversion' | i18n }}</button>
-                                            }
-                                            <!-- Similar logic for other topics... -->
-                                            @if (activeTopic() === 'formulas') {
-                                            <button (click)="selectTab('resistance')"
-                                                [class]="activeTab() === 'resistance' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.formulas.tabs.resistance' | i18n }}</button>
-                                            <button (click)="selectTab('power')"
-                                                [class]="activeTab() === 'power' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.formulas.tabs.power' | i18n }}</button>
-                                            <button (click)="selectTab('threephase')"
-                                                [class]="activeTab() === 'threephase' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.formulas.tabs.threephase' | i18n }}</button>
-                                            }
-                                            @if (activeTopic() === 'installations') {
-                                            <button (click)="selectTab('voltageDrop')"
-                                                [class]="activeTab() === 'voltageDrop' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.installations.tabs.voltageDrop' | i18n }}</button>
-                                            <button (click)="selectTab('conduits')"
-                                                [class]="activeTab() === 'conduits' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.installations.tabs.conduits' | i18n }}</button>
-                                            <button (click)="selectTab('grounding')"
-                                                [class]="activeTab() === 'grounding' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.installations.tabs.grounding' | i18n }}</button>
-                                            }
-                                            @if (activeTopic() === 'schematics') {
-                                            <button (click)="selectTab('powerControl')"
-                                                [class]="activeTab() === 'powerControl' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.schematics.tabs.powerControl' | i18n }}</button>
-                                            <button (click)="selectTab('standard')"
-                                                [class]="activeTab() === 'standard' ? 'bg-white dark:bg-gray-800 shadow-md text-blue-600' : 'text-gray-500'"
-                                                class="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all">{{
-                                                'theory.topics.schematics.tabs.standard' | i18n }}</button>
-                                            }
+                                            class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
+                                            <p class="text-white font-medium text-sm">Vista
+                                                explosionada de estator y rotor
+                                                de jaula de ardilla</p>
                                         </div>
-                                    </header>
-                                    }
-
-                                    <div class="p-10 max-w-5xl mx-auto animate-fade-in relative z-0">
-
-                                        @if (activeTopic() === 'dashboard') {
-                                        <div class="px-6 md:px-10 py-10 max-w-7xl mx-auto w-full">
-                                            <header class="mb-12">
-                                                <h1
-                                                    class="text-4xl md:text-5xl font-black mb-4 tracking-tighter uppercase">
-                                                    {{ 'theory.dashboard_view.title' | i18n }}
-                                                </h1>
-                                                <p class="text-gray-500 dark:text-gray-400 text-lg max-w-3xl">{{
-                                                    'theory.dashboard_view.description' | i18n }}</p>
-                                            </header>
-
-                                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-                                                <!-- Ventana: Motores -->
-                                                <div
-                                                    class="group bg-white dark:bg-[#111a22] rounded-3xl border border-gray-200 dark:border-gray-800 transition-all hover:border-blue-500/50 hover:shadow-2xl hover:shadow-blue-500/10 overflow-hidden flex flex-col">
-                                                    <div class="h-56 relative overflow-hidden">
-                                                        <img src="assets/images/premium/motor_3d.png"
-                                                            alt="Motor Premium 3D"
-                                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                                                        <div
-                                                            class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent">
-                                                        </div>
-                                                        <div class="absolute bottom-6 left-8 z-10">
-                                                            <h2
-                                                                class="text-3xl font-black text-white uppercase tracking-tighter italic">
-                                                                Motores
-                                                                Trifásicos</h2>
-                                                            <p
-                                                                class="text-blue-400 text-sm font-black uppercase tracking-widest">
-                                                                Máquinas
-                                                                Asíncronas</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="p-8 flex-1 flex flex-col">
-                                                        <p
-                                                            class="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">
-                                                            Aprende sobre el
-                                                            campo magnético giratorio, deslizamiento y el famoso
-                                                            arranque Estrella-Triángulo (Y/Δ).
-                                                        </p>
-                                                        <div class="mt-auto flex flex-col sm:flex-row gap-4">
-                                                            <button (click)="selectTopic('motors')"
-                                                                class="flex-1 px-6 py-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Ver
-                                                                Teoría</button>
-                                                            <a routerLink="/games/voltaje-veloz"
-                                                                class="flex-1 px-6 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
-                                                                <span
-                                                                    class="material-symbols-outlined text-sm">play_arrow</span>
-                                                                Practicar
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Ventana: Fórmulas -->
-                                                <div
-                                                    class="group bg-white dark:bg-[#111a22] rounded-3xl border border-gray-200 dark:border-gray-800 transition-all hover:border-teal-500/50 hover:shadow-2xl hover:shadow-teal-500/10 overflow-hidden flex flex-col">
-                                                    <div class="h-56 relative overflow-hidden">
-                                                        <img src="assets/images/premium/formulas.png"
-                                                            alt="Formulas Dashboard"
-                                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                                                        <div
-                                                            class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent">
-                                                        </div>
-                                                        <div class="absolute bottom-6 left-8 z-10">
-                                                            <h2
-                                                                class="text-3xl font-black text-white uppercase tracking-tighter italic">
-                                                                Fórmulas
-                                                                Clave</h2>
-                                                            <p
-                                                                class="text-teal-400 text-sm font-black uppercase tracking-widest">
-                                                                Leyes de la
-                                                                Electricidad</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="p-8 flex-1 flex flex-col">
-                                                        <p
-                                                            class="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">
-                                                            El machete
-                                                            matemático para el examen: potencias trifásicas, cálculos de
-                                                            sección y eficiencia.</p>
-                                                        <div class="mt-auto flex flex-col sm:flex-row gap-4">
-                                                            <button (click)="selectTopic('formulas')"
-                                                                class="flex-1 px-6 py-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Ver
-                                                                Teoría</button>
-                                                            <a routerLink="/calculators"
-                                                                class="flex-1 px-6 py-4 bg-teal-600 hover:bg-teal-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20">
-                                                                <span
-                                                                    class="material-symbols-outlined text-sm">functions</span>
-                                                                Herramientas
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Ventana: Normativa -->
-                                                <div
-                                                    class="group bg-white dark:bg-[#111a22] rounded-3xl border border-gray-200 dark:border-gray-800 transition-all hover:border-amber-500/50 hover:shadow-2xl hover:shadow-amber-500/10 overflow-hidden flex flex-col">
-                                                    <div class="h-56 relative overflow-hidden">
-                                                        <img src="assets/images/exercises/IMG_0930.PNG"
-                                                            alt="Placa Motor Real"
-                                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0">
-                                                        <div
-                                                            class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent">
-                                                        </div>
-                                                        <div class="absolute bottom-6 left-8 z-10">
-                                                            <h2
-                                                                class="text-3xl font-black text-white uppercase tracking-tighter italic">
-                                                                Normativa
-                                                                LUX</h2>
-                                                            <p
-                                                                class="text-amber-400 text-sm font-black uppercase tracking-widest">
-                                                                PNC, IP e
-                                                                Instalaciones</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="p-8 flex-1 flex flex-col">
-                                                        <p
-                                                            class="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">
-                                                            Instalaciones según
-                                                            el estándar de Luxemburgo. Seguridad y coordinación de
-                                                            protecciones.</p>
-                                                        <div class="mt-auto flex flex-col sm:flex-row gap-4">
-                                                            <button (click)="selectTopic('installations')"
-                                                                class="flex-1 px-6 py-4 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Ver
-                                                                Teoría</button>
-                                                            <a routerLink="/simulator"
-                                                                class="flex-1 px-6 py-4 bg-amber-600 hover:bg-amber-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20">
-                                                                <span
-                                                                    class="material-symbols-outlined text-sm">quiz</span>
-                                                                Examen Real
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Ventana: Esquemas -->
-                                                <div
-                                                    class="group bg-white dark:bg-[#111a22] rounded-3xl border border-gray-200 dark:border-gray-800 transition-all hover:border-purple-500/50 hover:shadow-2xl hover:shadow-purple-500/10 overflow-hidden flex flex-col">
-                                                    <div class="h-56 relative overflow-hidden">
-                                                        <img src="assets/images/exercises/IMG_0940.PNG"
-                                                            alt="Esquema Lógico Real"
-                                                            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale hover:grayscale-0">
-                                                        <div
-                                                            class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent">
-                                                        </div>
-                                                        <div class="absolute bottom-6 left-8 z-10">
-                                                            <h2
-                                                                class="text-3xl font-black text-white uppercase tracking-tighter italic">
-                                                                Esquemas y
-                                                                Lógica</h2>
-                                                            <p
-                                                                class="text-purple-400 text-sm font-black uppercase tracking-widest">
-                                                                KNX y
-                                                                Automatización</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="p-8 flex-1 flex flex-col">
-                                                        <p
-                                                            class="text-gray-600 dark:text-gray-400 text-sm mb-8 leading-relaxed">
-                                                            Domina el mando y
-                                                            la potencia. Lógica binaria aplicada a edificios
-                                                            inteligentes y PLC.</p>
-                                                        <div class="mt-auto flex flex-col sm:flex-row gap-4">
-                                                            <button (click)="selectTopic('schematics')"
-                                                                class="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Ver
-                                                                Teoría</button>
-                                                            <a routerLink="/games/simulador-logico"
-                                                                class="flex-1 px-4 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl text-xs font-black uppercase tracking-widest transition-all text-center flex items-center justify-center gap-2 shadow-lg shadow-purple-500/20">
-                                                                <span
-                                                                    class="material-symbols-outlined text-sm">terminal</span>
-                                                                Simulador Pro
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        }
-
-                                        @if (activeTopic() === 'motors') {
-                                        <div>
-                                            <!-- Breadcrumbs & Heading Section -->
-                                            <div class="px-6 md:px-10 pt-8 pb-4">
-                                                <div
-                                                    class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                                                    <div>
-                                                        <h1 class="text-3xl md:text-4xl font-black mb-2">Motores
-                                                            Trifásicos Asíncronos</h1>
-                                                        <p
-                                                            class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-3xl">
-                                                            Óyeme, aquí te va
-                                                            el chisme completo de los motores pa' que no te cojan fuera
-                                                            de base en el examen.</p>
-                                                    </div>
-                                                    <button
-                                                        class="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors shadow-sm">
-                                                        <span class="material-symbols-outlined text-lg">download</span>
-                                                        Descargar PDF
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- Tabs -->
-                                            <div
-                                                class="sticky top-[65px] z-40 bg-gray-50 dark:bg-gray-900 px-6 md:px-10 pt-2 border-b border-gray-200 dark:border-gray-700">
-                                                <div class="flex overflow-x-auto gap-8">
-                                                    <button (click)="selectTab('general')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'general' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Generalidades</p>
-                                                    </button>
-                                                    <button (click)="selectTab('connection')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'connection' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Conexión Estrella/Triángulo</p>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- Content -->
-                                            <div class="px-6 md:px-10 py-8 max-w-5xl mx-auto w-full">
-                                                @if (activeTab() === 'general') {
-                                                <div>
-                                                    <div
-                                                        class="bg-white dark:bg-[#111a22] rounded-xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-800 mb-8">
-                                                        <div class="flex items-start justify-between gap-4 mb-6">
-                                                            <div class="flex items-center gap-3">
-                                                                <div
-                                                                    class="bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">
-                                                                    <span
-                                                                        class="material-symbols-outlined text-blue-600">info</span>
-                                                                </div>
-                                                                <h3 class="text-xl font-bold">Principio de
-                                                                    Funcionamiento</h3>
-                                                            </div>
-                                                            <span
-                                                                class="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold px-2 py-1 rounded uppercase">Fundamental</span>
-                                                        </div>
-                                                        <div
-                                                            class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                            <p class="leading-relaxed mb-4">Los motores asíncronos
-                                                                trifásicos son los que mandan en
-                                                                la industria de Luxemburgo. Son duros como un Caguayo y
-                                                                piden poco mantenimiento. La
-                                                                magia está en un <strong>campo magnético
-                                                                    giratorio</strong> que se forma en el
-                                                                estator, y eso pone a girar el rotor como una matraka.
-                                                            </p>
-                                                            <p class="leading-relaxed">Pa'l examen, mi socio, tienes que
-                                                                saberte la diferencia entre
-                                                                la velocidad de sincronismo (el jefe) y la velocidad
-                                                                real del rotor (el empleado).
-                                                                De ahí sale el famoso <strong>deslizamiento</strong> (el
-                                                                chivatón que dice cuánto se
-                                                                está quedando atrás el rotor).</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                                                        <div
-                                                            class="lg:col-span-2 bg-white dark:bg-[#111a22] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
-                                                            <h3 class="text-lg font-bold mb-4">Componentes Principales
-                                                            </h3>
-                                                            <div
-                                                                class="aspect-video w-full rounded-lg bg-gray-100 dark:bg-gray-800 relative overflow-hidden group cursor-pointer">
-                                                                <img alt="Motor eléctrico desarmado"
-                                                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWCHK1JYcvb1pJyml7hsSwVPo-FJiKeLViT3LH4Kxsh_fFaajLmvPI9EWfA_gOM_sicqEw7JKnyECny9LyUOdK2cLmotKdE4XNXSHaY7Wz3fJ_1TPrwfGMapkBIZ4gzctfFqw-j7ysPA9_9w3yG7hAogGgVdXQSEIIDqcVVu2MsZn6VuzkXtAfB7bZXwT1ssIBRmd5-_mRBJwqYu-GcdgG81evF8J78HMybEaVjUKkrGNKZYrOHDcP4hMxQKu9Joabi7i8tm15rms" />
-                                                                <div
-                                                                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-4">
-                                                                    <p class="text-white font-medium text-sm">Vista
-                                                                        explosionada de estator y rotor
-                                                                        de jaula de ardilla</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            class="bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/20 rounded-xl p-6">
-                                                            <div class="flex items-center gap-2 mb-4 text-blue-600">
-                                                                <span class="material-symbols-outlined">lightbulb</span>
-                                                                <h3 class="font-bold text-lg">Tips para el Examen</h3>
-                                                            </div>
-                                                            <ul class="space-y-4">
-                                                                <li
-                                                                    class="flex gap-3 text-sm text-gray-600 dark:text-gray-300">
-                                                                    <span
-                                                                        class="material-symbols-outlined text-green-500 text-[20px] shrink-0">check_circle</span><span>En
-                                                                        Luxemburgo, la red doméstica es
-                                                                        <strong>230V/400V</strong>. ¡Grábatelo a
-                                                                        fuego!</span>
-                                                                </li>
-                                                                <li
-                                                                    class="flex gap-3 text-sm text-gray-600 dark:text-gray-300">
-                                                                    <span
-                                                                        class="material-symbols-outlined text-green-500 text-[20px] shrink-0">check_circle</span><span>Si
-                                                                        la placa dice <strong>230/400V</strong>, se
-                                                                        conecta en
-                                                                        <strong>Estrella</strong> para la red de
-                                                                        400V.</span>
-                                                                </li>
-                                                                <li
-                                                                    class="flex gap-3 text-sm text-gray-600 dark:text-gray-300">
-                                                                    <span
-                                                                        class="material-symbols-outlined text-red-500 text-[20px] shrink-0">warning</span><span>¡Cuidado!
-                                                                        Si conectas en Triángulo un motor 230/400V a
-                                                                        400V, ¡hace PUM y se
-                                                                        quema!</span>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                }
-                                                @if (activeTab() === 'connection') {
-                                                <div
-                                                    class="bg-white dark:bg-[#111a22] rounded-xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-800 prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3 class="text-xl font-bold mb-4">Conexión Estrella (Y) vs.
-                                                        Triángulo (Δ)</h3>
-                                                    <p>Esto es pan con timba. La conexión depende de la tensión de la
-                                                        red y lo que aguanta la bobina
-                                                        del motor. No inventes, mira la placa siempre.</p>
-
-                                                    <h4>1. Conexión Estrella (Y)</h4>
-                                                    <p>Aquí se juntan los tres finales de las bobinas (U2, V2, W2) en un
-                                                        punto común (el neutro).
-                                                        Los otros tres cables van a las fases de la red (L1, L2, L3).
-                                                    </p>
-                                                    <ul>
-                                                        <li><strong>Relación de Tensión:</strong> Cada bobina aguanta la
-                                                            tensión de la red dividida
-                                                            por raíz de tres (√3 ≈ 1.732). En una red de 400V, cada
-                                                            bobina recibe 230V. ¡Perfecto
-                                                            para un motor 230/400V!</li>
-                                                        <li><strong>Relación de Corriente:</strong> La corriente que
-                                                            entra por la línea
-                                                            (I<sub>L</sub>) es la misma que pasa por la bobina
-                                                            (I<sub>ph</sub>).</li>
-                                                        <li><strong>Uso común:</strong> Para el arranque de motores,
-                                                            para que no peguen ese
-                                                            "martillazo" de corriente tan grande.</li>
-                                                    </ul>
-
-                                                    <h4>2. Conexión Triángulo (Δ)</h4>
-                                                    <p>Se conecta el final de una bobina con el principio de la
-                                                        siguiente, como una ciranda. (U2 con
-                                                        V1, V2 con W1, W2 con U1).</p>
-                                                    <ul>
-                                                        <li><strong>Relación de Tensión:</strong> Cada bobina se come la
-                                                            tensión completa de la
-                                                            línea. Si la red es de 400V, ¡le metes 400V a la bobina!
-                                                        </li>
-                                                        <li><strong>Relación de Corriente:</strong> La corriente de
-                                                            línea es √3 veces más grande que
-                                                            la que pasa por la bobina.</li>
-                                                        <li><strong>Uso común:</strong> Es la conexión normal de
-                                                            trabajo, cuando el motor ya arrancó
-                                                            y está a su velocidad.</li>
-                                                    </ul>
-
-                                                    <h4>Diferencias Clave y Potencia</h4>
-                                                    <ul>
-                                                        <li><strong>Potencia:</strong> Conectado en triángulo, el motor
-                                                            consume <strong>tres veces
-                                                                más potencia</strong> que en estrella. Por eso el
-                                                            arranque se hace en estrella,
-                                                            ¡para que sea más suave!</li>
-                                                        <li><strong>Compatibilidad:</strong> Un motor
-                                                            <strong>230/400V</strong> en una red de
-                                                            <strong>400V</strong> DEBE conectarse en
-                                                            <strong>ESTRELLA</strong>. Si lo conectas en
-                                                            triángulo, quemas las bobinas porque no aguantan 400V.
-                                                        </li>
-                                                    </ul>
-
-                                                    <div
-                                                        class="mt-6 bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 p-4 rounded-r-lg not-prose">
-                                                        <p class="font-bold text-amber-800 dark:text-amber-400 text-sm">
-                                                            Analogía de la Pizza:</p>
-                                                        <p class="text-amber-700 dark:text-amber-300 text-sm">En
-                                                            <strong>estrella</strong>, es como
-                                                            pedir tapas para compartir. Cada uno coge su porción (230V),
-                                                            todo controlado. En
-                                                            <strong>triángulo</strong>, ¡es como poner una pizza
-                                                            familiar gigante para cada uno
-                                                            (400V)! Ojo, solo puedes hacer eso si tus amigos son de buen
-                                                            comer, si no, se
-                                                            indigestan. Con un motor pasa igual, ¡se quema!
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                }
-                                            </div>
-                                        </div>
-                                        }
-
-                                        @if (activeTopic() === 'formulas') {
-                                        <div>
-                                            <!-- Breadcrumbs & Heading Section -->
-                                            <div class="px-6 md:px-10 pt-8 pb-4">
-                                                <div
-                                                    class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                                                    <div>
-                                                        <h1 class="text-3xl md:text-4xl font-black mb-2">Fórmulas Clave
-                                                            para el Examen</h1>
-                                                        <p
-                                                            class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-3xl">
-                                                            Mi socio, la
-                                                            electricidad es pura matemática. Apréndete esto y no habrá
-                                                            cable que se te resista.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Tabs -->
-                                            <div
-                                                class="sticky top-[65px] z-40 bg-gray-50 dark:bg-gray-900 px-6 md:px-10 pt-2 border-b border-gray-200 dark:border-gray-700">
-                                                <div class="flex overflow-x-auto gap-8">
-                                                    <button (click)="selectTab('resistance')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'resistance' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Resistencia</p>
-                                                    </button>
-                                                    <button (click)="selectTab('power')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'power' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Potencia</p>
-                                                    </button>
-                                                    <button (click)="selectTab('current')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'current' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Corriente</p>
-                                                    </button>
-                                                    <button (click)="selectTab('efficiency')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'efficiency' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Eficiencia y Costo</p>
-                                                    </button>
-                                                    <button (click)="selectTab('frequency')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'frequency' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Frecuencia y CA</p>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- Content -->
-                                            <div class="px-6 md:px-10 py-8 max-w-5xl mx-auto w-full">
-                                                @if(activeTab() === 'resistance') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>Calcular Resistencia (R) - La Ley de Ohm</h3>
-                                                    <p>La resistencia es la oposición que presenta un circuito al paso
-                                                        de la corriente. Es la navaja
-                                                        suiza que nos saca de cualquier apuro.</p>
-                                                    <ul>
-                                                        <li><strong>Fórmula Clave:</strong> <code>R = V / I</code>
-                                                            (Resistencia = Voltaje /
-                                                            Corriente)</li>
-                                                    </ul>
-                                                    <div
-                                                        class="mt-6 bg-teal-50 dark:bg-teal-900/20 border-l-4 border-teal-500 p-4 rounded-r-lg not-prose">
-                                                        <p class="font-bold text-teal-800 dark:text-teal-400 text-sm">
-                                                            Analogía de la Manguera:</p>
-                                                        <p class="text-teal-700 dark:text-teal-300 text-sm">La
-                                                            <strong>corriente (I)</strong> es el
-                                                            agua, el <strong>voltaje (V)</strong> es la presión con la
-                                                            que abres el grifo, y la
-                                                            <strong>resistencia (R)</strong> es si aprietas la manguera
-                                                            con el dedo para hacerla más
-                                                            estrecha. Si con mucha presión (voltaje) sale un hilillo de
-                                                            agua (poca corriente), ¡es
-                                                            que hay muchísima resistencia!
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                }
-                                                @if(activeTab() === 'power') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>El Trabajo de Verdad - Entendiendo la Potencia</h3>
-                                                    <p>La potencia es cuánto trabajo se está haciendo. En el mundo real,
-                                                        nos interesa el "Triángulo
-                                                        de Potencias".</p>
-                                                    <ul>
-                                                        <li><strong>Potencia Activa (P):</strong> Es el líquido de la
-                                                            cerveza, lo que de verdad nos
-                                                            bebemos y hace el trabajo (mover un motor). Se mide en
-                                                            <strong>Vatios (W)</strong>.
-                                                            <ul>
-                                                                <li>Fórmula Trifásica:
-                                                                    <code>P = √3 · U_L · I_L · cos(φ)</code>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li><strong>Potencia Reactiva (Q):</strong> Es la espuma. Ocupa
-                                                            sitio y es necesaria para
-                                                            que los motores creen sus campos magnéticos, pero no produce
-                                                            trabajo útil.</li>
-                                                        <li><strong>Potencia Aparente (S):</strong> Es la jarra entera
-                                                            (líquido + espuma). Es la
-                                                            capacidad total que debe tener nuestra instalación para
-                                                            servir esa "cerveza".</li>
-                                                    </ul>
-                                                    <div
-                                                        class="mt-6 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded-r-lg not-prose">
-                                                        <p
-                                                            class="font-bold text-yellow-800 dark:text-yellow-400 text-sm">
-                                                            Repite conmigo:</p>
-                                                        <p class="text-yellow-700 dark:text-yellow-300 text-sm">
-                                                            "Potencia es igual a raíz de tres,
-                                                            por Voltaje de Línea, por Intensidad de Línea, por Coseno de
-                                                            Fi." ¡Eso es pregunta de
-                                                            examen seguro!</p>
-                                                    </div>
-                                                </div>
-                                                }
-                                                @if(activeTab() === 'current') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>Calcular Corriente (I)</h3>
-                                                    <p>Saber la corriente es vital para elegir el cable correcto y que
-                                                        no se prenda en candela.</p>
-                                                    <ul>
-                                                        <li><strong>Ley de Ohm:</strong> <code>I = V / R</code></li>
-                                                        <li><strong>Con Potencia Monofásica:</strong>
-                                                            <code>I = P / V</code> (para cargas
-                                                            resistivas)
-                                                        </li>
-                                                    </ul>
-                                                    <h4>Corriente en Motores (¡La que va para el examen!)</h4>
-                                                    <p>Aquí tienes que meter en la ecuación la eficiencia (η) y el
-                                                        factor de potencia (cos φ), que
-                                                        vienen en la placa del motor.</p>
-                                                    <ul>
-                                                        <li><strong>Motor Monofásico:</strong>
-                                                            <code>I = P / (V · η · cos(φ))</code>
-                                                        </li>
-                                                        <li><strong>Motor Trifásico (La fórmula maestra):</strong>
-                                                            <code>I = P / (√3 · V_L · η · cos(φ))</code>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                }
-                                                @if(activeTab() === 'efficiency') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>Eficiencia (η) y Costo del Consumo</h3>
-                                                    <p>La eficiencia te dice qué tan bueno es un motor para convertir
-                                                        electricidad en movimiento sin
-                                                        desperdiciar energía en calor.</p>
-
-                                                    <h4>Calcular la Eficiencia (η)</h4>
-                                                    <ul>
-                                                        <li><strong>Fórmula:</strong>
-                                                            <code>η = P_útil / P_suministrada</code>
-                                                        </li>
-                                                    </ul>
-                                                    <div
-                                                        class="mt-6 bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-4 rounded-r-lg not-prose">
-                                                        <p class="font-bold text-green-800 dark:text-green-400 text-sm">
-                                                            Analogía del Exprimidor:</p>
-                                                        <p class="text-green-700 dark:text-green-300 text-sm">La
-                                                            <strong>potencia
-                                                                suministrada</strong> son todas las naranjas que metes.
-                                                            La <strong>potencia
-                                                                útil</strong> es el zumo que sale. Un exprimidor malo
-                                                            (baja eficiencia) desperdicia
-                                                            mucha pulpa y necesita más naranjas para llenar el vaso.
-                                                        </p>
-                                                    </div>
-
-                                                    <h4>Cálculo de Coste de Consumo (Versión Examen Luxemburgo)</h4>
-                                                    <code>Coste Total = (P_útil / η) · tiempo (h) · Precio del kWh</code>
-                                                </div>
-                                                }
-                                                @if(activeTab() === 'frequency') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>Frecuencia (f) y Corriente Alterna (CA)</h3>
-                                                    <p>La corriente alterna no es un chorro constante, es una onda que
-                                                        sube y baja (sinusoide). La
-                                                        frecuencia es la velocidad a la que completa esos ciclos.</p>
-                                                    <ul>
-                                                        <li><strong>Frecuencia (f):</strong> Es el número de ciclos por
-                                                            segundo. Se mide en
-                                                            <strong>Hertz (Hz)</strong>. En Europa, la frecuencia es de
-                                                            50 Hz.
-                                                        </li>
-                                                        <li><strong>Valor Pico (Vpico):</strong> Es el valor máximo que
-                                                            alcanza la onda.</li>
-                                                        <li><strong>Valor Eficaz (RMS):</strong> Es el valor que mide el
-                                                            multímetro y el que
-                                                            realmente produce trabajo. Es como un promedio con power.
-                                                        </li>
-                                                    </ul>
-                                                    <h4>Fórmula de Frecuencia en Motores</h4>
-                                                    <code>f = (n · p) / 60</code>
-                                                    <ul>
-                                                        <li><strong>n:</strong> Velocidad en revoluciones por minuto
-                                                            (rpm).</li>
-                                                        <li><strong>p:</strong> Número de <strong>pares</strong> de
-                                                            polos del motor (un motor de 4
-                                                            polos tiene p=2).</li>
-                                                        <li><strong>60:</strong> Es el factor para convertir los minutos
-                                                            (de las rpm) a segundos (de
-                                                            los Hertz). ¡No es un número mágico!</li>
-                                                    </ul>
-                                                    <div
-                                                        class="mt-6 bg-sky-50 dark:bg-sky-900/20 border-l-4 border-sky-500 p-4 rounded-r-lg not-prose">
-                                                        <p class="font-bold text-sky-800 dark:text-sky-400 text-sm">
-                                                            Analogía del Columpio:</p>
-                                                        <p class="text-sky-700 dark:text-sky-300 text-sm">La onda es el
-                                                            movimiento del columpio. La
-                                                            <strong>frecuencia</strong> es cuántas veces vas y vienes en
-                                                            un segundo. El
-                                                            <strong>valor de pico</strong> es la altura máxima que
-                                                            alcanzas. El <strong>valor
-                                                                RMS</strong> es la "fuerza promedio" que sentirías si te
-                                                            empujaran constantemente.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                }
-                                            </div>
-                                        </div>
-                                        }
-
-                                        @if (activeTopic() === 'installations') {
-                                        <div>
-                                            <!-- Breadcrumbs & Heading Section -->
-                                            <div class="px-6 md:px-10 pt-8 pb-4">
-                                                <div
-                                                    class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                                                    <div>
-                                                        <h1 class="text-3xl md:text-4xl font-black mb-2">Instalaciones y
-                                                            Normativa</h1>
-                                                        <p
-                                                            class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-3xl">
-                                                            Esto es para
-                                                            trabajar fino y seguro, como mandan las normas en
-                                                            Luxemburgo.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Tabs -->
-                                            <div
-                                                class="sticky top-[65px] z-40 bg-gray-50 dark:bg-gray-900 px-6 md:px-10 pt-2 border-b border-gray-200 dark:border-gray-700">
-                                                <div class="flex overflow-x-auto gap-8">
-                                                    <button (click)="selectTab('voltageDrop')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'voltageDrop' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Caída de Tensión</p>
-                                                    </button>
-                                                    <button (click)="selectTab('protections')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'protections' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Coordinación de Protecciones</p>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- Content -->
-                                            <div class="px-6 md:px-10 py-8 max-w-5xl mx-auto w-full">
-                                                @if(activeTab() === 'voltageDrop') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>Caída de Tensión (ΔU)</h3>
-                                                    <p>Es la pérdida de "fuerza" (voltaje) que sufre la corriente al
-                                                        viajar por un cable largo. La
-                                                        norma en Luxemburgo es estricta con esto.</p>
-                                                    <h4>Límites que Debes Saber</h4>
-                                                    <ul>
-                                                        <li><strong>No más del 3%</strong> para circuitos de alumbrado.
-                                                        </li>
-                                                        <li><strong>No más del 5%</strong> para otros usos (motores,
-                                                            fuerza).</li>
-                                                    </ul>
-                                                    <div
-                                                        class="mt-6 bg-indigo-50 dark:bg-indigo-900/20 border-l-4 border-indigo-500 p-4 rounded-r-lg not-prose">
-                                                        <p
-                                                            class="font-bold text-indigo-800 dark:text-indigo-400 text-sm">
-                                                            Analogía de la Manguera de
-                                                            Riego:</p>
-                                                        <p class="text-indigo-700 dark:text-indigo-300 text-sm">La caída
-                                                            de tensión es como la
-                                                            pérdida de presión en una manguera muy larga. Si la manguera
-                                                            es muy fina (poca sección
-                                                            'S') o muy larga ('L'), el agua llegará al final sin fuerza.
-                                                            La norma exige que llegue
-                                                            al menos el 97% de la presión para que el aspersor funcione
-                                                            bien.</p>
-                                                    </div>
-                                                </div>
-                                                }
-                                                @if(activeTab() === 'protections') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>La Regla de Oro de Seguridad en Circuitos</h3>
-                                                    <p>Para que una instalación sea segura, la protección (disyuntor)
-                                                        debe saltar antes de que el
-                                                        cable se derrita. Esto se resume en una fórmula que es sagrada:
-                                                    </p>
-                                                    <div
-                                                        class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-4 text-center">
-                                                        <code
-                                                            class="text-xl font-bold text-blue-600 dark:text-blue-400">I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub></code>
-                                                    </div>
-                                                    <ul>
-                                                        <li><strong>I<sub>b</sub> (Corriente de Empleo):</strong> La
-                                                            corriente que consume el equipo
-                                                            normalmente.</li>
-                                                        <li><strong>I<sub>n</sub> (Corriente Nominal):</strong> El valor
-                                                            del disyuntor o fusible.
-                                                            Debe ser mayor que I<sub>b</sub> para que no salte por
-                                                            gusto.</li>
-                                                        <li><strong>I<sub>z</sub> (Corriente Máxima del Cable):</strong>
-                                                            Lo que aguanta el cable sin
-                                                            quemarse. El disyuntor debe ser menor que esto para
-                                                            protegerlo.</li>
-                                                    </ul>
-                                                    <div
-                                                        class="mt-6 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded-r-lg not-prose">
-                                                        <p class="font-bold text-red-800 dark:text-red-400 text-sm">
-                                                            Analogía de la Manguera y la
-                                                            Válvula:</p>
-                                                        <p class="text-red-700 dark:text-red-300 text-sm">La manguera
-                                                            (el cable) aguanta una presión
-                                                            máxima (I<sub>z</sub>). Tú necesitas un caudal normal para
-                                                            regar (I<sub>b</sub>). La
-                                                            válvula de seguridad (I<sub>n</sub>) debe permitir tu
-                                                            caudal, pero tiene la orden de
-                                                            cerrarse ¡SIEMPRE ANTES de que la presión alcance el punto
-                                                            de explosión de la manguera!
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                }
-                                            </div>
-                                        </div>
-                                        }
-
-                                        @if (activeTopic() === 'schematics') {
-                                        <div>
-                                            <!-- Breadcrumbs & Heading Section -->
-                                            <div class="px-6 md:px-10 pt-8 pb-4">
-                                                <div
-                                                    class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-                                                    <div>
-                                                        <h1 class="text-3xl md:text-4xl font-black mb-2">Esquemas y
-                                                            Lógica</h1>
-                                                        <p
-                                                            class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-3xl">
-                                                            Aquí se juntan
-                                                            los cables con las ideas. Entiende cómo se dibuja y se
-                                                            piensa la automatización.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Tabs -->
-                                            <div
-                                                class="sticky top-[65px] z-40 bg-gray-50 dark:bg-gray-900 px-6 md:px-10 pt-2 border-b border-gray-200 dark:border-gray-700">
-                                                <div class="flex overflow-x-auto gap-8">
-                                                    <button (click)="selectTab('powerControl')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'powerControl' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Esquemas de Potencia y Mando</p>
-                                                    </button>
-                                                    <button (click)="selectTab('knx')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'knx' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">KNX: Sensores y Actuadores</p>
-                                                    </button>
-                                                    <button (click)="selectTab('logic')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'logic' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Lógica y Tablas de Verdad</p>
-                                                    </button>
-                                                    <button (click)="selectTab('starDelta')"
-                                                        class="flex flex-col items-center justify-center pb-3 min-w-max"
-                                                        [class]="activeTab() === 'starDelta' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
-                                                        <p class="text-sm font-bold">Arranque Estrella-Triángulo</p>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- Content -->
-                                            <div class="px-6 md:px-10 py-8 max-w-5xl mx-auto w-full">
-                                                @if(activeTab() === 'powerControl') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>El Cerebro y los Músculos de una Máquina</h3>
-                                                    <p>Un sistema de motor tiene dos "planos":</p>
-                                                    <ul>
-                                                        <li><strong>Esquema de Potencia (Fuerza):</strong> Son los
-                                                            cables gruesos que llevan la
-                                                            "comida" (corriente) al motor. Aquí dibujas el disyuntor, el
-                                                            contactor y el relé
-                                                            térmico.</li>
-                                                        <li><strong>Esquema de Mando (Control):</strong> Es el cerebro.
-                                                            Son los cables finos que le
-                                                            dicen al contactor cuándo activarse. Aquí dibujas los
-                                                            pulsadores, los contactos
-                                                            auxiliares y la bobina del contactor.</li>
-                                                    </ul>
-                                                    <div
-                                                        class="mt-6 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg not-prose">
-                                                        <p class="font-bold text-gray-800 dark:text-gray-300 text-sm">
-                                                            Analogía del Caballero:</p>
-                                                        <p class="text-gray-700 dark:text-gray-400 text-sm">El
-                                                            <strong>esquema de potencia</strong>
-                                                            es la fuerza física y la espada del caballero (el motor y
-                                                            los cables gruesos). El
-                                                            <strong>esquema de mando</strong> es su cerebro, que le da
-                                                            las órdenes de "atacar" o
-                                                            "detenerse" a los músculos.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                }
-                                                @if(activeTab() === 'knx') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>KNX: La Domótica Inteligente</h3>
-                                                    <p>KNX es un sistema donde todos los aparatos hablan el mismo idioma
-                                                        a través de un cable de bus
-                                                        (verde).</p>
-                                                    <h4>Sensores vs. Actuadores</h4>
-                                                    <ul>
-                                                        <li><strong>Sensores (las "bocas" y los "oídos"):</strong>
-                                                            Recogen información. Son los
-                                                            pulsadores, detectores de movimiento, termostatos... Le
-                                                            dicen al sistema "¡Oye, que
-                                                            alguien ha pulsado aquí!".</li>
-                                                        <li><strong>Actuadores (los "músculos"):</strong> Ejecutan la
-                                                            orden. Son relés que están en
-                                                            el cuadro eléctrico y encienden la luz, suben la persiana o
-                                                            arrancan la bomba de la
-                                                            piscina.</li>
-                                                    </ul>
-                                                    <h4>Dirección Física vs. Dirección de Grupo</h4>
-                                                    <ul>
-                                                        <li><strong>Dirección Física (el DNI):</strong> Es un número
-                                                            único para cada aparato (ej.
-                                                            1.1.10). Sirve para saber quién es quién en la instalación.
-                                                        </li>
-                                                        <li><strong>Dirección de Grupo (el "idioma" o la
-                                                                "orden"):</strong> Es la que une a los
-                                                            aparatos para que trabajen juntos. El pulsador del salón y
-                                                            la luz del salón comparten la
-                                                            misma dirección de grupo (ej. "1/0/1 Encender Luz Salón").
-                                                            El pulsador "grita" esa
-                                                            dirección por el bus, y el actuador de la luz, que está
-                                                            "escuchando", obedece.</li>
-                                                    </ul>
-                                                </div>
-                                                }
-                                                @if(activeTab() === 'logic') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3>Hablando el Idioma de las Máquinas (Lógica Y/O)</h3>
-                                                    <p>Esto es la base de la programación de autómatas como el LOGO! de
-                                                        Siemens.</p>
-                                                    <ul>
-                                                        <li><strong>AND (y):</strong> La salida se activa SÓLO SI
-                                                            <strong>TODAS</strong> las
-                                                            entradas están activas. En electricidad, es un montaje en
-                                                            <strong>serie</strong>.
-                                                        </li>
-                                                        <li><strong>OR (o):</strong> La salida se activa SI <strong>AL
-                                                                MENOS UNA</strong> de las
-                                                            entradas está activa. En electricidad, es un montaje en
-                                                            <strong>paralelo</strong>.
-                                                        </li>
-                                                    </ul>
-                                                    <div
-                                                        class="mt-6 bg-fuchsia-50 dark:bg-fuchsia-900/20 border-l-4 border-fuchsia-500 p-4 rounded-r-lg not-prose">
-                                                        <p
-                                                            class="font-bold text-fuchsia-800 dark:text-fuchsia-400 text-sm">
-                                                            Analogía del Portero de
-                                                            Discoteca:</p>
-                                                        <p class="text-fuchsia-700 dark:text-fuchsia-300 text-sm">El
-                                                            portero <strong>AND</strong> es
-                                                            muy estricto: solo entras si traes invitación Y vistes de
-                                                            gala. El portero
-                                                            <strong>OR</strong> es más relajado: entras si traes
-                                                            invitación O estás en la lista.
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                }
-                                                @if(activeTab() === 'starDelta') {
-                                                <div
-                                                    class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
-                                                    <h3 class="text-xl font-bold mb-4">Implementación del Arranque
-                                                        Estrella-Triángulo</h3>
-                                                    <p>¡Dale, que esto es clave! Un motor grande, si lo arrancas de
-                                                        golpe (en triángulo), pega un
-                                                        tirón de corriente que puede tumbar la red. Para evitar ese
-                                                        "apagón", se arranca suave en
-                                                        estrella y luego, ya que cogió velocidad, se pasa a triángulo
-                                                        para que trabaje con toda su
-                                                        potencia.</p>
-
-                                                    <div
-                                                        class="bg-white dark:bg-[#111a22] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800 my-6 not-prose">
-                                                        <h4 class="text-lg font-bold mb-4">Esquema de Potencia (Los
-                                                            Músculos)</h4>
-                                                        <img src="https://storage.googleapis.com/aida-images/star-delta-power-es.png"
-                                                            alt="Esquema de Potencia para arranque estrella-triángulo"
-                                                            class="w-full rounded-lg shadow-md border dark:border-gray-700" />
-                                                        <p class="text-sm mt-4"><strong>El Chisme del Esquema:</strong>
-                                                        </p>
-                                                        <ul class="text-sm">
-                                                            <li><strong>KM1 (Contactor de Línea):</strong> Es el jefe,
-                                                                el que da paso a la corriente
-                                                                general.</li>
-                                                            <li><strong>KM2 (Contactor de Triángulo):</strong> Se activa
-                                                                en el segundo paso, para
-                                                                poner el motor a trabajar a full.</li>
-                                                            <li><strong>KM3 (Contactor de Estrella):</strong> Se activa
-                                                                SOLO al principio, para
-                                                                hacer el puente y arrancar suave. ¡Nunca puede estar
-                                                                activado a la vez que KM2!</li>
-                                                            <li><strong>F1 (Relé Térmico):</strong> El guardaespalda del
-                                                                motor. Si el motor se
-                                                                calienta mucho por sobrecarga, este dispara y lo para.
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-
-                                                    <div
-                                                        class="bg-white dark:bg-[#111a22] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800 my-6 not-prose">
-                                                        <h4 class="text-lg font-bold mb-4">Esquema de Mando (El Cerebro)
-                                                        </h4>
-                                                        <img src="https://storage.googleapis.com/aida-images/star-delta-control-es.png"
-                                                            alt="Esquema de Mando para arranque estrella-triángulo"
-                                                            class="w-full rounded-lg shadow-md border dark:border-gray-700" />
-                                                        <p class="text-sm mt-4"><strong>La Lógica del Mando:</strong>
-                                                        </p>
-                                                        <ul class="text-sm">
-                                                            <li><strong>S0 (Pulsador de Paro):</strong> El botón rojo.
-                                                                Tumba todo el sistema.</li>
-                                                            <li><strong>S1 (Pulsador de Marcha):</strong> Al pulsarlo,
-                                                                se activa la bobina de KM1
-                                                                (línea) y KM3 (estrella). El motor arranca suave.</li>
-                                                            <li><strong>KT1 (Temporizador):</strong> Empieza a contar en
-                                                                cuanto arrancas. Después de
-                                                                unos segundos, abre el circuito de KM3 y cierra el de
-                                                                KM2.</li>
-                                                            <li><strong>Enclavamiento:</strong> Fíjate en los contactos
-                                                                cerrados de KM2 y KM3 en las
-                                                                líneas de las bobinas contrarias. Es un seguro de vida
-                                                                para que NUNCA se activen a
-                                                                la vez y provoquen un cortocircuito trifásico que
-                                                                ilumine Luxemburgo entero.</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                }
-                                            </div>
-                                        </div>
-                                        }
-
                                     </div>
+                                </div>
+                                <div class="bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/20 rounded-xl p-6">
+                                    <div class="flex items-center gap-2 mb-4 text-blue-600">
+                                        <span class="material-symbols-outlined">lightbulb</span>
+                                        <h3 class="font-bold text-lg">Tips para el Examen</h3>
+                                    </div>
+                                    <ul class="space-y-4">
+                                        <li class="flex gap-3 text-sm text-gray-600 dark:text-gray-300">
+                                            <span
+                                                class="material-symbols-outlined text-green-500 text-[20px] shrink-0">check_circle</span><span>En
+                                                Luxemburgo, la red doméstica es
+                                                <strong>230V/400V</strong>. ¡Grábatelo a
+                                                fuego!</span>
+                                        </li>
+                                        <li class="flex gap-3 text-sm text-gray-600 dark:text-gray-300">
+                                            <span
+                                                class="material-symbols-outlined text-green-500 text-[20px] shrink-0">check_circle</span><span>Si
+                                                la placa dice <strong>230/400V</strong>, se
+                                                conecta en
+                                                <strong>Estrella</strong> para la red de
+                                                400V.</span>
+                                        </li>
+                                        <li class="flex gap-3 text-sm text-gray-600 dark:text-gray-300">
+                                            <span
+                                                class="material-symbols-outlined text-red-500 text-[20px] shrink-0">warning</span><span>¡Cuidado!
+                                                Si conectas en Triángulo un motor 230/400V a
+                                                400V, ¡hace PUM y se
+                                                quema!</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                        @if (activeTab() === 'connection') {
+                        <div
+                            class="bg-white dark:bg-[#111a22] rounded-xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-800 prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3 class="text-xl font-bold mb-4">Conexión Estrella (Y) vs.
+                                Triángulo (Δ)</h3>
+                            <p>Esto es pan con timba. La conexión depende de la tensión de la
+                                red y lo que aguanta la bobina
+                                del motor. No inventes, mira la placa siempre.</p>
+
+                            <h4>1. Conexión Estrella (Y)</h4>
+                            <p>Aquí se juntan los tres finales de las bobinas (U2, V2, W2) en un
+                                punto común (el neutro).
+                                Los otros tres cables van a las fases de la red (L1, L2, L3).
+                            </p>
+                            <ul>
+                                <li><strong>Relación de Tensión:</strong> Cada bobina aguanta la
+                                    tensión de la red dividida
+                                    por raíz de tres (√3 ≈ 1.732). En una red de 400V, cada
+                                    bobina recibe 230V. ¡Perfecto
+                                    para un motor 230/400V!</li>
+                                <li><strong>Relación de Corriente:</strong> La corriente que
+                                    entra por la línea
+                                    (I<sub>L</sub>) es la misma que pasa por la bobina
+                                    (I<sub>ph</sub>).</li>
+                                <li><strong>Uso común:</strong> Para el arranque de motores,
+                                    para que no peguen ese
+                                    "martillazo" de corriente tan grande.</li>
+                            </ul>
+
+                            <h4>2. Conexión Triángulo (Δ)</h4>
+                            <p>Se conecta el final de una bobina con el principio de la
+                                siguiente, como una ciranda. (U2 con
+                                V1, V2 con W1, W2 con U1).</p>
+                            <ul>
+                                <li><strong>Relación de Tensión:</strong> Cada bobina se come la
+                                    tensión completa de la
+                                    línea. Si la red es de 400V, ¡le metes 400V a la bobina!
+                                </li>
+                                <li><strong>Relación de Corriente:</strong> La corriente de
+                                    línea es √3 veces más grande que
+                                    la que pasa por la bobina.</li>
+                                <li><strong>Uso común:</strong> Es la conexión normal de
+                                    trabajo, cuando el motor ya arrancó
+                                    y está a su velocidad.</li>
+                            </ul>
+
+                            <h4>Diferencias Clave y Potencia</h4>
+                            <ul>
+                                <li><strong>Potencia:</strong> Conectado en triángulo, el motor
+                                    consume <strong>tres veces
+                                        más potencia</strong> que en estrella. Por eso el
+                                    arranque se hace en estrella,
+                                    ¡para que sea más suave!</li>
+                                <li><strong>Compatibilidad:</strong> Un motor
+                                    <strong>230/400V</strong> en una red de
+                                    <strong>400V</strong> DEBE conectarse en
+                                    <strong>ESTRELLA</strong>. Si lo conectas en
+                                    triángulo, quemas las bobinas porque no aguantan 400V.
+                                </li>
+                            </ul>
+
+                            <div
+                                class="mt-6 bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 p-4 rounded-r-lg not-prose">
+                                <p class="font-bold text-amber-800 dark:text-amber-400 text-sm">
+                                    Analogía de la Pizza:</p>
+                                <p class="text-amber-700 dark:text-amber-300 text-sm">En
+                                    <strong>estrella</strong>, es como
+                                    pedir tapas para compartir. Cada uno coge su porción (230V),
+                                    todo controlado. En
+                                    <strong>triángulo</strong>, ¡es como poner una pizza
+                                    familiar gigante para cada uno
+                                    (400V)! Ojo, solo puedes hacer eso si tus amigos son de buen
+                                    comer, si no, se
+                                    indigestan. Con un motor pasa igual, ¡se quema!
+                                </p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+                @if (activeTopic() === 'formulas') {
+                <div>
+                    <!-- Breadcrumbs & Heading Section -->
+                    <div class="px-6 md:px-10 pt-8 pb-4">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                            <div>
+                                <h1 class="text-3xl md:text-4xl font-black mb-2">Fórmulas Clave
+                                    para el Examen</h1>
+                                <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-3xl">
+                                    Mi socio, la
+                                    electricidad es pura matemática. Apréndete esto y no habrá
+                                    cable que se te resista.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tabs -->
+                    <div
+                        class="sticky top-[65px] z-40 bg-gray-50 dark:bg-gray-900 px-6 md:px-10 pt-2 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex overflow-x-auto gap-8">
+                            <button (click)="selectTab('resistance')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'resistance' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Resistencia</p>
+                            </button>
+                            <button (click)="selectTab('power')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'power' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Potencia</p>
+                            </button>
+                            <button (click)="selectTab('current')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'current' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Corriente</p>
+                            </button>
+                            <button (click)="selectTab('efficiency')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'efficiency' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Eficiencia y Costo</p>
+                            </button>
+                            <button (click)="selectTab('frequency')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'frequency' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Frecuencia y CA</p>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="px-6 md:px-10 py-8 max-w-5xl mx-auto w-full">
+                        @if(activeTab() === 'resistance') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>Calcular Resistencia (R) - La Ley de Ohm</h3>
+                            <p>La resistencia es la oposición que presenta un circuito al paso
+                                de la corriente. Es la navaja
+                                suiza que nos saca de cualquier apuro.</p>
+                            <ul>
+                                <li><strong>Fórmula Clave:</strong> <code>R = V / I</code>
+                                    (Resistencia = Voltaje /
+                                    Corriente)</li>
+                            </ul>
+                            <div
+                                class="mt-6 bg-teal-50 dark:bg-teal-900/20 border-l-4 border-teal-500 p-4 rounded-r-lg not-prose">
+                                <p class="font-bold text-teal-800 dark:text-teal-400 text-sm">
+                                    Analogía de la Manguera:</p>
+                                <p class="text-teal-700 dark:text-teal-300 text-sm">La
+                                    <strong>corriente (I)</strong> es el
+                                    agua, el <strong>voltaje (V)</strong> es la presión con la
+                                    que abres el grifo, y la
+                                    <strong>resistencia (R)</strong> es si aprietas la manguera
+                                    con el dedo para hacerla más
+                                    estrecha. Si con mucha presión (voltaje) sale un hilillo de
+                                    agua (poca corriente), ¡es
+                                    que hay muchísima resistencia!
+                                </p>
+                            </div>
+                        </div>
+                        }
+                        @if(activeTab() === 'power') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>El Trabajo de Verdad - Entendiendo la Potencia</h3>
+                            <p>La potencia es cuánto trabajo se está haciendo. En el mundo real,
+                                nos interesa el "Triángulo
+                                de Potencias".</p>
+                            <ul>
+                                <li><strong>Potencia Activa (P):</strong> Es el líquido de la
+                                    cerveza, lo que de verdad nos
+                                    bebemos y hace el trabajo (mover un motor). Se mide en
+                                    <strong>Vatios (W)</strong>.
+                                    <ul>
+                                        <li>Fórmula Trifásica:
+                                            <code>P = √3 · U_L · I_L · cos(φ)</code>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li><strong>Potencia Reactiva (Q):</strong> Es la espuma. Ocupa
+                                    sitio y es necesaria para
+                                    que los motores creen sus campos magnéticos, pero no produce
+                                    trabajo útil.</li>
+                                <li><strong>Potencia Aparente (S):</strong> Es la jarra entera
+                                    (líquido + espuma). Es la
+                                    capacidad total que debe tener nuestra instalación para
+                                    servir esa "cerveza".</li>
+                            </ul>
+                            <div
+                                class="mt-6 bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded-r-lg not-prose">
+                                <p class="font-bold text-yellow-800 dark:text-yellow-400 text-sm">
+                                    Repite conmigo:</p>
+                                <p class="text-yellow-700 dark:text-yellow-300 text-sm">
+                                    "Potencia es igual a raíz de tres,
+                                    por Voltaje de Línea, por Intensidad de Línea, por Coseno de
+                                    Fi." ¡Eso es pregunta de
+                                    examen seguro!</p>
+                            </div>
+                        </div>
+                        }
+                        @if(activeTab() === 'current') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>Calcular Corriente (I)</h3>
+                            <p>Saber la corriente es vital para elegir el cable correcto y que
+                                no se prenda en candela.</p>
+                            <ul>
+                                <li><strong>Ley de Ohm:</strong> <code>I = V / R</code></li>
+                                <li><strong>Con Potencia Monofásica:</strong>
+                                    <code>I = P / V</code> (para cargas
+                                    resistivas)
+                                </li>
+                            </ul>
+                            <h4>Corriente en Motores (¡La que va para el examen!)</h4>
+                            <p>Aquí tienes que meter en la ecuación la eficiencia (η) y el
+                                factor de potencia (cos φ), que
+                                vienen en la placa del motor.</p>
+                            <ul>
+                                <li><strong>Motor Monofásico:</strong>
+                                    <code>I = P / (V · η · cos(φ))</code>
+                                </li>
+                                <li><strong>Motor Trifásico (La fórmula maestra):</strong>
+                                    <code>I = P / (√3 · V_L · η · cos(φ))</code>
+                                </li>
+                            </ul>
+                        </div>
+                        }
+                        @if(activeTab() === 'efficiency') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>Eficiencia (η) y Costo del Consumo</h3>
+                            <p>La eficiencia te dice qué tan bueno es un motor para convertir
+                                electricidad en movimiento sin
+                                desperdiciar energía en calor.</p>
+
+                            <h4>Calcular la Eficiencia (η)</h4>
+                            <ul>
+                                <li><strong>Fórmula:</strong>
+                                    <code>η = P_útil / P_suministrada</code>
+                                </li>
+                            </ul>
+                            <div
+                                class="mt-6 bg-green-50 dark:bg-green-900/20 border-l-4 border-green-500 p-4 rounded-r-lg not-prose">
+                                <p class="font-bold text-green-800 dark:text-green-400 text-sm">
+                                    Analogía del Exprimidor:</p>
+                                <p class="text-green-700 dark:text-green-300 text-sm">La
+                                    <strong>potencia
+                                        suministrada</strong> son todas las naranjas que metes.
+                                    La <strong>potencia
+                                        útil</strong> es el zumo que sale. Un exprimidor malo
+                                    (baja eficiencia) desperdicia
+                                    mucha pulpa y necesita más naranjas para llenar el vaso.
+                                </p>
+                            </div>
+
+                            <h4>Cálculo de Coste de Consumo (Versión Examen Luxemburgo)</h4>
+                            <code>Coste Total = (P_útil / η) · tiempo (h) · Precio del kWh</code>
+                        </div>
+                        }
+                        @if(activeTab() === 'frequency') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>Frecuencia (f) y Corriente Alterna (CA)</h3>
+                            <p>La corriente alterna no es un chorro constante, es una onda que
+                                sube y baja (sinusoide). La
+                                frecuencia es la velocidad a la que completa esos ciclos.</p>
+                            <ul>
+                                <li><strong>Frecuencia (f):</strong> Es el número de ciclos por
+                                    segundo. Se mide en
+                                    <strong>Hertz (Hz)</strong>. En Europa, la frecuencia es de
+                                    50 Hz.
+                                </li>
+                                <li><strong>Valor Pico (Vpico):</strong> Es el valor máximo que
+                                    alcanza la onda.</li>
+                                <li><strong>Valor Eficaz (RMS):</strong> Es el valor que mide el
+                                    multímetro y el que
+                                    realmente produce trabajo. Es como un promedio con power.
+                                </li>
+                            </ul>
+                            <h4>Fórmula de Frecuencia en Motores</h4>
+                            <code>f = (n · p) / 60</code>
+                            <ul>
+                                <li><strong>n:</strong> Velocidad en revoluciones por minuto
+                                    (rpm).</li>
+                                <li><strong>p:</strong> Número de <strong>pares</strong> de
+                                    polos del motor (un motor de 4
+                                    polos tiene p=2).</li>
+                                <li><strong>60:</strong> Es el factor para convertir los minutos
+                                    (de las rpm) a segundos (de
+                                    los Hertz). ¡No es un número mágico!</li>
+                            </ul>
+                            <div
+                                class="mt-6 bg-sky-50 dark:bg-sky-900/20 border-l-4 border-sky-500 p-4 rounded-r-lg not-prose">
+                                <p class="font-bold text-sky-800 dark:text-sky-400 text-sm">
+                                    Analogía del Columpio:</p>
+                                <p class="text-sky-700 dark:text-sky-300 text-sm">La onda es el
+                                    movimiento del columpio. La
+                                    <strong>frecuencia</strong> es cuántas veces vas y vienes en
+                                    un segundo. El
+                                    <strong>valor de pico</strong> es la altura máxima que
+                                    alcanzas. El <strong>valor
+                                        RMS</strong> es la "fuerza promedio" que sentirías si te
+                                    empujaran constantemente.
+                                </p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+                @if (activeTopic() === 'installations') {
+                <div>
+                    <!-- Breadcrumbs & Heading Section -->
+                    <div class="px-6 md:px-10 pt-8 pb-4">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                            <div>
+                                <h1 class="text-3xl md:text-4xl font-black mb-2">Instalaciones y
+                                    Normativa</h1>
+                                <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-3xl">
+                                    Esto es para
+                                    trabajar fino y seguro, como mandan las normas en
+                                    Luxemburgo.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tabs -->
+                    <div
+                        class="sticky top-[65px] z-40 bg-gray-50 dark:bg-gray-900 px-6 md:px-10 pt-2 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex overflow-x-auto gap-8">
+                            <button (click)="selectTab('voltageDrop')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'voltageDrop' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Caída de Tensión</p>
+                            </button>
+                            <button (click)="selectTab('protections')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'protections' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Coordinación de Protecciones</p>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="px-6 md:px-10 py-8 max-w-5xl mx-auto w-full">
+                        @if(activeTab() === 'voltageDrop') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>Caída de Tensión (ΔU)</h3>
+                            <p>Es la pérdida de "fuerza" (voltaje) que sufre la corriente al
+                                viajar por un cable largo. La
+                                norma en Luxemburgo es estricta con esto.</p>
+                            <h4>Límites que Debes Saber</h4>
+                            <ul>
+                                <li><strong>No más del 3%</strong> para circuitos de alumbrado.
+                                </li>
+                                <li><strong>No más del 5%</strong> para otros usos (motores,
+                                    fuerza).</li>
+                            </ul>
+                            <div
+                                class="mt-6 bg-indigo-50 dark:bg-indigo-900/20 border-l-4 border-indigo-500 p-4 rounded-r-lg not-prose">
+                                <p class="font-bold text-indigo-800 dark:text-indigo-400 text-sm">
+                                    Analogía de la Manguera de
+                                    Riego:</p>
+                                <p class="text-indigo-700 dark:text-indigo-300 text-sm">La caída
+                                    de tensión es como la
+                                    pérdida de presión en una manguera muy larga. Si la manguera
+                                    es muy fina (poca sección
+                                    'S') o muy larga ('L'), el agua llegará al final sin fuerza.
+                                    La norma exige que llegue
+                                    al menos el 97% de la presión para que el aspersor funcione
+                                    bien.</p>
+                            </div>
+                        </div>
+                        }
+                        @if(activeTab() === 'protections') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>La Regla de Oro de Seguridad en Circuitos</h3>
+                            <p>Para que una instalación sea segura, la protección (disyuntor)
+                                debe saltar antes de que el
+                                cable se derrita. Esto se resume en una fórmula que es sagrada:
+                            </p>
+                            <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg my-4 text-center">
+                                <code
+                                    class="text-xl font-bold text-blue-600 dark:text-blue-400">I<sub>b</sub> ≤ I<sub>n</sub> ≤ I<sub>z</sub></code>
+                            </div>
+                            <ul>
+                                <li><strong>I<sub>b</sub> (Corriente de Empleo):</strong> La
+                                    corriente que consume el equipo
+                                    normalmente.</li>
+                                <li><strong>I<sub>n</sub> (Corriente Nominal):</strong> El valor
+                                    del disyuntor o fusible.
+                                    Debe ser mayor que I<sub>b</sub> para que no salte por
+                                    gusto.</li>
+                                <li><strong>I<sub>z</sub> (Corriente Máxima del Cable):</strong>
+                                    Lo que aguanta el cable sin
+                                    quemarse. El disyuntor debe ser menor que esto para
+                                    protegerlo.</li>
+                            </ul>
+                            <div
+                                class="mt-6 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4 rounded-r-lg not-prose">
+                                <p class="font-bold text-red-800 dark:text-red-400 text-sm">
+                                    Analogía de la Manguera y la
+                                    Válvula:</p>
+                                <p class="text-red-700 dark:text-red-300 text-sm">La manguera
+                                    (el cable) aguanta una presión
+                                    máxima (I<sub>z</sub>). Tú necesitas un caudal normal para
+                                    regar (I<sub>b</sub>). La
+                                    válvula de seguridad (I<sub>n</sub>) debe permitir tu
+                                    caudal, pero tiene la orden de
+                                    cerrarse ¡SIEMPRE ANTES de que la presión alcance el punto
+                                    de explosión de la manguera!
+                                </p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+                @if (activeTopic() === 'schematics') {
+                <div>
+                    <!-- Breadcrumbs & Heading Section -->
+                    <div class="px-6 md:px-10 pt-8 pb-4">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                            <div>
+                                <h1 class="text-3xl md:text-4xl font-black mb-2">Esquemas y
+                                    Lógica</h1>
+                                <p class="text-gray-500 dark:text-gray-400 text-base md:text-lg max-w-3xl">
+                                    Aquí se juntan
+                                    los cables con las ideas. Entiende cómo se dibuja y se
+                                    piensa la automatización.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tabs -->
+                    <div
+                        class="sticky top-[65px] z-40 bg-gray-50 dark:bg-gray-900 px-6 md:px-10 pt-2 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex overflow-x-auto gap-8">
+                            <button (click)="selectTab('powerControl')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'powerControl' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Esquemas de Potencia y Mando</p>
+                            </button>
+                            <button (click)="selectTab('knx')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'knx' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">KNX: Sensores y Actuadores</p>
+                            </button>
+                            <button (click)="selectTab('logic')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'logic' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Lógica y Tablas de Verdad</p>
+                            </button>
+                            <button (click)="selectTab('starDelta')"
+                                class="flex flex-col items-center justify-center pb-3 min-w-max"
+                                [class]="activeTab() === 'starDelta' ? 'border-b-[3px] border-b-blue-600 text-blue-600' : 'border-b-[3px] border-b-transparent text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'">
+                                <p class="text-sm font-bold">Arranque Estrella-Triángulo</p>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Content -->
+                    <div class="px-6 md:px-10 py-8 max-w-5xl mx-auto w-full">
+                        @if(activeTab() === 'powerControl') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>El Cerebro y los Músculos de una Máquina</h3>
+                            <p>Un sistema de motor tiene dos "planos":</p>
+                            <ul>
+                                <li><strong>Esquema de Potencia (Fuerza):</strong> Son los
+                                    cables gruesos que llevan la
+                                    "comida" (corriente) al motor. Aquí dibujas el disyuntor, el
+                                    contactor y el relé
+                                    térmico.</li>
+                                <li><strong>Esquema de Mando (Control):</strong> Es el cerebro.
+                                    Son los cables finos que le
+                                    dicen al contactor cuándo activarse. Aquí dibujas los
+                                    pulsadores, los contactos
+                                    auxiliares y la bobina del contactor.</li>
+                            </ul>
+                            <div class="mt-6 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg not-prose">
+                                <p class="font-bold text-gray-800 dark:text-gray-300 text-sm">
+                                    Analogía del Caballero:</p>
+                                <p class="text-gray-700 dark:text-gray-400 text-sm">El
+                                    <strong>esquema de potencia</strong>
+                                    es la fuerza física y la espada del caballero (el motor y
+                                    los cables gruesos). El
+                                    <strong>esquema de mando</strong> es su cerebro, que le da
+                                    las órdenes de "atacar" o
+                                    "detenerse" a los músculos.
+                                </p>
+                            </div>
+                        </div>
+                        }
+                        @if(activeTab() === 'knx') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>KNX: La Domótica Inteligente</h3>
+                            <p>KNX es un sistema donde todos los aparatos hablan el mismo idioma
+                                a través de un cable de bus
+                                (verde).</p>
+                            <h4>Sensores vs. Actuadores</h4>
+                            <ul>
+                                <li><strong>Sensores (las "bocas" y los "oídos"):</strong>
+                                    Recogen información. Son los
+                                    pulsadores, detectores de movimiento, termostatos... Le
+                                    dicen al sistema "¡Oye, que
+                                    alguien ha pulsado aquí!".</li>
+                                <li><strong>Actuadores (los "músculos"):</strong> Ejecutan la
+                                    orden. Son relés que están en
+                                    el cuadro eléctrico y encienden la luz, suben la persiana o
+                                    arrancan la bomba de la
+                                    piscina.</li>
+                            </ul>
+                            <h4>Dirección Física vs. Dirección de Grupo</h4>
+                            <ul>
+                                <li><strong>Dirección Física (el DNI):</strong> Es un número
+                                    único para cada aparato (ej.
+                                    1.1.10). Sirve para saber quién es quién en la instalación.
+                                </li>
+                                <li><strong>Dirección de Grupo (el "idioma" o la
+                                        "orden"):</strong> Es la que une a los
+                                    aparatos para que trabajen juntos. El pulsador del salón y
+                                    la luz del salón comparten la
+                                    misma dirección de grupo (ej. "1/0/1 Encender Luz Salón").
+                                    El pulsador "grita" esa
+                                    dirección por el bus, y el actuador de la luz, que está
+                                    "escuchando", obedece.</li>
+                            </ul>
+                        </div>
+                        }
+                        @if(activeTab() === 'logic') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3>Hablando el Idioma de las Máquinas (Lógica Y/O)</h3>
+                            <p>Esto es la base de la programación de autómatas como el LOGO! de
+                                Siemens.</p>
+                            <ul>
+                                <li><strong>AND (y):</strong> La salida se activa SÓLO SI
+                                    <strong>TODAS</strong> las
+                                    entradas están activas. En electricidad, es un montaje en
+                                    <strong>serie</strong>.
+                                </li>
+                                <li><strong>OR (o):</strong> La salida se activa SI <strong>AL
+                                        MENOS UNA</strong> de las
+                                    entradas está activa. En electricidad, es un montaje en
+                                    <strong>paralelo</strong>.
+                                </li>
+                            </ul>
+                            <div
+                                class="mt-6 bg-fuchsia-50 dark:bg-fuchsia-900/20 border-l-4 border-fuchsia-500 p-4 rounded-r-lg not-prose">
+                                <p class="font-bold text-fuchsia-800 dark:text-fuchsia-400 text-sm">
+                                    Analogía del Portero de
+                                    Discoteca:</p>
+                                <p class="text-fuchsia-700 dark:text-fuchsia-300 text-sm">El
+                                    portero <strong>AND</strong> es
+                                    muy estricto: solo entras si traes invitación Y vistes de
+                                    gala. El portero
+                                    <strong>OR</strong> es más relajado: entras si traes
+                                    invitación O estás en la lista.
+                                </p>
+                            </div>
+                        </div>
+                        }
+                        @if(activeTab() === 'starDelta') {
+                        <div class="prose prose-slate dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+                            <h3 class="text-xl font-bold mb-4">Implementación del Arranque
+                                Estrella-Triángulo</h3>
+                            <p>¡Dale, que esto es clave! Un motor grande, si lo arrancas de
+                                golpe (en triángulo), pega un
+                                tirón de corriente que puede tumbar la red. Para evitar ese
+                                "apagón", se arranca suave en
+                                estrella y luego, ya que cogió velocidad, se pasa a triángulo
+                                para que trabaje con toda su
+                                potencia.</p>
+
+                            <div
+                                class="bg-white dark:bg-[#111a22] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800 my-6 not-prose">
+                                <h4 class="text-lg font-bold mb-4">Esquema de Potencia (Los
+                                    Músculos)</h4>
+                                <img src="https://storage.googleapis.com/aida-images/star-delta-power-es.png"
+                                    alt="Esquema de Potencia para arranque estrella-triángulo"
+                                    class="w-full rounded-lg shadow-md border dark:border-gray-700" />
+                                <p class="text-sm mt-4"><strong>El Chisme del Esquema:</strong>
+                                </p>
+                                <ul class="text-sm">
+                                    <li><strong>KM1 (Contactor de Línea):</strong> Es el jefe,
+                                        el que da paso a la corriente
+                                        general.</li>
+                                    <li><strong>KM2 (Contactor de Triángulo):</strong> Se activa
+                                        en el segundo paso, para
+                                        poner el motor a trabajar a full.</li>
+                                    <li><strong>KM3 (Contactor de Estrella):</strong> Se activa
+                                        SOLO al principio, para
+                                        hacer el puente y arrancar suave. ¡Nunca puede estar
+                                        activado a la vez que KM2!</li>
+                                    <li><strong>F1 (Relé Térmico):</strong> El guardaespalda del
+                                        motor. Si el motor se
+                                        calienta mucho por sobrecarga, este dispara y lo para.
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div
+                                class="bg-white dark:bg-[#111a22] rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-800 my-6 not-prose">
+                                <h4 class="text-lg font-bold mb-4">Esquema de Mando (El Cerebro)
+                                </h4>
+                                <img src="https://storage.googleapis.com/aida-images/star-delta-control-es.png"
+                                    alt="Esquema de Mando para arranque estrella-triángulo"
+                                    class="w-full rounded-lg shadow-md border dark:border-gray-700" />
+                                <p class="text-sm mt-4"><strong>La Lógica del Mando:</strong>
+                                </p>
+                                <ul class="text-sm">
+                                    <li><strong>S0 (Pulsador de Paro):</strong> El botón rojo.
+                                        Tumba todo el sistema.</li>
+                                    <li><strong>S1 (Pulsador de Marcha):</strong> Al pulsarlo,
+                                        se activa la bobina de KM1
+                                        (línea) y KM3 (estrella). El motor arranca suave.</li>
+                                    <li><strong>KT1 (Temporizador):</strong> Empieza a contar en
+                                        cuanto arrancas. Después de
+                                        unos segundos, abre el circuito de KM3 y cierra el de
+                                        KM2.</li>
+                                    <li><strong>Enclavamiento:</strong> Fíjate en los contactos
+                                        cerrados de KM2 y KM3 en las
+                                        líneas de las bobinas contrarias. Es un seguro de vida
+                                        para que NUNCA se activen a
+                                        la vez y provoquen un cortocircuito trifásico que
+                                        ilumine Luxemburgo entero.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+            </div>

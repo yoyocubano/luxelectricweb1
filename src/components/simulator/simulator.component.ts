@@ -75,20 +75,7 @@ export class SimulatorComponent {
     ].sort(() => Math.random() - 0.5);
   });
 
-  // Sincronizar las 50 preguntas de ayer con la base de datos
-  async syncInitialData() {
-    this.isLoading.set(true);
-    try {
-      await this.db.seedInitialData(INITIAL_QUESTIONS);
-      alert('¡Listo asere! Las 50 preguntas de PIFQU ya están en la nube. ☁️⚡');
-      await this.loadData();
-    } catch (e) {
-      alert('Error: Asegúrate de pegar el SQL en Supabase primero.');
-      console.error(e);
-    } finally {
-      this.isLoading.set(false);
-    }
-  }
+  // 🔐 SECURITY: syncInitialData removed. Development-only action.
 
   nextQuestion() {
     const total = this.exams().length;

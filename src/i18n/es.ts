@@ -62,7 +62,7 @@ export const ES_TRANSLATIONS = {
         cta: 'Calcular',
       },
     },
-    footer: '© 2024 LuxEléctrico. Preparación oficial para electricistas en Luxemburgo.',
+    footer: 'LuxEléctrico. Preparación oficial para electricistas en Luxemburgo. Todos los derechos reservados.',
     trainer_nav: 'ENTRENADOR IA',
     ai_coach: {
       title: 'Entrenador Cubano (IA)',

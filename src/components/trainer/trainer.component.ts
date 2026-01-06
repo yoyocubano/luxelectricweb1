@@ -25,6 +25,7 @@ export class TrainerComponent implements AfterViewChecked {
 
     userInput = signal('');
     isLoading = this.aiService.isLoading;
+    selectedModel = signal<'gemini' | 'deepseek'>('gemini');
 
     ngAfterViewChecked() {
         this.scrollToBottom();
@@ -51,5 +52,10 @@ export class TrainerComponent implements AfterViewChecked {
         // Añadir respuesta de la IA
         const modelMsg: ChatMessage = { role: 'model', content: response };
         this.messages.update(msgs => [...msgs, modelMsg]);
+    }
+
+    setAiModel(model: 'gemini' | 'deepseek') {
+        this.selectedModel.set(model);
+        this.aiService.setProvider(model);
     }
 }
