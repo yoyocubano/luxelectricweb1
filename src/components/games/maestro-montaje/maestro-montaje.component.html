@@ -1,18 +1,19 @@
 <div
-  class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col items-center justify-center p-4 font-display relative">
-  <!-- Action Buttons -->
+  class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen flex flex-col items-center justify-center p-4 font-display relative select-none">
+
+  <!-- Navigation -->
   <div class="absolute top-4 right-4 flex gap-2 z-10">
     <button (click)="restartGame()"
-      class="size-12 rounded-full bg-white dark:bg-gray-800/80 backdrop-blur-sm shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-amber-500 hover:text-amber-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+      class="size-12 rounded-full bg-white dark:bg-gray-800/80 backdrop-blur-sm shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-amber-500 hover:text-amber-600 transition-all">
       <span class="material-symbols-outlined !text-3xl">refresh</span>
     </button>
     <a routerLink="/games"
-      class="size-12 rounded-full bg-white dark:bg-gray-800/80 backdrop-blur-sm shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-blue-500 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+      class="size-12 rounded-full bg-white dark:bg-gray-800/80 backdrop-blur-sm shadow-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-blue-500 hover:text-blue-600 transition-all">
       <span class="material-symbols-outlined !text-3xl">arrow_back</span>
     </a>
   </div>
 
-  <div class="w-full max-w-5xl mx-auto">
+  <div class="w-full max-w-7xl mx-auto">
 
     <!-- Start Screen -->
     @if (gameState() === 'start') {
@@ -22,13 +23,11 @@
         <span class="material-symbols-outlined !text-5xl">construction</span>
       </div>
       <h1 class="text-4xl md:text-5xl font-black">{{ 'games.maestro_montaje.title' | i18n }}</h1>
-      <p class="text-gray-600 dark:text-gray-400 max-w-lg">
-        {{ 'games.maestro_montaje.subtitle' | i18n }}
-      </p>
+      <p class="text-gray-600 dark:text-gray-400 max-w-lg">{{ 'games.maestro_montaje.subtitle' | i18n }}</p>
       <button (click)="startGame()"
-        class="w-full md:w-auto flex items-center justify-center gap-3 rounded-xl h-14 px-8 bg-blue-600 text-white text-lg font-bold hover:bg-blue-700 transition-transform hover:scale-105 shadow-lg shadow-blue-500/30">
-        <span class="material-symbols-outlined">play_circle</span>
-        <span>{{ 'games.play' | i18n }}</span>
+        class="px-8 py-4 bg-blue-600 text-white text-lg font-bold rounded-xl hover:bg-blue-700 shadow-lg hover:scale-105 transition-all">
+        <span class="material-symbols-outlined align-middle mr-2">play_circle</span>
+        {{ 'games.play' | i18n }}
       </button>
     </div>
     }
@@ -36,122 +35,159 @@
     <!-- Playing Screen -->
     @if (gameState() === 'playing') {
     <div
-      class="bg-white dark:bg-[#1a2632] rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 animate-fade-in overflow-hidden">
-      <header class="p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center">
+      class="bg-white dark:bg-[#1a2632] rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 overflow-hidden flex flex-col h-[85vh]">
+
+      <!-- Header -->
+      <header
+        class="p-4 border-b border-gray-200 dark:border-gray-800 flex justify-between items-center bg-gray-50 dark:bg-[#111a22]">
         <div>
-          <h2 class="font-bold text-lg">{{ 'games.maestro_montaje.title' | i18n }}</h2>
-          <p class="text-sm text-gray-500">{{ (playState() === 'layout' ? 'games.maestro_montaje.states.layout' :
-            (playState() === 'components' ? 'games.maestro_montaje.states.components' :
-            'games.maestro_montaje.states.wiring')) | i18n }}</p>
+          <h2 class="font-bold text-lg leading-tight">{{ 'games.maestro_montaje.title' | i18n }}</h2>
+          <p class="text-xs text-gray-500 uppercase tracking-widest">Modo Montaje Físico</p>
         </div>
         <div class="flex items-center gap-4">
-          <div class="text-center">
-            <p class="font-bold text-[10px] uppercase tracking-widest text-gray-500">LIMPIEZA</p>
-            <div class="w-24 bg-gray-200 dark:bg-gray-700 rounded-full h-2.5 mt-1">
-              <div class="h-2.5 rounded-full transition-all"
-                [class]="cleanliness() > 70 ? 'bg-green-500' : cleanliness() > 40 ? 'bg-yellow-500' : 'bg-red-500'"
-                [style.width]="cleanliness() + '%'"></div>
-            </div>
-          </div>
+          <button (click)="addWire(true)"
+            class="px-3 py-1.5 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-blue-100 text-xs font-bold uppercase transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">route</span> Cablear
+          </button>
           <button (click)="checkWork()"
-            class="px-4 py-2 rounded-lg bg-green-600 text-white font-bold text-sm hover:bg-green-700 transition-colors">
-            Verificar
+            class="px-4 py-2 rounded-lg bg-green-600 text-white font-bold text-sm hover:bg-green-700 transition-colors shadow-lg shadow-green-600/20">
+            VERIFICAR MONTAJE
           </button>
         </div>
       </header>
 
-      <div class="flex flex-col md:flex-row">
-        <!-- Inventory -->
-        <aside class="w-full md:w-64 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-800 p-4">
-          <h3 class="font-black text-xs uppercase tracking-widest text-gray-500 mb-4">{{
-            'games.maestro_montaje.inventory' | i18n }}</h3>
-          <div class="space-y-2">
-            @for (item of inventory(); track item.id) {
-            <button (click)="placeItem(item)"
-              [disabled]="item.placed || (item.type === 'component' && playState() !== 'components') || ((item.type === 'duct' || item.type === 'rail') && playState() !== 'layout')"
-              class="w-full text-left p-2 rounded-lg flex items-center gap-2 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-              [class]="item.placed ? 'bg-gray-200 dark:bg-gray-700' : 'hover:bg-blue-100 dark:hover:bg-blue-900/30'">
-              <span class="material-symbols-outlined text-gray-500">{{ item.type === 'duct' ? 'width' : item.type ===
-                'rail' ? 'linear_scale' : 'memory' }}</span>
-              <span class="text-xs font-bold uppercase tracking-tight">{{item.name}}</span>
-              @if(item.placed) {
-              <span class="material-symbols-outlined text-green-500 text-sm ml-auto">check_circle</span>
-              }
-            </button>
-            }
+      <!-- Drag & Drop Area -->
+      <div class="flex-1 flex overflow-hidden" cdkDropListGroup>
+
+        <!-- Inventory Panel -->
+        <aside class="w-64 bg-gray-100 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+          <div class="p-3 bg-gray-200 dark:bg-gray-800 border-b border-gray-300 dark:border-gray-700">
+            <h3 class="font-black text-xs uppercase tracking-widest text-gray-500 flex items-center gap-2">
+              <span class="material-symbols-outlined text-sm">inventory_2</span> Almacén
+            </h3>
           </div>
-          <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-            <h3 class="font-black text-xs uppercase tracking-widest text-gray-500 mb-2">CABLEADO</h3>
-            <div class="space-y-2">
-              <button (click)="addWire(true)" [disabled]="playState() !== 'wiring'"
-                class="w-full text-left p-2 rounded-lg flex items-center gap-2 hover:bg-blue-100 dark:hover:bg-blue-900/30 disabled:opacity-40">
-                <span class="material-symbols-outlined text-green-500">route</span>
-                <span class="text-[10px] font-black uppercase">Ordenado</span>
-              </button>
-              <button (click)="addWire(false)" [disabled]="playState() !== 'wiring'"
-                class="w-full text-left p-2 rounded-lg flex items-center gap-2 hover:bg-red-100 dark:hover:bg-red-900/30 disabled:opacity-40">
-                <span class="material-symbols-outlined text-red-500">conversion_path</span>
-                <span class="text-[10px] font-black uppercase text-red-400">Chapucero</span>
-              </button>
+
+          <div cdkDropList [cdkDropListData]="inventory()" class="flex-1 p-4 overflow-y-auto space-y-4 min-h-0"
+            (cdkDropListDropped)="drop($event)">
+
+            <!-- Inventory Items -->
+            @for (item of inventory(); track item.id) {
+            <div cdkDrag class="cursor-grab active:cursor-grabbing group relative transition-transform hover:scale-105">
+              <!-- Visual Placeholder in List -->
+              <div
+                class="bg-white dark:bg-gray-800 p-2 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm flex flex-col items-center">
+
+                @if (item.type === 'rail') {
+                <app-din-rail [width]="100" [height]="35"></app-din-rail>
+                } @else if (item.type === 'duct') {
+                <app-cable-duct [width]="100" [height]="35"></app-cable-duct>
+                } @else {
+                <img [src]="item.image" [alt]="item.name" class="h-12 object-contain mb-2 pointer-events-none">
+                }
+
+                <span class="text-[10px] font-bold uppercase text-center text-gray-600 dark:text-gray-300 mt-2">{{
+                  item.name
+                  }}</span>
+              </div>
+
+              <!-- Drag Preview -->
+              <div *cdkDragPreview
+                class="bg-white dark:bg-gray-800 p-2 rounded-lg shadow-2xl opacity-90 border-2 border-blue-500">
+                @if (item.type === 'rail') {
+                <app-din-rail [width]="item.width" [height]="item.height"></app-din-rail>
+                } @else if (item.type === 'duct') {
+                <app-cable-duct [width]="item.width" [height]="item.height"></app-cable-duct>
+                } @else {
+                <img [src]="item.image" class="h-16 object-contain">
+                }
+              </div>
             </div>
+            }
+
+            @if (inventory().length === 0) {
+            <div class="h-full flex flex-col items-center justify-center text-gray-400 text-center p-4 opacity-50">
+              <span class="material-symbols-outlined text-3xl mb-2">check_circle_outline</span>
+              <span class="text-xs font-bold uppercase">Todo instalado</span>
+            </div>
+            }
           </div>
         </aside>
-        <!-- Panel -->
-        <main class="flex-1 p-8 bg-gray-200 dark:bg-gray-800/50 min-h-[500px] relative">
-          <div class="bg-gray-300 dark:bg-gray-700 w-[350px] h-[450px] mx-auto rounded-lg shadow-inner p-4 relative">
-            <!-- Placed Items will appear here -->
-            @if (isItemPlaced('duct-top')) {
-            <div
-              class="absolute top-4 left-4 h-10 w-[318px] bg-gray-400 dark:bg-gray-600 rounded flex items-center justify-center text-[10px] font-black text-white/50 uppercase tracking-widest">
-              Canaleta</div>
-            }
-            @if (isItemPlaced('rail1')) {
-            <div
-              class="absolute top-20 left-4 h-5 w-[318px] bg-gray-500 dark:bg-gray-800 rounded flex items-center justify-center text-[10px] font-black text-white/50 uppercase tracking-widest">
-              Carril DIN</div>
-            }
-            @if (isItemPlaced('duct-mid')) {
-            <div
-              class="absolute top-32 left-4 h-10 w-[318px] bg-gray-400 dark:bg-gray-600 rounded flex items-center justify-center text-[10px] font-black text-white/50 uppercase tracking-widest">
-              Canaleta</div>
-            }
-            @if (isItemPlaced('rail2')) {
-            <div
-              class="absolute top-48 left-4 h-5 w-[318px] bg-gray-500 dark:bg-gray-800 rounded flex items-center justify-center text-[10px] font-black text-white/50 uppercase tracking-widest">
-              Carril DIN</div>
-            }
 
-            <!-- Components -->
-            <div class="absolute top-[68px] left-[100px] flex gap-2">
-              @if (isItemPlaced('q1')) {
-              <div
-                class="size-16 bg-white dark:bg-gray-900 rounded shadow-md flex items-center justify-center flex-col text-[10px] font-black uppercase">
-                Q1<span class="material-symbols-outlined text-lg">bolt</span></div>
-              }
-              @if (isItemPlaced('km1')) {
-              <div
-                class="size-16 bg-white dark:bg-gray-900 rounded shadow-md flex items-center justify-center flex-col text-[10px] font-black uppercase">
-                KM1<span class="material-symbols-outlined text-lg">settings_input_component</span></div>
-              }
-              @if (isItemPlaced('f1')) {
-              <div
-                class="size-16 bg-white dark:bg-gray-900 rounded shadow-md flex items-center justify-center flex-col text-[10px] font-black uppercase">
-                F1<span class="material-symbols-outlined text-lg">shield_with_heart</span></div>
-              }
+        <!-- Main Workspace (Mounting Plate) -->
+        <main
+          class="flex-1 bg-[#d4d4d8] dark:bg-[#27272a] relative overflow-hidden flex items-center justify-center p-8 pattern-grid">
+          <!-- Mounting Plate Background -->
+          <div cdkDropList [cdkDropListData]="placedItems()" (cdkDropListDropped)="drop($event)"
+            class="w-[600px] h-[700px] bg-[#e5e7eb] dark:bg-[#3f3f46] rounded-sm shadow-2xl border-2 border-[#a1a1aa] dark:border-[#52525b] relative transition-colors"
+            [class.bg-blue-50]="playState() === 'layout'">
+
+            <!-- Plate Texture -->
+            <div class="absolute inset-0 opacity-10 pointer-events-none"
+              style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;">
             </div>
 
-            <!-- Wires -->
-            <svg class="absolute inset-0 w-full h-full overflow-visible">
+            <!-- Empty State Hint -->
+            @if (placedItems().length === 0) {
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-30">
+              <div class="text-center">
+                <span class="material-symbols-outlined text-6xl text-gray-500">drag_indicator</span>
+                <p class="text-xl font-black uppercase text-gray-500 mt-2">Arrastra componentes aquí</p>
+              </div>
+            </div>
+            }
+
+            <!-- Dropped Items -->
+            @for (item of placedItems(); track item.id) {
+            <div cdkDrag class="cursor-grab active:cursor-grabbing absolute hover:z-50" [style.width.px]="item.width"
+              [style.height.px]="item.height" style="position: relative;">
+              <!-- Layout engine will stack them normally in a list, we need absolute for free drag later -->
+
+              <!-- Component Viewer -->
+              @if (item.type === 'rail') {
+              <app-din-rail [width]="item.width" [height]="item.height"></app-din-rail>
+              } @else if (item.type === 'duct') {
+              <app-cable-duct [width]="item.width" [height]="item.height"></app-cable-duct>
+              } @else {
+              <img [src]="item.image" [alt]="item.name"
+                class="w-full h-full object-contain drop-shadow-md pointer-events-none select-none">
+              }
+
+              <!-- Resize Handle -->
+              @if (item.resizable) {
+              <div (mousedown)="startResize($event, item)"
+                class="absolute top-0 right-0 h-full w-4 cursor-ew-resize hover:bg-blue-500/30 flex items-center justify-center group/handle transition-colors z-50">
+                <div class="h-4 w-1 bg-gray-400 group-hover/handle:bg-blue-500 rounded-full"></div>
+              </div>
+              }
+
+              <!-- Terminals (Wiring Mode) -->
+              @if (playState() === 'wiring' && item.terminals) {
+              @for (t of item.terminals; track t.id) {
+              <button
+                class="absolute size-3 bg-red-500 rounded-full border border-white hover:scale-150 transition-transform z-[60]"
+                [style.left.%]="(t.x / item.width) * 100" [style.top.%]="(t.y / item.height) * 100"
+                (mousedown)="$event.stopPropagation()" (click)="handleTerminalClick(item, t)">
+              </button>
+              }
+              }
+
+              <!-- Hover Label -->
+              <div
+                class="absolute -top-6 left-1/2 -translate-x-1/2 bg-black/75 text-white text-[9px] px-2 py-0.5 rounded opacity-0 hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                {{ item.name }}
+              </div>
+            </div>
+            }
+
+            <!-- Wires (Overlay) -->
+            <svg class="absolute inset-0 w-full h-full pointer-events-none z-40">
               @for(wire of wires(); track wire.id) {
-              <line x1="120" [y1]="$index * 15 + 150" x2="250" [y2]="$index * 15 + 220"
-                [attr.stroke]="wire.isNeat ? '#22c55e' : '#ef4444'" stroke-width="2"
-                [attr.stroke-dasharray]="wire.isNeat ? '0' : '4 2'" />
+              <line x1="200" [y1]="$index * 20 + 100" x2="400" [y2]="$index * 20 + 200"
+                [attr.stroke]="wire.isNeat ? '#22c55e' : '#ef4444'" stroke-width="3"
+                [attr.stroke-dasharray]="wire.isNeat ? '0' : '5 5'" filter="drop-shadow(0 1px 1px rgba(0,0,0,0.3))" />
               }
             </svg>
-          </div>
-          <div class="mt-4 text-center">
-            <span class="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">{{
-              'games.maestro_montaje.workshop' | i18n }}</span>
+
           </div>
         </main>
       </div>
@@ -161,33 +197,26 @@
     <!-- Finished Screen -->
     @if (gameState() === 'finished') {
     <div
-      class="bg-white dark:bg-[#1a2632] rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-8 text-center flex flex-col items-center gap-6 animate-fade-in text-gray-900 dark:text-white">
-      <div class="size-20 rounded-full flex items-center justify-center"
-        [class]="finalScore() >= 70 ? 'bg-green-100 dark:bg-green-900/30 text-green-500' : 'bg-red-100 dark:bg-red-900/30 text-red-500'">
-        <span class="material-symbols-outlined !text-5xl">{{ finalScore() >= 70 ? 'emoji_events' :
-          'sentiment_dissatisfied' }}</span>
+      class="bg-white dark:bg-[#1a2632] rounded-2xl shadow-xl border border-gray-200 dark:border-gray-800 p-8 text-center flex flex-col items-center gap-6 animate-fade-in">
+      <div class="size-24 rounded-full flex items-center justify-center mb-2"
+        [class]="finalScore() >= 70 ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'">
+        <span class="material-symbols-outlined !text-6xl">{{ finalScore() >= 70 ? 'verified' : 'build_circle' }}</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-black uppercase italic tracking-tighter">¡Montaje Terminado!</h1>
-      <p class="text-5xl font-black">{{ finalScore() }} <span class="text-3xl font-bold text-gray-500">/ 100 Pts</span>
-      </p>
-      <p
-        class="text-gray-600 dark:text-gray-400 text-lg max-w-md font-medium leading-relaxed italic border-l-4 border-blue-500 px-6 py-2 bg-blue-500/5 rounded-r-xl">
-        {{ feedbackMessage() | i18n }}</p>
+      <h1 class="text-4xl font-black uppercase">{{ '¡Montaje Finalizado!' }}</h1>
+      <div class="text-6xl font-black">{{ finalScore() }}<span class="text-2xl text-gray-400">/100</span></div>
+      <p class="text-gray-500 text-lg max-w-md">{{ feedbackMessage() | i18n }}</p>
 
-      <div class="flex flex-col md:flex-row gap-4 w-full mt-4">
+      <div class="flex gap-4 w-full max-w-md mt-4">
         <button (click)="restartGame()"
-          class="w-full flex items-center justify-center gap-3 rounded-xl h-14 px-6 bg-blue-600 text-white font-black uppercase tracking-tighter hover:bg-blue-500 transition-transform hover:scale-105 shadow-xl shadow-blue-600/20">
-          <span class="material-symbols-outlined">refresh</span>
-          <span>Volver a Intentar</span>
+          class="flex-1 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg transition-transform hover:scale-105 uppercase tracking-wide">
+          Reintentar
         </button>
         <a routerLink="/games"
-          class="w-full flex items-center justify-center gap-2 rounded-xl h-14 px-6 bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-black uppercase tracking-tighter hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
-          <span class="material-symbols-outlined">sports_esports</span>
-          <span>Otros Juegos</span>
+          class="flex-1 py-4 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-xl transition-colors text-center uppercase tracking-wide flex items-center justify-center">
+          Salir
         </a>
       </div>
     </div>
     }
-
   </div>
 </div>

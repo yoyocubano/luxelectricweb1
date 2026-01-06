@@ -9,10 +9,17 @@
 import { Injectable, signal } from '@angular/core';
 import { environment } from '../environments/environment';
 import { AI_CONFIG } from '../config/ai-prompts';
+import { KnowledgeBaseService } from './knowledge-base.service';
 
 export interface ChatMessage {
     role: 'user' | 'model' | 'system';
     content: string;
+    isKb?: boolean; // New property to track if response came from Knowledge Base
+}
+
+export interface ChatResponse {
+    content: string;
+    source: 'ai' | 'kb';
 }
 
 interface EdgeFunctionResponse {
@@ -26,6 +33,8 @@ interface EdgeFunctionResponse {
     providedIn: 'root'
 })
 export class AiService {
+    constructor(private knowledgeBase: KnowledgeBaseService) { }
+
     // 🔐 SECURITY: API key removed from client (Legacy)
     // Now using Supabase Edge Function as secure proxy
     private edgeFunctionUrl = `${environment.supabaseUrl}/functions/v1/gemini-chat`;
@@ -46,22 +55,49 @@ export class AiService {
 
     isLoading = signal(false);
 
-    async chat(messages: ChatMessage[]): Promise<string> {
+    async chat(messages: ChatMessage[]): Promise<ChatResponse> {
         this.isLoading.set(true);
         try {
-            if (this.useFallback) {
-                // Fallback: Direct API call
-                if (this.provider() === 'deepseek') {
-                    return await this.chatDeepSeek(messages);
+            // 🧠 1. Local Knowledge Base Check (Offline First / Zero Latency)
+            const lastMessage = messages[messages.length - 1];
+            if (lastMessage.role === 'user') {
+                const localAnswer = await this.knowledgeBase.search(lastMessage.content);
+                if (localAnswer) {
+                    console.info('⚡ Served from Local Knowledge Base');
+                    return { content: localAnswer, source: 'kb' };
                 }
-                return await this.chatGeminiFallback(messages);
             }
 
-            // 🔐 SECURE: Call Edge Function (API key is server-side)
-            return await this.chatViaEdgeFunction(messages);
+            // Attempt Primary Strategy
+            let responseContent: string;
+            try {
+                if (this.useFallback) {
+                    // Fallback: Direct API call
+                    if (this.provider() === 'deepseek') {
+                        responseContent = await this.chatDeepSeek(messages);
+                    } else {
+                        responseContent = await this.chatGeminiFallback(messages);
+                    }
+                } else {
+                    // 🔐 SECURE: Call Edge Function (API key is server-side)
+                    responseContent = await this.chatViaEdgeFunction(messages);
+                }
+
+            } catch (primaryError) {
+                // 🔄 AUTO-FAILOVER: If Gemini/Edge fails, try DeepSeek
+                if (this.provider() === 'deepseek' && this.useFallback) {
+                    throw primaryError;
+                }
+
+                console.warn('⚠️ Primary AI Provider failed. Switching to DeepSeek Auto-Failover...', primaryError);
+                responseContent = await this.chatDeepSeek(messages);
+            }
+
+            return { content: responseContent, source: 'ai' };
+
         } catch (error) {
-            console.error('AI Service Error:', error);
-            return AI_CONFIG.defaultErrorMessage;
+            console.error('❌ All AI Providers failed (Gemini & DeepSeek):', error);
+            return { content: AI_CONFIG.defaultErrorMessage, source: 'ai' };
         } finally {
             this.isLoading.set(false);
         }

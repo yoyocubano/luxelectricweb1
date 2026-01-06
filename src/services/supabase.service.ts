@@ -26,7 +26,7 @@ export class SupabaseService {
     constructor() {
         const url = environment.supabaseUrl || '';
         if (!url || url.toLowerCase().includes('your_project_id') || url.toLowerCase().includes('placeholder')) {
-            console.warn('⚠️ Supabase Keys missing! App running in Offline Mode.');
+            console.info('ℹ️ [Offline Mode] App running with Mock Database (Missing Supabase Keys or Placeholder found).');
             this.offlineMode = true;
         } else {
             this.supabase = createClient(

@@ -149,6 +149,7 @@ export const ES_TRANSLATIONS = {
     placeholder: 'Escribe tu respuesta aquí, asere...',
     student: 'Estudiante',
     coach: 'Entrenador',
+    kb_source: 'CONOCIMIENTO LOCAL (KB)',
   },
   games: {
     title: 'Zona de Entrenamiento Gamer',
