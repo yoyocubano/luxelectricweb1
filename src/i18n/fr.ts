@@ -7,16 +7,18 @@ export const FR_TRANSLATIONS = {
       practice: 'Pratique',
       games: 'Jeux',
       simulator: 'Simulateur',
+      resources: 'Ressources',
+      calculators: 'Calculatrices',
     },
-    luxelectric: 'LuxÉlectrique',
+    luxelectric: 'LuxElectrique',
     // FIX: Escaped the apostrophe in "P'tit" to fix a syntax error.
-    chismecito: 'Le P\'tit Potin Électrique'
+    chismecito: 'Le Potin Électrique'
   },
   dashboard: {
     hero: {
       title: 'Le compte à rebours commence !',
-      subtitle: "Allez, le temps presse. Mettons-nous au travail, cet examen au Luxembourg ne va pas se réussir tout seul !",
-      countdown: "Jours avant l'examen (19 Janvier)",
+      subtitle: 'Asere, le temps presse. Mettons-nous au travail, cet examen luxembourgeois ne se passera pas tout seul !',
+      countdown: 'Jours avant l\'examen (19 janvier)',
       cta: 'Commencer à étudier !',
     },
     progress: {
@@ -26,11 +28,11 @@ export const FR_TRANSLATIONS = {
       streakUnit: 'Jours',
       streakSub: 'Créez une nouvelle série !',
       approved: 'Examens Réussis',
-      level: 'Niveau : Électricien Débutant',
+      level: 'Niveau : Débutant Électrique',
     },
     studyPlan: {
       title: 'Votre Plan d\'Attaque Quotidien',
-      description1: 'Pour être prêt pour l\'examen, nous recommandons en moyenne',
+      description1: 'Pour être prêt pour l\'examen, nous recommandons une moyenne de',
       description2: 'heures d\'étude par jour.',
       ratio: 'Pratique / Théorie',
     },
@@ -38,18 +40,28 @@ export const FR_TRANSLATIONS = {
       title: 'Modules d\'Apprentissage',
       theory: {
         title: 'Théorie',
-        description: 'Maîtrisez les bases et les réglementations du Luxembourg.',
+        description: 'Maîtrisez les fondamentaux et les réglementations luxembourgeoises.',
         cta: 'Étudier',
       },
       practice: {
         title: 'Pratique',
-        description: 'De vrais examens blancs pour vous tester.',
-        cta: 'Commencer le Test',
+        description: 'Mises en situation d\'examen réelles pour vous tester.',
+        cta: 'Commencer le test',
       },
       games: {
         title: 'Jeux',
-        description: 'Apprenez en jouant : connectez des câbles et résolvez des énigmes.',
-        cta: 'Jouer Maintenant',
+        description: 'Apprendre en jouant : connectez des fils et résolvez des énigmes.',
+        cta: 'Jouer maintenant',
+      },
+      resources: {
+        title: 'Ressources',
+        description: 'Documents officiels, schémas et matériel d\'étude.',
+        cta: 'Ouvrir la voûte',
+      },
+      calculators: {
+        title: 'Calculatrices',
+        description: 'Dimensionnement des câbles, paramètres moteur et lois de base.',
+        cta: 'Calculer',
       },
     },
     achievements: {
@@ -57,10 +69,10 @@ export const FR_TRANSLATIONS = {
       viewAll: 'Voir tout',
       badge1: 'Premier 100%',
       badge2: 'Rapide comme l\'éclair',
-      badge3: 'Persévérance',
+      badge3: 'Consistance',
       badge4: 'Maître Lux',
       locked: 'Verrouillé',
     },
-    footer: '© 2024 LuxÉlectrique. Préparation officielle pour électriciens au Luxembourg.',
+    footer: '© 2024 LuxElectrique. Préparation officielle pour les électriciens au Luxembourg.',
   }
 };

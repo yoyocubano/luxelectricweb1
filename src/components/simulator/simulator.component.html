@@ -1,101 +1,141 @@
-
-<div class="bg-gray-100 dark:bg-gray-900 text-slate-900 dark:text-white font-display h-screen flex flex-col overflow-hidden">
-<!-- Top Navigation -->
-<header class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a222c] px-4 md:px-10 py-3 z-20 shadow-sm">
-    <div class="flex items-center gap-4">
-        <a routerLink="/dashboard" class="size-8 text-blue-600 flex items-center justify-center"><span class="material-symbols-outlined !text-3xl">electric_bolt</span></a>
-        <h2 class="text-lg font-bold hidden md:block">Simulador de Examen</h2>
-    </div>
-    <div class="flex items-center gap-6">
-        <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/dashboard">Volver al Inicio</a>
-        <div class="bg-center bg-cover rounded-full size-10 ring-2 ring-blue-600/20" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANPjLfUSuUs0Rkn14pm6RAKorWyh9ndLjqbB0dLM-fYPVWORegJTWitZhkFJ7gi09GhtOAcWXSJF4oXmCBOudBahAhfx5whTjDQOtdQCOoPdStLSeH9wHb437JA6VgF-Kb-1t7Z1VnOUckhaxA13eSNUytd9vafxaSn3xyq3GZJV7BqMbjEz4XfHDHCH6UGzTxem8EdQCW9LCO-UN1JLoDuXnNgxazQdp0nayKkPpHN_uTK_CRBFNz0EwGckSi4ggNR_V3chXr0Xc");'></div>
-    </div>
-</header>
-<div class="flex flex-1 overflow-hidden">
-<!-- Side Navigation -->
-<aside class="hidden lg:flex w-80 flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a222c]">
-    <div class="flex flex-col h-full">
-        <div class="p-4 border-b border-gray-200 dark:border-gray-800">
-            <h1 class="text-base font-bold">Preguntas del Examen</h1>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Exámenes Anteriores</p>
+<div
+    class="bg-gray-100 dark:bg-gray-900 text-slate-900 dark:text-white font-display h-screen flex flex-col overflow-hidden">
+    <!-- Top Navigation -->
+    <header
+        class="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a222c] px-4 md:px-10 py-3 z-20 shadow-sm">
+        <div class="flex items-center gap-4">
+            <a routerLink="/dashboard" class="size-8 text-blue-600 flex items-center justify-center"><span
+                    class="material-symbols-outlined !text-3xl">electric_bolt</span></a>
+            <h2 class="text-lg font-bold hidden md:block">Simulador de Examen</h2>
         </div>
-        
-        <div class="p-4 border-b border-gray-200 dark:border-gray-800">
-            <h2 class="text-xs font-semibold uppercase text-gray-500 mb-2">Filtrar por año</h2>
-            <div class="flex flex-wrap gap-2">
-                @for (year of availableYears(); track year) {
-                    <button (click)="selectYear(year)" class="px-3 py-1.5 text-xs font-bold rounded-full transition-colors"
-                            [class]="selectedYear() === year ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700'">
-                        {{ year }}
-                    </button>
-                }
+        <div class="flex items-center gap-6">
+            <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/dashboard">Volver al
+                Inicio</a>
+            <div class="bg-center bg-cover rounded-full size-10 ring-2 ring-blue-600/20"
+                style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANPjLfUSuUs0Rkn14pm6RAKorWyh9ndLjqbB0dLM-fYPVWORegJTWitZhkFJ7gi09GhtOAcWXSJF4oXmCBOudBahAhfx5whTjDQOtdQCOoPdStLSeH9wHb437JA6VgF-Kb-1t7Z1VnOUckhaxA13eSNUytd9vafxaSn3xyq3GZJV7BqMbjEz4XfHDHCH6UGzTxem8EdQCW9LCO-UN1JLoDuXnNgxazQdp0nayKkPpHN_uTK_CRBFNz0EwGckSi4ggNR_V3chXr0Xc");'>
             </div>
         </div>
-
-        <nav class="flex-1 overflow-y-auto p-2 space-y-1">
-            @for (exam of filteredExams(); track exam.id; let i = $index) {
-                <button (click)="selectQuestion(i)" class="w-full flex items-start gap-3 px-3 py-2.5 rounded-lg text-left transition-colors"
-                        [class]="currentQuestionIndex() === i ? 'bg-blue-600/10 text-blue-700 dark:text-blue-400 dark:bg-blue-600/20' : 'hover:bg-slate-100 dark:hover:bg-slate-800'">
-                    <span class="text-xs font-bold text-gray-400 dark:text-gray-500 mt-1">{{ i + 1 }}.</span>
-                    <p class="text-sm font-medium flex-1 truncate">{{ exam.question }}</p>
-                </button>
-            }
-        </nav>
-    </div>
-</aside>
-<!-- Main Content Area -->
-<main class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900 p-4 md:p-8">
-    @if(currentQuestion()) {
-        <div class="max-w-[800px] mx-auto flex flex-col gap-6">
-            <div class="flex justify-between items-center">
-                <h1 class="text-2xl font-bold">Tarjeta de Estudio</h1>
-                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pregunta {{ currentQuestionIndex() + 1 }} de {{ filteredExams().length }}</p>
-            </div>
-            
-            <!-- Flashcard -->
-            <div class="bg-white dark:bg-[#1a222c] rounded-xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-800 min-h-[400px] flex flex-col">
-                <div class="flex-1">
-                    <span class="text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">Examen {{ currentQuestion().year }}</span>
-                    <p class="text-xl md:text-2xl font-semibold leading-snug mt-4">{{ currentQuestion().question }}</p>
+    </header>
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Side Navigation -->
+        <aside
+            class="hidden lg:flex w-80 flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a222c]">
+            <div class="flex flex-col h-full">
+                <div class="p-4 border-b border-gray-200 dark:border-gray-800">
+                    <h1 class="text-base font-bold">Preguntas del Examen</h1>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Exámenes Anteriores</p>
                 </div>
-                
-                @if (showAnswer()) {
-                    <div class="mt-6 pt-6 border-t border-dashed border-gray-300 dark:border-gray-700 space-y-4 animate-fade-in">
+
+                <!-- Year Filter and Sync -->
+                <div
+                    class="flex flex-wrap items-center justify-between gap-4 py-4 px-4 border-b border-gray-100 dark:border-gray-800">
+                    <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
+                        @for (year of availableYears(); track year) {
+                        <button (click)="selectYear(year)"
+                            [class]="selectedYear() === year ? 'bg-blue-600 text-white' : 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'"
+                            class="px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap shadow-sm">
+                            {{ year }}
+                        </button>
+                        }
+                    </div>
+
+                    @if (exams().length === 0 && !isLoading()) {
+                    <button (click)="syncInitialData()"
+                        class="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-lg shadow-purple-600/20 transition-all active:scale-95">
+                        <span class="material-symbols-outlined text-sm">sync</span>
+                        Sincronizar Material PIFQU
+                    </button>
+                    }
+
+                    @if (isLoading()) {
+                    <div class="flex items-center gap-2 text-blue-600 animate-pulse">
+                        <span class="material-symbols-outlined animate-spin">refresh</span>
+                        <span class="text-xs font-bold">Conectando con Supabase...</span>
+                    </div>
+                    }
+                </div>
+
+                <nav class="flex-1 overflow-y-auto p-2 space-y-1">
+                    @for (exam of filteredExams(); track exam.id; let i = $index) {
+                    <button (click)="selectQuestion(i)"
+                        class="w-full flex items-start gap-3 px-3 py-2.5 rounded-lg text-left transition-colors"
+                        [class]="currentQuestionIndex() === i ? 'bg-blue-600/10 text-blue-700 dark:text-blue-400 dark:bg-blue-600/20' : 'hover:bg-slate-100 dark:hover:bg-slate-800'">
+                        <span class="text-xs font-bold text-gray-400 dark:text-gray-500 mt-1">{{ i + 1 }}.</span>
+                        <p class="text-sm font-medium flex-1 truncate">{{ exam.question }}</p>
+                    </button>
+                    }
+                </nav>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-gray-100 dark:bg-gray-900 p-4 md:p-8">
+            @if(currentQuestion()) {
+            <div class="max-w-[800px] mx-auto flex flex-col gap-6">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-2xl font-bold">Tarjeta de Estudio</h1>
+                    <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Pregunta {{ currentQuestionIndex() +
+                        1 }} de {{ filteredExams().length }}</p>
+                </div>
+
+                <!-- Flashcard -->
+                <div
+                    class="bg-white dark:bg-[#1a222c] rounded-xl p-6 md:p-8 shadow-sm border border-gray-200 dark:border-gray-800 min-h-[400px] flex flex-col">
+                    <div class="flex-1">
+                        <span
+                            class="text-sm font-semibold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/30 px-2 py-1 rounded">Examen
+                            {{ currentQuestion().year }}</span>
+                        <p class="text-xl md:text-2xl font-semibold leading-snug mt-4">{{ currentQuestion().question }}
+                        </p>
+                    </div>
+
+                    @if (showAnswer()) {
+                    <div
+                        class="mt-6 pt-6 border-t border-dashed border-gray-300 dark:border-gray-700 space-y-4 animate-fade-in">
                         <div>
-                            <h3 class="text-sm font-bold text-green-600 dark:text-green-400 mb-2">Respuesta Correcta:</h3>
-                            <p class="text-base text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{ currentQuestion().answer }}</p>
+                            <h3 class="text-sm font-bold text-green-600 dark:text-green-400 mb-2">Respuesta Correcta:
+                            </h3>
+                            <p class="text-base text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{
+                                currentQuestion().answer }}</p>
                         </div>
-                         <div>
-                            <h3 class="text-sm font-bold text-sky-600 dark:text-sky-400 mb-2">Explicación (¡El Chisme!):</h3>
-                            <p class="text-base text-gray-600 dark:text-gray-400 leading-relaxed">{{ currentQuestion().explanation }}</p>
+                        <div>
+                            <h3 class="text-sm font-bold text-sky-600 dark:text-sky-400 mb-2">Explicación (¡El Chisme!):
+                            </h3>
+                            <p class="text-base text-gray-600 dark:text-gray-400 leading-relaxed">{{
+                                currentQuestion().explanation }}</p>
                         </div>
                     </div>
-                }
-            </div>
+                    }
+                </div>
 
-            <!-- Controls -->
-            <div class="flex flex-col sm:flex-row items-center gap-4">
-                <button (click)="previousQuestion()" class="flex-1 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-white dark:bg-[#2a3642] font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700">
-                    <span class="material-symbols-outlined">arrow_back</span><span class="text-sm">Anterior</span>
-                </button>
-                <button (click)="toggleAnswer()" class="flex-1 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-all group">
-                    <span class="text-sm">{{ showAnswer() ? 'Ocultar' : 'Mostrar' }} Respuesta</span>
-                    <span class="material-symbols-outlined">{{ showAnswer() ? 'visibility_off' : 'visibility' }}</span>
-                </button>
-                 <button (click)="nextQuestion()" class="flex-1 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-white dark:bg-[#2a3642] font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700">
-                    <span class="text-sm">Siguiente</span><span class="material-symbols-outlined">arrow_forward</span>
-                </button>
+                <!-- Controls -->
+                <div class="flex flex-col sm:flex-row items-center gap-4">
+                    <button (click)="previousQuestion()"
+                        class="flex-1 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-white dark:bg-[#2a3642] font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700">
+                        <span class="material-symbols-outlined">arrow_back</span><span class="text-sm">Anterior</span>
+                    </button>
+                    <button (click)="toggleAnswer()"
+                        class="flex-1 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-700 shadow-lg shadow-blue-500/20 transition-all group">
+                        <span class="text-sm">{{ showAnswer() ? 'Ocultar' : 'Mostrar' }} Respuesta</span>
+                        <span class="material-symbols-outlined">{{ showAnswer() ? 'visibility_off' : 'visibility'
+                            }}</span>
+                    </button>
+                    <button (click)="nextQuestion()"
+                        class="flex-1 w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-white dark:bg-[#2a3642] font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors border border-gray-200 dark:border-gray-700">
+                        <span class="text-sm">Siguiente</span><span
+                            class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </div>
             </div>
-        </div>
-    } @else {
-        <div class="max-w-[800px] mx-auto flex flex-col gap-6 items-center justify-center text-center h-full">
-            <div class="bg-white dark:bg-[#1a222c] p-10 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
-                <span class="material-symbols-outlined text-5xl text-gray-400">quiz</span>
-                <h2 class="text-xl font-bold mt-4">No hay preguntas</h2>
-                <p class="text-gray-500 dark:text-gray-400">Selecciona otro año para ver las preguntas.</p>
+            } @else {
+            <div class="max-w-[800px] mx-auto flex flex-col gap-6 items-center justify-center text-center h-full">
+                <div
+                    class="bg-white dark:bg-[#1a222c] p-10 rounded-xl shadow-sm border border-gray-200 dark:border-gray-800">
+                    <span class="material-symbols-outlined text-5xl text-gray-400">quiz</span>
+                    <h2 class="text-xl font-bold mt-4">No hay preguntas</h2>
+                    <p class="text-gray-500 dark:text-gray-400">Selecciona otro año para ver las preguntas.</p>
+                </div>
             </div>
-        </div>
-    }
-</main>
-</div>
+            }
+        </main>
+    </div>
 </div>

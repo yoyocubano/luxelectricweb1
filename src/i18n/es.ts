@@ -6,6 +6,8 @@ export const ES_TRANSLATIONS = {
       practice: 'Práctica',
       games: 'Juegos',
       simulator: 'Simulador',
+      resources: 'Recursos',
+      calculators: 'Calculadoras',
     },
     luxelectric: 'LuxEléctrico',
     chismecito: 'El Chismecito Eléctrico'
@@ -48,6 +50,16 @@ export const ES_TRANSLATIONS = {
         title: 'Juegos',
         description: 'Aprende jugando: Conecta cables y resuelve puzzles.',
         cta: 'Jugar Ahora',
+      },
+      resources: {
+        title: 'Recursos',
+        description: 'Documentos oficiales, esquemas y material de estudio.',
+        cta: 'Abrir Bóveda',
+      },
+      calculators: {
+        title: 'Calculadoras',
+        description: 'Secciones de cable, parámetros de motor y leyes básicas.',
+        cta: 'Calcular',
       },
     },
     achievements: {

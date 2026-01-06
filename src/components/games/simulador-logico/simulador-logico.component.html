@@ -1,0 +1,250 @@
+<div class="bg-slate-950 text-white min-h-screen relative overflow-hidden flex flex-col">
+    <!-- Grid de fondo para feeling de ingeniería -->
+    <div class="absolute inset-0 opacity-10 pointer-events-none"
+        style="background-image: radial-gradient(#4f46e5 1px, transparent 1px); background-size: 30px 30px;"></div>
+
+    <!-- Header consistentes -->
+    <header class="p-6 flex items-center justify-between border-b border-white/10 glass">
+        <div class="flex items-center gap-4">
+            <div
+                class="size-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/50">
+                <span class="material-symbols-outlined">memory</span>
+            </div>
+            <div>
+                <h1 class="text-xl font-black">Laboratorio Lógico (LOGO!)</h1>
+                <p class="text-xs text-indigo-400 font-bold uppercase tracking-widest">Simulador Industrial Pro</p>
+            </div>
+        </div>
+        <div class="flex gap-4">
+            <button routerLink="/games"
+                class="px-6 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-bold text-sm">Salir</button>
+        </div>
+    </header>
+
+    <div class="flex-1 flex relative">
+
+        <!-- Toolbox (Izquierda) -->
+        <aside class="w-20 bg-black/40 border-r border-white/10 p-4 flex flex-col gap-6 items-center z-20">
+            <button (click)="addGate('AND')" class="group relative" title="Añadir AND">
+                <div
+                    class="size-12 bg-indigo-600/20 border border-indigo-500/50 rounded-lg flex items-center justify-center group-hover:bg-indigo-600 group-hover:scale-110 transition-all">
+                    <span class="text-[10px] font-black italic">AND</span>
+                </div>
+            </button>
+            <button (click)="addGate('OR')" class="group relative" title="Añadir OR">
+                <div
+                    class="size-12 bg-blue-600/20 border border-blue-500/50 rounded-lg flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all">
+                    <span class="text-[10px] font-black italic">OR</span>
+                </div>
+            </button>
+            <button (click)="addGate('XOR')" class="group relative" title="Añadir XOR">
+                <div
+                    class="size-12 bg-purple-600/20 border border-purple-500/50 rounded-lg flex items-center justify-center group-hover:bg-purple-600 group-hover:scale-110 transition-all">
+                    <span class="text-[10px] font-black italic">XOR</span>
+                </div>
+            </button>
+            <button (click)="addGate('NOT')" class="group relative" title="Añadir NOT">
+                <div
+                    class="size-12 bg-red-600/20 border border-red-500/50 rounded-lg flex items-center justify-center group-hover:bg-red-600 group-hover:scale-110 transition-all">
+                    <span class="text-[10px] font-black italic">NOT</span>
+                </div>
+            </button>
+
+            <div class="w-full h-px bg-white/10 my-2"></div>
+
+            <button (click)="addGate('CONTACTOR')" class="group relative" title="Añadir Contactor (KM)">
+                <div
+                    class="size-12 bg-orange-600/20 border border-orange-500/50 rounded-lg flex items-center justify-center group-hover:bg-orange-600 group-hover:scale-110 transition-all">
+                    <span class="material-symbols-outlined text-lg">settings_input_component</span>
+                    <span class="absolute -bottom-1 -right-1 bg-orange-600 text-[8px] px-1 rounded">KM</span>
+                </div>
+            </button>
+
+            <button (click)="addGate('RELAY')" class="group relative" title="Añadir Relé (KA)">
+                <div
+                    class="size-12 bg-teal-600/20 border border-teal-500/50 rounded-lg flex items-center justify-center group-hover:bg-teal-600 group-hover:scale-110 transition-all">
+                    <span class="material-symbols-outlined text-lg">reorder</span>
+                    <span class="absolute -bottom-1 -right-1 bg-teal-600 text-[8px] px-1 rounded">KA</span>
+                </div>
+            </button>
+        </aside>
+
+        <!-- Canvas -->
+        <main class="flex-1 relative cursor-crosshair overflow-hidden" (mousedown)="$event.preventDefault()">
+
+            <!-- SVG Wires Layer -->
+            <svg class="absolute inset-0 w-full h-full pointer-events-none">
+                <defs>
+                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
+
+                @for (node of nodes(); track node.id) {
+                @for (sourceId of node.connections; track sourceId) {
+                <!-- Wire Background -->
+                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-white/10 fill-none" stroke-width="4"
+                    stroke-linecap="round" />
+
+                <!-- Active Wire -->
+                @if (isWireActive(sourceId)) {
+                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-indigo-500 fill-none animate-pulse"
+                    stroke-width="5" stroke-linecap="round" filter="url(#glow)" />
+                <!-- Energy Dash Animation -->
+                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-white/40 fill-none" stroke-width="2"
+                    stroke-linecap="round" style="stroke-dasharray: 10, 20; animation: dash 1s linear infinite;" />
+                }
+                }
+                }
+            </svg>
+
+            <!-- Nodes Layer -->
+            @for (node of nodes(); track node.id) {
+            <div class="absolute select-none transition-shadow" [style.left.px]="node.x - 40"
+                [style.top.px]="node.y - 30" (mousedown)="startDrag($event, node.id)"
+                (touchstart)="startDrag($event, node.id)" (mouseenter)="hoverNodeId.set(node.id)"
+                (mouseleave)="hoverNodeId.set(null)" [class.z-50]="draggingNodeId() === node.id">
+                <!-- STEM Voltage Tooltip -->
+                @if (hoverNodeId() === node.id) {
+                <div
+                    class="absolute -top-10 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded shadow-lg animate-in fade-in zoom-in duration-200 z-[100] border border-blue-400 whitespace-nowrap">
+                    POTENCIAL: {{ node.output ? '230V AC' : '0V' }}
+                </div>
+                }
+                <!-- Input Node -->
+                @if (node.type === 'INPUT') {
+                <div (click)="toggleInput(node.id)"
+                    class="group w-24 p-2 bg-slate-900 border-2 rounded-xl transition-all cursor-pointer flex flex-col items-center"
+                    [class.border-indigo-500]="node.output" [class.border-white/10]="!node.output"
+                    [class.scale-105]="node.output">
+                    <span class="text-[10px] uppercase font-black text-white/40 mb-1">{{node.label}}</span>
+                    @if (node.knxAddress) {
+                    <span
+                        class="text-[8px] bg-indigo-500/20 text-indigo-300 px-1 rounded border border-indigo-500/30 mb-2">{{node.knxAddress}}</span>
+                    }
+                    <div class="size-6 rounded-full border-2 flex items-center justify-center transition-colors"
+                        [class.bg-indigo-500]="node.output" [class.border-indigo-400]="node.output"
+                        [class.border-white/20]="!node.output">
+                    </div>
+                </div>
+                }
+                <!-- Gate Node -->
+                @if (node.type !== 'INPUT' && node.type !== 'OUTPUT') {
+                <div
+                    class="w-32 bg-slate-900 border-2 border-white/20 rounded-xl p-3 shadow-2xl overflow-hidden group hover:border-indigo-500/50 transition-colors">
+                    <div class="absolute inset-0 bg-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <div class="flex justify-between items-center mb-2 px-1">
+                        <div class="size-2 rounded-full" [class.bg-indigo-500]="node.output"
+                            [class.bg-slate-700]="!node.output"></div>
+                        <span
+                            class="text-[9px] font-black text-white/30 uppercase tracking-tighter">{{node.label}}</span>
+                    </div>
+                    <div class="text-center py-2 relative flex flex-col items-center">
+                        @if (node.type === 'CONTACTOR') {
+                        <span
+                            class="material-symbols-outlined text-3xl text-orange-500/80 mb-1">settings_input_component</span>
+                        <span class="text-[10px] font-black text-white/80">CONTACTOR</span>
+                        } @else if (node.type === 'RELAY') {
+                        <span class="material-symbols-outlined text-3xl text-teal-500/80 mb-1">reorder</span>
+                        <span class="text-[10px] font-black text-white/80">RELÉ</span>
+                        } @else {
+                        <span class="text-2xl font-black italic tracking-widest text-white/90">{{node.type}}</span>
+                        }
+                    </div>
+                </div>
+                }
+
+                <!-- Output Node -->
+                @if (node.type === 'OUTPUT') {
+                <div class="w-20 p-3 bg-slate-900 border-2 rounded-full transition-all flex flex-col items-center shadow-lg"
+                    [class.border-yellow-500]="node.output" [class.shadow-yellow-500/40]="node.output"
+                    [class.border-white/10]="!node.output">
+                    <div class="size-8 rounded-full flex items-center justify-center transition-colors"
+                        [class.text-yellow-500]="node.output" [class.text-white/10]="!node.output">
+                        <span class="material-symbols-outlined text-3xl font-black"
+                            [class.animate-pulse]="node.output">lightbulb</span>
+                    </div>
+                    <span class="text-[9px] font-bold mt-1 text-white/40">{{node.label}}</span>
+                </div>
+                }
+            </div>
+            }
+
+        </main>
+    </div>
+
+    <!-- Bottom Panel (Instrucciones & Monitor KNX) -->
+    <footer class="bg-black/60 backdrop-blur-md border-t border-white/10 flex h-48">
+        <!-- Instrucciones -->
+        <div class="flex-1 p-6 border-r border-white/10">
+            <h4 class="text-[10px] font-black uppercase text-indigo-400 mb-4 tracking-widest">Guía Rápida</h4>
+            <div class="flex flex-col gap-3 text-xs font-bold text-white/60">
+                <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-indigo-500"></span>
+                    <span>Pulsa en las entradas (Sxxx) para emitir Telegramas</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="size-2 rounded-full bg-slate-400"></span>
+                    <span>Arrastra los bloques para organizar el esquema industrial</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bus Monitor (ETS Style) -->
+        <div class="w-[450px] bg-black/40 p-4 flex flex-col">
+            <div class="flex items-center justify-between mb-2">
+                <h4 class="text-[10px] font-black uppercase text-indigo-400 tracking-widest flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[14px]">terminal</span>
+                    Monitor de Grupo (ETS)
+                </h4>
+                <span class="text-[8px] font-bold text-indigo-300 bg-indigo-500/10 px-1 rounded uppercase">Realtime
+                    Bus</span>
+            </div>
+            <div class="flex-1 overflow-y-auto space-y-1 pr-2 font-mono text-[10px]">
+                @for (tel of busHistory(); track $index) {
+                <div
+                    class="flex items-center gap-2 py-1 border-b border-white/5 animate-in slide-in-from-right duration-300">
+                    <span class="text-white/40">{{tel.timestamp}}</span>
+                    <span class="text-blue-400">{{tel.source}}</span>
+                    <span class="text-indigo-400">-> {{tel.destination}}</span>
+                    <span class="ml-auto font-black" [class.text-indigo-400]="tel.value === 'ON'">{{tel.value}}</span>
+                </div>
+                } @empty {
+                <div class="h-full flex items-center justify-center text-white/20 italic">
+                    Esperando telegramas en el bus...
+                </div>
+                }
+            </div>
+        </div>
+    </footer>
+</div>
+
+<style>
+    @keyframes dash {
+        from {
+            stroke-dashoffset: 30;
+        }
+
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    .animate-in {
+        animation: animateIn 0.3s ease-out;
+    }
+
+    @keyframes animateIn {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+</style>

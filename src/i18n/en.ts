@@ -6,6 +6,8 @@ export const EN_TRANSLATIONS = {
       practice: 'Practice',
       games: 'Games',
       simulator: 'Simulator',
+      resources: 'Resources',
+      calculators: 'Calculators',
     },
     luxelectric: 'LuxElectric',
     chismecito: 'The Electric Gossip'
@@ -48,6 +50,16 @@ export const EN_TRANSLATIONS = {
         title: 'Games',
         description: 'Learn by playing: connect wires and solve puzzles.',
         cta: 'Play Now',
+      },
+      resources: {
+        title: 'Resources',
+        description: 'Official documents, schematics and study material.',
+        cta: 'Open Vault',
+      },
+      calculators: {
+        title: 'Calculators',
+        description: 'Cable sizing, motor parameters and basic laws.',
+        cta: 'Calculate',
       },
     },
     achievements: {
