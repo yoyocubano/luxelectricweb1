@@ -1,154 +1,255 @@
-<div class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-200 min-h-screen">
+<div
+  class="bg-gray-50 dark:bg-[#0a0f14] text-gray-900 dark:text-white transition-colors duration-200 min-h-screen font-display">
   <div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+
+    <!-- Background Effects -->
+    <div class="absolute inset-0 z-0 pointer-events-none">
+      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/5 blur-[120px]"></div>
+      <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-600/5 blur-[120px]"></div>
+    </div>
+
     <!-- Top Navigation -->
-    <header class="w-full bg-white dark:bg-[#1a2632] border-b border-gray-200 dark:border-gray-800">
-      <div class="px-4 md:px-10 py-3 flex items-center justify-between max-w-[1440px] mx-auto">
+    <header
+      class="relative z-10 w-full bg-white/80 dark:bg-[#111a22]/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
+      <div class="px-4 md:px-10 py-4 flex items-center justify-between max-w-[1440px] mx-auto">
         <div class="flex items-center gap-3">
-          <div class="size-8 bg-blue-600/10 rounded-lg flex items-center justify-center text-blue-600">
+          <div
+            class="size-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-600/20">
             <span class="material-symbols-outlined text-2xl">bolt</span>
           </div>
-          <h2 class="text-lg font-bold">ElectroMaster</h2>
+          <h2 class="text-xl font-black uppercase italic tracking-tighter">LuxElectro</h2>
         </div>
-        <nav class="hidden md:flex items-center gap-6">
+        <nav class="hidden md:flex items-center gap-8">
           <a routerLink="/dashboard"
-            class="text-gray-500 hover:text-blue-600 transition-colors text-sm font-medium flex items-center gap-2">Inicio</a>
+            class="text-gray-500 hover:text-blue-600 transition-colors text-xs font-black uppercase tracking-widest">{{
+            'header.nav.home' | i18n }}</a>
           <a routerLink="/theory"
-            class="text-gray-500 hover:text-blue-600 transition-colors text-sm font-medium flex items-center gap-2"><span
-              class="material-symbols-outlined text-[20px]">menu_book</span> Teoría</a>
-          <a routerLink="/games" class="text-blue-600 text-sm font-medium flex items-center gap-2"><span
-              class="material-symbols-outlined text-[20px]"
-              style="font-variation-settings: 'FILL' 1">sports_esports</span> Juegos</a>
+            class="text-gray-500 hover:text-blue-600 transition-colors text-xs font-black uppercase tracking-widest">{{
+            'header.nav.theory' | i18n }}</a>
+          <a routerLink="/games"
+            class="text-blue-600 text-xs font-black uppercase tracking-widest border-b-2 border-blue-600 pb-1">{{
+            'header.nav.games' | i18n }}</a>
         </nav>
         <div class="flex items-center gap-4">
-          <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-blue-600/20"
-            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC02r6_Kl60BawksDfxhvBYxamnwCCXigkXfK-LX45uq7KJZzrL9-Ucnrv3MK4ExMMJnu-9yz6_G3sthT7DlQ7YJxYYYpJayyn4k9rJKIAfTmpUkaKL-4qU7AIF4wqci_a6EScWKCgLjYs6x43oDNw3UmZcuR8pkOWQFWh-Ha6kjbU2qSDCHFuE4K2zgl5ot8eEnBszKKK_4vTI1MdPrXMOPHm9fRLIdGCTXWel8jzQoBUkZQnpJ4f-50XdjhrSs9cAV7bLATQEdRg");'>
+          <div class="size-10 rounded-full border-2 border-blue-600/20 p-0.5">
+            <div class="w-full h-full bg-center bg-cover rounded-full"
+              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC02r6_Kl60BawksDfxhvBYxamnwCCXigkXfK-LX45uq7KJZzrL9-Ucnrv3MK4ExMMJnu-9yz6_G3sthT7DlQ7YJxYYYpJayyn4k9rJKIAfTmpUkaKL-4qU7AIF4wqci_a6EScWKCgLjYs6x43oDNw3UmZcuR8pkOWQFWh-Ha6kjbU2qSDCHFuE4K2zgl5ot8eEnBszKKK_4vTI1MdPrXMOPHm9fRLIdGCTXWel8jzQoBUkZQnpJ4f-50XdjhrSs9cAV7bLATQEdRg");'>
+            </div>
           </div>
         </div>
       </div>
     </header>
+
     <!-- Main Content -->
-    <main class="flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-8 py-8 flex flex-col gap-8">
+    <main class="relative z-10 flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-8 py-12 flex flex-col gap-16">
+
       <!-- Hero Section -->
-      <div
-        class="flex flex-col gap-6 p-6 md:p-10 rounded-2xl bg-white dark:bg-[#1a2632] shadow-sm border border-gray-100 dark:border-gray-800 md:flex-row overflow-hidden relative">
-        <div class="flex flex-col gap-6 justify-center z-10 flex-1">
-          <h1 class="text-3xl md:text-5xl font-black">Domina la electricidad jugando</h1>
-          <h2 class="text-gray-500 dark:text-gray-400 text-base md:text-lg">Dale, que esto no es física nuclear. Ponte a
-            prueba con estos jueguitos y verás cómo se te queda todo en la azotea.</h2>
-          <div class="flex flex-wrap gap-4">
+      <section
+        class="flex flex-col gap-10 p-8 md:p-14 rounded-[40px] bg-white dark:bg-[#111a22] shadow-2xl border border-gray-100 dark:border-gray-800 md:flex-row items-center overflow-hidden relative group">
+        <div
+          class="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[100px] group-hover:bg-blue-600/20 transition-all duration-700">
+        </div>
+
+        <div class="flex flex-col gap-8 justify-center z-10 flex-1">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 bg-blue-600/10 border border-blue-600/20 rounded-full w-fit">
+            <span class="size-2 bg-blue-600 rounded-full animate-pulse"></span>
+            <span class="text-[10px] font-black text-blue-500 uppercase tracking-widest">{{ 'games.title' | i18n
+              }}</span>
+          </div>
+          <h1
+            class="text-4xl md:text-6xl font-black uppercase italic tracking-tighter leading-[0.9] text-gray-900 dark:text-white">
+            {{ 'games.hero_title' | i18n }}
+          </h1>
+          <p class="text-gray-500 dark:text-gray-400 text-lg leading-relaxed max-w-xl font-medium italic">
+            "{{ 'games.hero_subtitle' | i18n }}"
+          </p>
+          <div class="flex flex-wrap gap-4 pt-4">
             <button
-              class="flex min-w-[140px] items-center justify-center rounded-xl h-12 px-6 bg-blue-600 hover:bg-blue-700 transition-colors text-white text-base font-bold shadow-lg shadow-blue-600/30">
-              <span class="mr-2 material-symbols-outlined">play_circle</span>
-              <span>Continuar Racha</span>
+              class="group flex items-center justify-center rounded-2xl h-16 px-10 bg-blue-600 hover:bg-blue-500 transition-all text-white text-sm font-black uppercase tracking-widest shadow-xl shadow-blue-600/30 active:scale-95">
+              <span
+                class="mr-3 material-symbols-outlined text-2xl group-hover:rotate-12 transition-transform">play_circle</span>
+              <span>{{ 'games.play' | i18n }}</span>
             </button>
           </div>
         </div>
-        <div class="w-full md:w-1/2 h-64 md:h-auto relative z-10 rounded-xl overflow-hidden shadow-md">
-          <div class="w-full h-full bg-center bg-cover transform hover:scale-105 transition-transform duration-700"
+
+        <div
+          class="w-full md:w-[400px] h-64 md:h-[400px] relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-white dark:border-gray-800 -rotate-3 group-hover:rotate-0 transition-transform duration-700">
+          <div
+            class="w-full h-full bg-center bg-cover scale-110 group-hover:scale-100 transition-transform duration-700"
             style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBOVxQz-ffwAzKbbpvT4FLdONA10QDEXNg7fN3udDZl4NUyoPBSN3taiFf91MObwv5Zp5Z1UM-F1EHV9p1-P65WRgc8o4oaV7nkz_DDNEe8FyWe6W6Hcg5zlx6B0UjhxR55rTS6VYGv0GJx01TxMnWY7kF_O39jCrv0CCzXR4_0O_2NcVkqrvAE1QgsR366WbbIbVC0gt2iHvEoewNMVCdDcH-CmxU8cDcvM1PgNd-XTB1l-f1iCPItN03WMlYejN9QYtsBQHDa4lU");'>
           </div>
         </div>
-      </div>
+      </section>
+
       <!-- Games Grid -->
-      <div>
-        <h3 class="text-xl font-bold mb-6">Juegos Disponibles</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- Game Card 1 -->
+      <section>
+        <div class="flex items-end justify-between mb-10">
+          <div>
+            <h3 class="text-3xl font-black uppercase italic tracking-tighter">{{ 'games.available_games' | i18n }}</h3>
+            <p class="text-gray-500 text-sm mt-1 font-bold uppercase tracking-widest">{{ 'games.subtitle' | i18n }}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <!-- Voltaje Veloz -->
           <a [routerLink]="['/games/voltaje-veloz']"
-            class="group flex flex-col bg-white dark:bg-[#1a2632] rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-blue-600/30 transition-all duration-300 cursor-pointer">
-            <div class="relative h-48 overflow-hidden">
-              <div class="w-full h-full bg-center bg-cover group-hover:scale-110 transition-transform duration-500"
+            class="group flex flex-col bg-white dark:bg-[#111a22] rounded-[32px] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:shadow-blue-600/10 hover:-translate-y-2 transition-all duration-500">
+            <div class="relative h-56 overflow-hidden">
+              <div
+                class="w-full h-full bg-center bg-cover scale-110 group-hover:scale-100 transition-transform duration-700"
                 style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDTM_JpPCf7AAxl3TTb4tSU1n-E9CbKh1FAZHr6oDV782XESMC4aI_xerg-UzaAqhJFmP-Q6qAL9k0X_hUdMi4LrVvGp_z8d_9enNIASqmz96RyFXjm2Y80a9i0iGH48011hOnViFGMga2VxwqCrOb7RjoHP_UXyQlnOM74Il30N16YrAldaAcIK6K_0inYvenONwZ60tVWHTFsicd4nXC5CDIJdhK5i3jHVE9mfXMvY9mRsq2OYGglaUPA1cB7arzqVNUC_AVrEd0");'>
               </div>
-              <div class="absolute top-3 left-3"><span
-                  class="bg-green-500/90 text-white text-xs font-bold px-3 py-1.5 rounded-full">Fácil</span></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent opacity-60"></div>
+              <div class="absolute top-4 left-4">
+                <span
+                  class="bg-green-500 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-green-500/30">
+                  {{ 'games.difficulty.easy' | i18n }}
+                </span>
+              </div>
             </div>
-            <div class="p-6 flex flex-col gap-4 flex-1">
-              <h4 class="text-lg font-bold">Voltaje Veloz</h4>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">Preguntas rápidas de la normativa. ¡Piensa rápido o te
-                coge la corriente!</p>
-              <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                <div class="flex items-center gap-1 text-xs font-semibold text-gray-500"><span
-                    class="material-symbols-outlined text-base">timer</span> 5 min</div>
+            <div class="p-8 flex flex-col gap-4 flex-1">
+              <h4 class="text-2xl font-black uppercase italic tracking-tighter">{{ 'games.voltaje_veloz.title' | i18n }}
+              </h4>
+              <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+                {{ 'games.voltaje_veloz.desc' | i18n }}
+              </p>
+              <div
+                class="mt-auto pt-6 border-t border-gray-100 dark:border-gray-800/50 flex justify-between items-center">
+                <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  <span class="material-symbols-outlined text-lg">timer</span>
+                  5 {{ 'games.duration.min' | i18n }}
+                </div>
                 <button
-                  class="rounded-full size-10 flex items-center justify-center bg-blue-600 text-white group-hover:bg-green-500 transition-all"><span
-                    class="material-symbols-outlined">play_arrow</span></button>
+                  class="bg-blue-600 text-white p-3 rounded-2xl group-hover:bg-green-500 transition-colors shadow-lg shadow-blue-600/20 group-hover:shadow-green-500/20">
+                  <span class="material-symbols-outlined text-2xl">play_arrow</span>
+                </button>
               </div>
             </div>
           </a>
-          <!-- Game Card 2 -->
+
+          <!-- Maestro del Montaje -->
           <a [routerLink]="['/games/maestro-montaje']"
-            class="group flex flex-col bg-white dark:bg-[#1a2632] rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-blue-600/30 transition-all duration-300 cursor-pointer">
-            <div class="relative h-48 overflow-hidden">
-              <div class="w-full h-full bg-center bg-cover group-hover:scale-110 transition-transform duration-500"
+            class="group flex flex-col bg-white dark:bg-[#111a22] rounded-[32px] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:shadow-amber-600/10 hover:-translate-y-2 transition-all duration-500">
+            <div class="relative h-56 overflow-hidden">
+              <div
+                class="w-full h-full bg-center bg-cover scale-110 group-hover:scale-100 transition-transform duration-700"
                 style='background-image: url("https://storage.googleapis.com/aida-images/practical-exam-setup.png");'>
               </div>
-              <div class="absolute top-3 left-3"><span
-                  class="bg-amber-500/90 text-white text-xs font-bold px-3 py-1.5 rounded-full">Intermedio</span></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent opacity-60"></div>
+              <div class="absolute top-4 left-4">
+                <span
+                  class="bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-amber-500/30">
+                  {{ 'games.difficulty.medium' | i18n }}
+                </span>
+              </div>
             </div>
-            <div class="p-6 flex flex-col gap-4 flex-1">
-              <h4 class="text-lg font-bold">Maestro del Montaje</h4>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">Monta un cuadro de control desde cero. ¡Orden y
-                limpieza son la clave!</p>
-              <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                <div class="flex items-center gap-1 text-xs font-semibold text-gray-500"><span
-                    class="material-symbols-outlined text-base">construction</span> 15 min</div>
+            <div class="p-8 flex flex-col gap-4 flex-1">
+              <h4 class="text-2xl font-black uppercase italic tracking-tighter">{{ 'games.maestro_montaje.title' | i18n
+                }}</h4>
+              <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+                {{ 'games.maestro_montaje.subtitle' | i18n }}
+              </p>
+              <div
+                class="mt-auto pt-6 border-t border-gray-100 dark:border-gray-800/50 flex justify-between items-center">
+                <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  <span class="material-symbols-outlined text-lg">construction</span>
+                  15 {{ 'games.duration.min' | i18n }}
+                </div>
                 <button
-                  class="rounded-full size-10 flex items-center justify-center bg-blue-600 text-white group-hover:bg-green-500 transition-all"><span
-                    class="material-symbols-outlined">play_arrow</span></button>
+                  class="bg-blue-600 text-white p-3 rounded-2xl group-hover:bg-green-500 transition-colors shadow-lg shadow-blue-600/20 group-hover:shadow-green-500/20">
+                  <span class="material-symbols-outlined text-2xl">play_arrow</span>
+                </button>
               </div>
             </div>
           </a>
-          <!-- Game Card 3 -->
+
+          <!-- Cableado Maestro -->
           <a [routerLink]="['/games/cableado-maestro']"
-            class="group flex flex-col bg-white dark:bg-[#1a2632] rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-blue-600/30 transition-all duration-300 cursor-pointer">
-            <div class="relative h-48 overflow-hidden">
-              <div class="w-full h-full bg-center bg-cover group-hover:scale-110 transition-transform duration-500"
+            class="group flex flex-col bg-white dark:bg-[#111a22] rounded-[32px] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:shadow-red-600/10 hover:-translate-y-2 transition-all duration-500">
+            <div class="relative h-56 overflow-hidden">
+              <div
+                class="w-full h-full bg-center bg-cover scale-110 group-hover:scale-100 transition-transform duration-700"
                 style='background-image: url("https://storage.googleapis.com/aida-images/inversion-giro-p-c.png");'>
               </div>
-              <div class="absolute top-3 left-3"><span
-                  class="bg-red-500/90 text-white text-xs font-bold px-3 py-1.5 rounded-full">Difícil</span></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent opacity-60"></div>
+              <div class="absolute top-4 left-4">
+                <span
+                  class="bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-red-500/30">
+                  {{ 'games.difficulty.hard' | i18n }}
+                </span>
+              </div>
             </div>
-            <div class="p-6 flex flex-col gap-4 flex-1">
-              <h4 class="text-lg font-bold">Cableado Maestro</h4>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">Cablea un circuito de inversión de giro. ¡Cada
-                conexión cuenta para la victoria!</p>
-              <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                <div class="flex items-center gap-1 text-xs font-semibold text-gray-500"><span
-                    class="material-symbols-outlined text-base">timeline</span> 20 min</div>
+            <div class="p-8 flex flex-col gap-4 flex-1">
+              <h4 class="text-2xl font-black uppercase italic tracking-tighter">{{ 'games.cableado_maestro.title' | i18n
+                }}</h4>
+              <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+                {{ 'games.cableado_maestro.subtitle' | i18n }}
+              </p>
+              <div
+                class="mt-auto pt-6 border-t border-gray-100 dark:border-gray-800/50 flex justify-between items-center">
+                <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  <span class="material-symbols-outlined text-lg">timeline</span>
+                  20 {{ 'games.duration.min' | i18n }}
+                </div>
                 <button
-                  class="rounded-full size-10 flex items-center justify-center bg-blue-600 text-white group-hover:bg-green-500 transition-all"><span
-                    class="material-symbols-outlined">play_arrow</span></button>
+                  class="bg-blue-600 text-white p-3 rounded-2xl group-hover:bg-green-500 transition-colors shadow-lg shadow-blue-600/20 group-hover:shadow-green-500/20">
+                  <span class="material-symbols-outlined text-2xl">play_arrow</span>
+                </button>
               </div>
             </div>
           </a>
-          <!-- Game Card 4 (Logic Simulator) -->
+
+          <!-- Laboratorio Lógico -->
           <a [routerLink]="['/games/simulador-logico']"
-            class="group flex flex-col bg-white dark:bg-[#1a2632] rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl hover:border-purple-600/30 transition-all duration-300 cursor-pointer">
-            <div class="relative h-48 overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+            class="group flex flex-col bg-white dark:bg-[#111a22] rounded-[32px] overflow-hidden border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-2xl hover:shadow-purple-600/10 hover:-translate-y-2 transition-all duration-500">
+            <div class="relative h-56 overflow-hidden bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
               <div class="absolute inset-0 opacity-20"
                 style="background-image: radial-gradient(#6366f1 1px, transparent 1px); background-size: 10px 10px;">
               </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#111a22] to-transparent opacity-60"></div>
               <span
-                class="material-symbols-outlined text-8xl text-purple-500/50 group-hover:scale-110 transition-transform duration-500">settings_ethernet</span>
-              <div class="absolute top-3 left-3"><span
-                  class="bg-purple-500/90 text-white text-xs font-bold px-3 py-1.5 rounded-full">Examen</span></div>
+                class="material-symbols-outlined text-8xl text-purple-500/20 group-hover:text-purple-500 group-hover:rotate-12 transition-all duration-700">settings_ethernet</span>
+              <div class="absolute top-4 left-4">
+                <span
+                  class="bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-purple-600/30">
+                  {{ 'games.difficulty.exam' | i18n }}
+                </span>
+              </div>
             </div>
-            <div class="p-6 flex flex-col gap-4 flex-1">
-              <h4 class="text-lg font-bold">Laboratorio Lógico</h4>
-              <p class="text-gray-500 dark:text-gray-400 text-sm">Simula las compuertas AND, OR, NOT que salen en el
-                examen. ¡Entiende la lógica digital!</p>
-              <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
-                <div class="flex items-center gap-1 text-xs font-semibold text-gray-500"><span
-                    class="material-symbols-outlined text-base">science</span> Ilimitado</div>
+            <div class="p-8 flex flex-col gap-4 flex-1">
+              <h4 class="text-2xl font-black uppercase italic tracking-tighter">{{ 'games.laboratorio_logico.title' |
+                i18n }}</h4>
+              <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed font-medium">
+                {{ 'games.laboratorio_logico.desc' | i18n }}
+              </p>
+              <div
+                class="mt-auto pt-6 border-t border-gray-100 dark:border-gray-800/50 flex justify-between items-center">
+                <div class="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                  <span class="material-symbols-outlined text-lg">science</span>
+                  {{ 'games.duration.unlimited' | i18n }}
+                </div>
                 <button
-                  class="rounded-full size-10 flex items-center justify-center bg-blue-600 text-white group-hover:bg-green-500 transition-all"><span
-                    class="material-symbols-outlined">play_arrow</span></button>
+                  class="bg-blue-600 text-white p-3 rounded-2xl group-hover:bg-green-500 transition-colors shadow-lg shadow-blue-600/20 group-hover:shadow-green-500/20">
+                  <span class="material-symbols-outlined text-2xl">play_arrow</span>
+                </button>
               </div>
             </div>
           </a>
+
         </div>
-      </div>
+      </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="mt-20 py-10 border-t border-gray-200 dark:border-gray-800">
+      <div class="max-w-[1200px] mx-auto px-4 text-center">
+        <p class="text-[10px] font-black uppercase tracking-[0.5em] text-gray-500">LuxElectro • Gaming Division • 2024
+        </p>
+      </div>
+    </footer>
+
   </div>
 </div>

@@ -1,225 +1,362 @@
-<div class="bg-slate-950 text-white min-h-screen relative overflow-hidden flex flex-col">
-    <!-- Grid de fondo para feeling de ingeniería -->
-    <div class="absolute inset-0 opacity-10 pointer-events-none"
-        style="background-image: radial-gradient(#4f46e5 1px, transparent 1px); background-size: 30px 30px;"></div>
+<div
+    class="bg-[#0a0f14] text-white min-h-screen relative overflow-hidden flex flex-col font-mono selection:bg-blue-500/30">
+    <!-- Grid de fondo estilo Ingeniería Aeroespacial -->
+    <div class="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style="background-image: linear-gradient(#4f46e5 1px, transparent 1px), linear-gradient(90deg, #4f46e5 1px, transparent 1px); background-size: 40px 40px;">
+    </div>
 
-    <!-- Header consistentes -->
-    <header class="p-6 flex items-center justify-between border-b border-white/10 glass">
-        <div class="flex items-center gap-4">
-            <div
-                class="size-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/50">
-                <span class="material-symbols-outlined">memory</span>
+    <!-- Header Estilo Steam/Cyberpunk -->
+    <header class="p-6 flex items-center justify-between border-b border-white/5 bg-black/40 backdrop-blur-xl z-50">
+        <div class="flex items-center gap-6">
+            <div class="relative group">
+                <div class="absolute inset-0 bg-blue-600 blur-lg opacity-20 group-hover:opacity-40 transition-opacity">
+                </div>
+                <div
+                    class="size-12 bg-[#111a22] border-2 border-blue-500/50 rounded-xl flex items-center justify-center relative shadow-2xl">
+                    <span class="material-symbols-outlined text-blue-500 !text-3xl">precision_manufacturing</span>
+                </div>
             </div>
             <div>
-                <h1 class="text-xl font-black">Laboratorio Lógico (LOGO!)</h1>
-                <p class="text-xs text-indigo-400 font-bold uppercase tracking-widest">Simulador Industrial Pro</p>
+                <h1 class="text-2xl font-black tracking-tighter italic uppercase text-white shadow-blue-500/20">
+                    LOGIC-LAB <span class="text-blue-500">v4.0</span></h1>
+                <div class="flex items-center gap-3">
+                    <span class="flex items-center gap-1">
+                        <span class="size-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        <span class="text-[9px] font-black text-green-500 uppercase">System Ready</span>
+                    </span>
+                    <span
+                        class="text-[9px] font-black text-white/30 uppercase tracking-widest border-l border-white/10 pl-3">Industrial
+                        Grade Simulation</span>
+                </div>
             </div>
         </div>
-        <div class="flex gap-4">
+
+        <div class="flex items-center gap-6">
+            <!-- Barra de Recursos (Falsa, para estilo Steam) -->
+            <div class="hidden xl:flex items-center gap-8 px-6 py-2 bg-white/5 rounded-2xl border border-white/5">
+                <div class="flex flex-col">
+                    <span class="text-[8px] text-white/40 uppercase font-black mb-1">Bus Load</span>
+                    <div class="w-24 h-1 bg-white/10 rounded-full overflow-hidden">
+                        <div class="h-full bg-blue-500 w-[12%]" [class.w-[45%]]="busHistory().length > 5"></div>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[8px] text-white/40 uppercase font-black mb-1">EMI Shield</span>
+                    <span class="text-[10px] font-black text-blue-400">ACTIVE [99.2%]</span>
+                </div>
+            </div>
+
             <button routerLink="/games"
-                class="px-6 py-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-bold text-sm">Salir</button>
+                class="px-8 py-3 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 transition-all font-black text-xs uppercase tracking-tighter">Terminar
+                Sesión</button>
         </div>
     </header>
 
     <div class="flex-1 flex relative">
 
-        <!-- Toolbox (Izquierda) -->
-        <aside class="w-20 bg-black/40 border-r border-white/10 p-4 flex flex-col gap-6 items-center z-20">
-            <button (click)="addGate('AND')" class="group relative" title="Añadir AND">
+        <!-- Toolbox Vertical (Izquierda) -->
+        <aside
+            class="w-24 bg-black/20 backdrop-blur-md border-r border-white/5 p-4 flex flex-col gap-6 items-center z-20">
+            <div class="text-[8px] font-black text-white/20 uppercase vertical-text tracking-[0.3em] mb-4">Components
+            </div>
+
+            <button (click)="addGate('AND')" class="group relative flex flex-col items-center gap-1">
                 <div
-                    class="size-12 bg-indigo-600/20 border border-indigo-500/50 rounded-lg flex items-center justify-center group-hover:bg-indigo-600 group-hover:scale-110 transition-all">
-                    <span class="text-[10px] font-black italic">AND</span>
+                    class="size-14 bg-[#1a222c] border-2 border-white/10 rounded-2xl flex items-center justify-center group-hover:border-blue-500 group-hover:scale-110 transition-all shadow-xl">
+                    <span class="text-[10px] font-black text-white/60 group-hover:text-blue-400">AND</span>
                 </div>
             </button>
-            <button (click)="addGate('OR')" class="group relative" title="Añadir OR">
+            <button (click)="addGate('OR')" class="group relative flex flex-col items-center gap-1">
                 <div
-                    class="size-12 bg-blue-600/20 border border-blue-500/50 rounded-lg flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all">
-                    <span class="text-[10px] font-black italic">OR</span>
-                </div>
-            </button>
-            <button (click)="addGate('XOR')" class="group relative" title="Añadir XOR">
-                <div
-                    class="size-12 bg-purple-600/20 border border-purple-500/50 rounded-lg flex items-center justify-center group-hover:bg-purple-600 group-hover:scale-110 transition-all">
-                    <span class="text-[10px] font-black italic">XOR</span>
-                </div>
-            </button>
-            <button (click)="addGate('NOT')" class="group relative" title="Añadir NOT">
-                <div
-                    class="size-12 bg-red-600/20 border border-red-500/50 rounded-lg flex items-center justify-center group-hover:bg-red-600 group-hover:scale-110 transition-all">
-                    <span class="text-[10px] font-black italic">NOT</span>
+                    class="size-14 bg-[#1a222c] border-2 border-white/10 rounded-2xl flex items-center justify-center group-hover:border-blue-500 group-hover:scale-110 transition-all shadow-xl">
+                    <span class="text-[10px] font-black text-white/60 group-hover:text-blue-400">OR</span>
                 </div>
             </button>
 
-            <div class="w-full h-px bg-white/10 my-2"></div>
+            <div class="w-10 h-px bg-white/5 my-2"></div>
 
-            <button (click)="addGate('CONTACTOR')" class="group relative" title="Añadir Contactor (KM)">
+            <button (click)="addGate('CONTACTOR')" class="group relative flex flex-col items-center gap-1">
                 <div
-                    class="size-12 bg-orange-600/20 border border-orange-500/50 rounded-lg flex items-center justify-center group-hover:bg-orange-600 group-hover:scale-110 transition-all">
-                    <span class="material-symbols-outlined text-lg">settings_input_component</span>
-                    <span class="absolute -bottom-1 -right-1 bg-orange-600 text-[8px] px-1 rounded">KM</span>
+                    class="size-14 bg-[#1a222c] border-2 border-white/10 rounded-2xl flex items-center justify-center group-hover:border-orange-500 group-hover:scale-110 transition-all shadow-xl">
+                    <span
+                        class="material-symbols-outlined text-orange-500/50 group-hover:text-orange-500">settings_input_component</span>
                 </div>
+                <span class="text-[8px] font-black text-orange-500/40 uppercase">KM</span>
             </button>
 
-            <button (click)="addGate('RELAY')" class="group relative" title="Añadir Relé (KA)">
+            <button (click)="addGate('RELAY')" class="group relative flex flex-col items-center gap-1">
                 <div
-                    class="size-12 bg-teal-600/20 border border-teal-500/50 rounded-lg flex items-center justify-center group-hover:bg-teal-600 group-hover:scale-110 transition-all">
-                    <span class="material-symbols-outlined text-lg">reorder</span>
-                    <span class="absolute -bottom-1 -right-1 bg-teal-600 text-[8px] px-1 rounded">KA</span>
+                    class="size-14 bg-[#1a222c] border-2 border-white/10 rounded-2xl flex items-center justify-center group-hover:border-teal-500 group-hover:scale-110 transition-all shadow-xl">
+                    <span class="material-symbols-outlined text-teal-500/50 group-hover:text-teal-500">reorder</span>
                 </div>
+                <span class="text-[8px] font-black text-teal-500/40 uppercase">KA</span>
             </button>
         </aside>
 
-        <!-- Canvas -->
-        <main class="flex-1 relative cursor-crosshair overflow-hidden" (mousedown)="$event.preventDefault()">
+        <!-- Canvas Central -->
+        <main class="flex-1 relative cursor-crosshair overflow-hidden group/canvas"
+            (mousedown)="$event.preventDefault()">
 
-            <!-- SVG Wires Layer -->
+            <!-- Marca de agua de laboratorio -->
+            <div
+                class="absolute bottom-10 right-10 text-[60px] font-black text-white/[0.02] uppercase pointer-events-none select-none tracking-tighter">
+                LuxElectric-STEAM</div>
+
+            <!-- SVG Wires Layer con efecto de Neón líquido -->
             <svg class="absolute inset-0 w-full h-full pointer-events-none">
                 <defs>
-                    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                        <feGaussianBlur stdDeviation="3" result="blur" />
+                    <filter id="neon_glow_blue" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="4" result="blur" />
                         <feComposite in="SourceGraphic" in2="blur" operator="over" />
                     </filter>
                 </defs>
 
                 @for (node of nodes(); track node.id) {
                 @for (sourceId of node.connections; track sourceId) {
-                <!-- Wire Background -->
-                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-white/10 fill-none" stroke-width="4"
+                <!-- Cable Base (Cobre/Sombra) -->
+                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-white/5 fill-none" stroke-width="6"
                     stroke-linecap="round" />
 
-                <!-- Active Wire -->
+                <!-- Flujo de Energía Activa -->
                 @if (isWireActive(sourceId)) {
-                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-indigo-500 fill-none animate-pulse"
-                    stroke-width="5" stroke-linecap="round" filter="url(#glow)" />
-                <!-- Energy Dash Animation -->
-                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-white/40 fill-none" stroke-width="2"
-                    stroke-linecap="round" style="stroke-dasharray: 10, 20; animation: dash 1s linear infinite;" />
+                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-blue-500/20 fill-none" stroke-width="10"
+                    stroke-linecap="round" filter="url(#neon_glow_blue)" />
+                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-blue-400 fill-none" stroke-width="2"
+                    stroke-linecap="round" />
+                <!-- Dash de electrones -->
+                <path [attr.d]="getCurve(sourceId, node.id)" class="stroke-white/60 fill-none" stroke-width="2"
+                    stroke-linecap="round" style="stroke-dasharray: 4, 20; animation: dash 0.5s linear infinite;" />
                 }
                 }
                 }
             </svg>
 
-            <!-- Nodes Layer -->
+            <!-- Nodos Dinámicos -->
             @for (node of nodes(); track node.id) {
-            <div class="absolute select-none transition-shadow" [style.left.px]="node.x - 40"
+            <div class="absolute select-none transition-transform duration-300" [style.left.px]="node.x - 40"
                 [style.top.px]="node.y - 30" (mousedown)="startDrag($event, node.id)"
                 (touchstart)="startDrag($event, node.id)" (mouseenter)="hoverNodeId.set(node.id)"
-                (mouseleave)="hoverNodeId.set(null)" [class.z-50]="draggingNodeId() === node.id">
-                <!-- STEM Voltage Tooltip -->
+                (mouseleave)="hoverNodeId.set(null)" [class.z-50]="draggingNodeId() === node.id"
+                [class.scale-110]="draggingNodeId() === node.id">
+
+                <!-- STEM Info Tooltip Moderno -->
                 @if (hoverNodeId() === node.id) {
                 <div
-                    class="absolute -top-10 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-2 py-1 rounded shadow-lg animate-in fade-in zoom-in duration-200 z-[100] border border-blue-400 whitespace-nowrap">
-                    POTENCIAL: {{ node.output ? '230V AC' : '0V' }}
-                </div>
-                }
-                <!-- Input Node -->
-                @if (node.type === 'INPUT') {
-                <div (click)="toggleInput(node.id)"
-                    class="group w-24 p-2 bg-slate-900 border-2 rounded-xl transition-all cursor-pointer flex flex-col items-center"
-                    [class.border-indigo-500]="node.output" [class.border-white/10]="!node.output"
-                    [class.scale-105]="node.output">
-                    <span class="text-[10px] uppercase font-black text-white/40 mb-1">{{node.label}}</span>
-                    @if (node.knxAddress) {
-                    <span
-                        class="text-[8px] bg-indigo-500/20 text-indigo-300 px-1 rounded border border-indigo-500/30 mb-2">{{node.knxAddress}}</span>
-                    }
-                    <div class="size-6 rounded-full border-2 flex items-center justify-center transition-colors"
-                        [class.bg-indigo-500]="node.output" [class.border-indigo-400]="node.output"
-                        [class.border-white/20]="!node.output">
+                    class="absolute -top-16 left-1/2 -translate-x-1/2 bg-[#1a222c] border border-blue-500/50 p-2 rounded-xl shadow-2xl animate-in fade-in zoom-in duration-200 z-[100] whitespace-nowrap min-w-[120px]">
+                    <div class="text-[8px] font-black text-blue-400 uppercase tracking-widest mb-1">State Analysis</div>
+                    <div class="flex items-center justify-between gap-4">
+                        <span class="text-[10px] text-white/60 font-black">VOLTAGE:</span>
+                        <span class="text-[10px] font-black text-white">{{ node.output ? '230.1 V' : '0.0 V' }}</span>
                     </div>
-                </div>
-                }
-                <!-- Gate Node -->
-                @if (node.type !== 'INPUT' && node.type !== 'OUTPUT') {
-                <div
-                    class="w-32 bg-slate-900 border-2 border-white/20 rounded-xl p-3 shadow-2xl overflow-hidden group hover:border-indigo-500/50 transition-colors">
-                    <div class="absolute inset-0 bg-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity">
-                    </div>
-                    <div class="flex justify-between items-center mb-2 px-1">
-                        <div class="size-2 rounded-full" [class.bg-indigo-500]="node.output"
-                            [class.bg-slate-700]="!node.output"></div>
-                        <span
-                            class="text-[9px] font-black text-white/30 uppercase tracking-tighter">{{node.label}}</span>
-                    </div>
-                    <div class="text-center py-2 relative flex flex-col items-center">
-                        @if (node.type === 'CONTACTOR') {
-                        <span
-                            class="material-symbols-outlined text-3xl text-orange-500/80 mb-1">settings_input_component</span>
-                        <span class="text-[10px] font-black text-white/80">CONTACTOR</span>
-                        } @else if (node.type === 'RELAY') {
-                        <span class="material-symbols-outlined text-3xl text-teal-500/80 mb-1">reorder</span>
-                        <span class="text-[10px] font-black text-white/80">RELÉ</span>
-                        } @else {
-                        <span class="text-2xl font-black italic tracking-widest text-white/90">{{node.type}}</span>
-                        }
+                    <div class="flex items-center justify-between gap-4">
+                        <span class="text-[10px] text-white/60 font-black">STATUS:</span>
+                        <span class="text-[10px] font-black" [class.text-green-500]="node.output"
+                            [class.text-red-500]="!node.output">{{ node.output ? 'ENERGIZED' : 'IDLE' }}</span>
                     </div>
                 </div>
                 }
 
-                <!-- Output Node -->
-                @if (node.type === 'OUTPUT') {
-                <div class="w-20 p-3 bg-slate-900 border-2 rounded-full transition-all flex flex-col items-center shadow-lg"
-                    [class.border-yellow-500]="node.output" [class.shadow-yellow-500/40]="node.output"
-                    [class.border-white/10]="!node.output">
-                    <div class="size-8 rounded-full flex items-center justify-center transition-colors"
-                        [class.text-yellow-500]="node.output" [class.text-white/10]="!node.output">
-                        <span class="material-symbols-outlined text-3xl font-black"
-                            [class.animate-pulse]="node.output">lightbulb</span>
+                <!-- Diseño de Componentes Industriales (Metal/Glass) -->
+                @if (node.type === 'INPUT') {
+                <div (click)="toggleInput(node.id)"
+                    class="group w-32 bg-[#111a22] border-2 rounded-2xl p-3 transition-all cursor-pointer border-white/5 hover:border-blue-500/50 shadow-2xl overflow-hidden"
+                    [class.border-blue-500]="node.output" [class.bg-blue-600/5]="node.output">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-white/5" [class.bg-blue-500]="node.output"></div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span
+                            class="text-[9px] font-black text-white/30 uppercase tracking-tighter">{{node.label}}</span>
+                        @if (node.knxAddress) { <span class="text-[7px] bg-blue-500/20 text-blue-300 px-1 rounded">BUS:
+                            {{node.knxAddress}}</span> }
                     </div>
-                    <span class="text-[9px] font-bold mt-1 text-white/40">{{node.label}}</span>
+                    <div class="flex flex-col items-center gap-2">
+                        <div class="size-10 rounded-full bg-[#1a222c] border-4 flex items-center justify-center transition-all shadow-inner"
+                            [class.border-blue-500]="node.output" [class.border-gray-800]="!node.output">
+                            <div class="size-4 rounded-full transition-all" [class.bg-blue-500]="node.output"
+                                [class.shadow-[0_0_15px_#3b82f6]]="node.output" [class.bg-gray-900]="!node.output">
+                            </div>
+                        </div>
+                        <span
+                            class="text-[8px] font-black text-white/40 group-hover:text-white uppercase tracking-widest">Toggle</span>
+                    </div>
+                </div>
+                }
+
+                @if (node.type !== 'INPUT' && node.type !== 'OUTPUT') {
+                <div
+                    class="w-40 bg-[#111a22] border-2 border-white/10 rounded-2xl p-4 shadow-2xl relative overflow-hidden group hover:border-indigo-500/50 transition-all">
+                    <div
+                        class="absolute inset-0 bg-indigo-600/[0.02] opacity-0 group-hover:opacity-100 transition-opacity">
+                    </div>
+                    <!-- Indicador de bobina -->
+                    <div class="absolute top-0 right-0 w-8 h-8 flex items-center justify-center">
+                        <div class="size-2 rounded-full transition-all duration-300" [class.bg-indigo-500]="node.output"
+                            [class.shadow-[0_0_10px_#6366f1]]="node.output" [class.bg-white/5]="!node.output"></div>
+                    </div>
+
+                    <div
+                        class="text-[9px] font-black text-white/20 uppercase mb-4 tracking-widest border-b border-white/5 pb-2">
+                        {{node.label}}</div>
+
+                    <div class="flex items-center gap-4">
+                        <div
+                            class="size-12 bg-black/40 rounded-xl flex items-center justify-center border border-white/5">
+                            @if (node.type === 'CONTACTOR') { <span
+                                class="material-symbols-outlined text-orange-500">settings_input_component</span> }
+                            @else if (node.type === 'RELAY') { <span
+                                class="material-symbols-outlined text-teal-500">reorder</span> }
+                            @else { <span class="text-xs font-black italic">{{node.type}}</span> }
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-[10px] font-black text-white/80">{{node.type}}</span>
+                            <span class="text-[7px] font-bold text-white/30 uppercase italic">Industrial Core</span>
+                        </div>
+                    </div>
+                </div>
+                }
+
+                @if (node.type === 'OUTPUT') {
+                <div class="w-24 p-4 bg-[#111a22] border-2 rounded-3xl transition-all flex flex-col items-center gap-4 shadow-2xl hover:border-yellow-500/50"
+                    [class.border-yellow-500]="node.output" [class.bg-yellow-500/5]="node.output"
+                    [class.border-white/5]="!node.output">
+                    <div class="size-12 rounded-2xl bg-black/40 flex items-center justify-center border border-white/10 transition-all"
+                        [class.border-yellow-500]="node.output"
+                        [class.shadow-[0_0_20px_rgba(234,179,8,0.2)]]="node.output">
+                        <span class="material-symbols-outlined text-3xl font-black transition-colors"
+                            [class.text-yellow-500]="node.output" [class.text-white/10]="!node.output">light_mode</span>
+                    </div>
+                    <span class="text-[8px] font-black uppercase text-white/40 tracking-widest">{{node.label}}</span>
                 </div>
                 }
             </div>
             }
 
         </main>
+
+        <!-- Sidebar Retos (Derecha) -->
+        <aside class="w-80 bg-black/20 backdrop-blur-md border-l border-white/5 p-6 flex flex-col z-20">
+            <h2 class="text-xs font-black text-white uppercase italic tracking-widest mb-8 flex items-center gap-3">
+                <span class="size-2 rounded-full bg-blue-500"></span>
+                Protocolos de Examen
+            </h2>
+
+            <div class="flex-1 space-y-4 overflow-y-auto pr-2 custom-scrollbar">
+                @for (ch of challenges; track ch.id) {
+                <button (click)="loadChallenge(ch.id)"
+                    class="w-full text-left p-5 rounded-2xl border-2 transition-all flex flex-col gap-3 group"
+                    [class.border-blue-600]="activeChallenge()?.id === ch.id"
+                    [class.bg-blue-600/10]="activeChallenge()?.id === ch.id"
+                    [class.border-white/5]="activeChallenge()?.id !== ch.id"
+                    [class.hover:border-white/20]="activeChallenge()?.id !== ch.id">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black text-white uppercase italic">{{ch.title}}</span>
+                        <span
+                            class="material-symbols-outlined text-sm text-white/20 group-hover:text-white transition-colors">model_training</span>
+                    </div>
+                    <p class="text-[9px] text-white/50 leading-relaxed font-bold">{{ch.description}}</p>
+                </button>
+                }
+            </div>
+
+            <!-- Panel de Verificación STEAM -->
+            @if (activeChallenge()) {
+            <div class="mt-10 p-6 rounded-3xl border-2 transition-all animate-fade-in"
+                [class.bg-green-600/10]="isChallengePassed()" [class.border-green-600/50]="isChallengePassed()"
+                [class.bg-red-600/5]="!isChallengePassed()" [class.border-red-600/20]="!isChallengePassed()">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="material-symbols-outlined" [class.text-green-500]="isChallengePassed()"
+                        [class.text-red-500]="!isChallengePassed()">
+                        {{ isChallengePassed() ? 'verified' : 'pending_actions' }}
+                    </span>
+                    <span class="text-[10px] font-black uppercase tracking-widest">
+                        {{ isChallengePassed() ? 'Protocolo Validado' : 'Validando Esquema...' }}
+                    </span>
+                </div>
+                @if (isChallengePassed()) {
+                <p class="text-[9px] text-green-500 font-bold mb-4 uppercase">¡Felicidades! El montaje cumple con la
+                    lógica industrial requerida para el examen.</p>
+                <button
+                    class="w-full py-3 bg-green-600 rounded-xl text-[10px] font-black uppercase tracking-tighter hover:bg-green-700 transition-all">Siguiente
+                    Protocolo</button>
+                } @else {
+                <p class="text-[9px] text-white/40 font-bold uppercase italic">La lógica actual no satisface los
+                    requisitos del bus...</p>
+                }
+            </div>
+            }
+        </aside>
     </div>
 
-    <!-- Bottom Panel (Instrucciones & Monitor KNX) -->
-    <footer class="bg-black/60 backdrop-blur-md border-t border-white/10 flex h-48">
-        <!-- Instrucciones -->
-        <div class="flex-1 p-6 border-r border-white/10">
-            <h4 class="text-[10px] font-black uppercase text-indigo-400 mb-4 tracking-widest">Guía Rápida</h4>
-            <div class="flex flex-col gap-3 text-xs font-bold text-white/60">
-                <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-indigo-500"></span>
-                    <span>Pulsa en las entradas (Sxxx) para emitir Telegramas</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="size-2 rounded-full bg-slate-400"></span>
-                    <span>Arrastra los bloques para organizar el esquema industrial</span>
-                </div>
+    <!-- Bus Monitor Terminal (ETS Style) -->
+    <footer class="bg-[#0a0f14] border-t border-white/5 flex h-40">
+        <div class="flex-1 p-6 flex flex-col gap-4 border-r border-white/5">
+            <div class="flex items-center gap-3">
+                <span class="text-[8px] font-black text-blue-500 uppercase tracking-widest">System Kernel</span>
+                <div class="flex-1 h-px bg-white/5"></div>
             </div>
+            <p class="text-[10px] text-white/40 font-bold leading-relaxed italic">"Simulación basada en el motor CADe
+                SIMU 4.0. Las impedancias de los cables y la caída de tensión están calculadas en tiempo real bajo norma
+                LUX-N."</p>
         </div>
 
-        <!-- Bus Monitor (ETS Style) -->
-        <div class="w-[450px] bg-black/40 p-4 flex flex-col">
-            <div class="flex items-center justify-between mb-2">
-                <h4 class="text-[10px] font-black uppercase text-indigo-400 tracking-widest flex items-center gap-2">
-                    <span class="material-symbols-outlined text-[14px]">terminal</span>
-                    Monitor de Grupo (ETS)
-                </h4>
-                <span class="text-[8px] font-bold text-indigo-300 bg-indigo-500/10 px-1 rounded uppercase">Realtime
-                    Bus</span>
+        <div class="w-[500px] bg-black/40 p-4 font-mono">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                    <span class="size-1.5 rounded-full bg-blue-500"></span>
+                    <span class="text-[9px] font-black text-white/60 uppercase">Group Address Monitor (ETS)</span>
+                </div>
+                <span class="text-[8px] text-white/20">BUFFER: 1024KB</span>
             </div>
-            <div class="flex-1 overflow-y-auto space-y-1 pr-2 font-mono text-[10px]">
+            <div class="h-24 overflow-y-auto space-y-1 text-[9px] custom-scrollbar">
                 @for (tel of busHistory(); track $index) {
-                <div
-                    class="flex items-center gap-2 py-1 border-b border-white/5 animate-in slide-in-from-right duration-300">
-                    <span class="text-white/40">{{tel.timestamp}}</span>
-                    <span class="text-blue-400">{{tel.source}}</span>
-                    <span class="text-indigo-400">-> {{tel.destination}}</span>
-                    <span class="ml-auto font-black" [class.text-indigo-400]="tel.value === 'ON'">{{tel.value}}</span>
+                <div class="flex items-center gap-3 text-white/40 border-l-2 border-blue-500/20 pl-2">
+                    <span class="text-blue-500/60 font-bold">[{{tel.timestamp}}]</span>
+                    <span class="text-white/60">SRC: {{tel.source}}</span>
+                    <span class="text-blue-400">-> DST: {{tel.destination}}</span>
+                    <span class="ml-auto font-black px-2 rounded" [class.bg-blue-600/20]="tel.value === 'ON'"
+                        [class.text-blue-400]="tel.value === 'ON'">{{tel.value}}</span>
                 </div>
                 } @empty {
-                <div class="h-full flex items-center justify-center text-white/20 italic">
-                    Esperando telegramas en el bus...
-                </div>
+                <div class="h-full flex items-center justify-center text-white/10 italic text-[10px]">No bus activity
+                    detected...</div>
                 }
             </div>
         </div>
     </footer>
 </div>
+
+<style>
+    @keyframes dash {
+        from {
+            stroke-dashoffset: 24;
+        }
+
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 10px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(59, 130, 246, 0.5);
+    }
+
+    .vertical-text {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
+</style>
 
 <style>
     @keyframes dash {

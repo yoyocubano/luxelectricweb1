@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, signal, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { I18nPipe } from '../../../pipes/i18n.pipe';
 import { ProgressService } from '../../../services/progress.service';
 
 type GameState = 'start' | 'playing' | 'finished';
@@ -26,7 +27,7 @@ interface Wire {
   selector: 'app-maestro-montaje',
   templateUrl: './maestro-montaje.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, I18nPipe],
 })
 export class MaestroMontajeComponent {
   gameState = signal<GameState>('start');
@@ -116,12 +117,16 @@ export class MaestroMontajeComponent {
 
     this.progressService.completeGame(calculatedScore, 100);
 
+    if (calculatedScore === 100) {
+      this.progressService.checkAndUnlockAchievement('perfect_assembly', true);
+    }
+
     if (!this.isWiringCorrect()) {
-      this.feedbackMessage.set('¡Asere, te faltan cables o componentes! Revisa el esquema, que algo no está bien conectado.');
+      this.feedbackMessage.set('games.maestro_montaje.feedback.missing');
     } else if (hasMessyWires) {
-      this.feedbackMessage.set('Funciona, pero ¡qué chapucería! Usa las canaletas, que para eso están. La limpieza es clave.');
+      this.feedbackMessage.set('games.maestro_montaje.feedback.messy');
     } else {
-      this.feedbackMessage.set('¡Fino filipino! Trabajo de maestro. Limpio, ordenado y funcionando. ¡Estás listo pa\'l examen!');
+      this.feedbackMessage.set('games.maestro_montaje.feedback.perfect');
     }
 
     this.gameState.set('finished');

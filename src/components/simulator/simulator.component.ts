@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { DatabaseService, ExamQuestion } from '../../services/database.service';
 import { INITIAL_QUESTIONS } from '../../data/initial-questions';
+import { I18nService } from '../../services/i18n.service';
 
 @Component({
   selector: 'app-simulator',
@@ -9,7 +11,7 @@ import { INITIAL_QUESTIONS } from '../../data/initial-questions';
   styleUrls: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
 })
 export class SimulatorComponent {
   exams = signal<ExamQuestion[]>([]);
@@ -19,7 +21,13 @@ export class SimulatorComponent {
   showAnswer = signal(false);
   selectedYear = signal('Todos');
 
-  constructor(private db: DatabaseService) {
+  userAnswer = signal('');
+  isCorrect = signal<boolean | null>(null);
+  hasChecked = signal(false);
+
+
+  // Public for template access
+  constructor(private db: DatabaseService, public i18n: I18nService) {
     this.loadData();
   }
 
@@ -39,9 +47,33 @@ export class SimulatorComponent {
     return ['Todos', '2017-2018', '2018-2019', '2019-2020', '2020-2021', '2023-2024'];
   });
 
-  filteredExams = computed(() => this.exams());
+  filteredExams = computed(() => {
+    return this.exams().filter(q =>
+      !q.question.toLowerCase().includes('agua') &&
+      !q.question.toLowerCase().includes('ciclo')
+    );
+  });
 
   currentQuestion = computed(() => this.exams()?.[this.currentQuestionIndex()]);
+
+  // Barajar opciones cada vez que cambia la pregunta
+  questionOptions = computed(() => {
+    const q = this.currentQuestion();
+    if (!q) return [];
+
+    // Si la pregunta ya tiene opciones definidas, las usamos
+    if (q.options && q.options.length > 0) {
+      return [...q.options].sort(() => Math.random() - 0.5);
+    }
+
+    // Si no tiene opciones, creamos un set por defecto basado en la respuesta correcta
+    // (Esto es temporal hasta que actualicemos toda la data)
+    return [
+      q.correct_answer,
+      "Opción de prueba incorrecta A",
+      "Opción de prueba incorrecta B"
+    ].sort(() => Math.random() - 0.5);
+  });
 
   // Sincronizar las 50 preguntas de ayer con la base de datos
   async syncInitialData() {
@@ -62,24 +94,51 @@ export class SimulatorComponent {
     const total = this.exams().length;
     if (total === 0) return;
     this.currentQuestionIndex.update(index => (index + 1) % total);
-    this.showAnswer.set(false);
+    this.resetVerification();
   }
 
   previousQuestion() {
     const total = this.exams().length;
     if (total === 0) return;
     this.currentQuestionIndex.update(index => (index - 1 + total) % total);
-    this.showAnswer.set(false);
+    this.resetVerification();
   }
 
   toggleAnswer() {
     this.showAnswer.update(value => !value);
   }
 
+  checkAnswer() {
+    const user = this.userAnswer().trim();
+    const correct = this.currentQuestion()?.correct_answer.trim() || '';
+
+    this.isCorrect.set(user === correct);
+    this.hasChecked.set(true);
+    this.showAnswer.set(true);
+  }
+
+  selectOption(option: string) {
+    if (this.hasChecked()) return;
+    this.userAnswer.set(option);
+    this.checkAnswer();
+  }
+
+  selectQuestion(index: number) {
+    this.currentQuestionIndex.set(index);
+    this.resetVerification();
+  }
+
+  private resetVerification() {
+    this.userAnswer.set('');
+    this.hasChecked.set(false);
+    this.isCorrect.set(null);
+    this.showAnswer.set(false);
+  }
+
   async selectYear(year: string) {
     this.selectedYear.set(year);
     this.currentQuestionIndex.set(0);
-    this.showAnswer.set(false);
+    this.resetVerification();
     await this.loadData();
   }
 }

@@ -10,56 +10,58 @@ interface Connection {
 }
 
 interface Terminal {
-    id: string;
-    x: number;
-    y: number;
+  id: string;
+  x: number;
+  y: number;
 }
 
 const REQUIRED_CONNECTIONS: Connection[] = [
-    // Power Circuit
-    { from: 'L1', to: 'Q1-1' }, { from: 'L2', to: 'Q1-3' }, { from: 'L3', to: 'Q1-5' },
-    { from: 'Q1-2', to: 'KM1-1' }, { from: 'Q1-4', to: 'KM1-3' }, { from: 'Q1-6', to: 'KM1-5' },
-    { from: 'Q1-2', to: 'KM2-1' }, { from: 'Q1-4', to: 'KM2-5' }, { from: 'Q1-6', to: 'KM2-3' }, // Inversion L2/L3 on KM2
-    { from: 'KM1-2', to: 'KM2-2' }, { from: 'KM1-4', to: 'KM2-4' }, { from: 'KM1-6', to: 'KM2-6' },
-    { from: 'KM2-2', to: 'F1-1' }, { from: 'KM2-4', to: 'F1-3' }, { from: 'KM2-6', to: 'F1-5' },
-    // Control Circuit
-    { from: 'L1-control', to: 'F1-95' },
-    { from: 'F1-96', to: 'S1-1' },
-    { from: 'S1-2', to: 'S2-3' }, { from: 'S1-2', to: 'S3-3' }, { from: 'S1-2', to: 'KM1-13' }, { from: 'S1-2', to: 'KM2-13' },
-    { from: 'S2-4', to: 'KM2-21' }, // NC interlock
-    { from: 'KM2-22', to: 'KM1-A1' },
-    { from: 'S3-4', to: 'KM1-21' }, // NC interlock
-    { from: 'KM1-22', to: 'KM2-A1' },
-    { from: 'KM1-14', to: 'S2-4' },
-    { from: 'KM2-14', to: 'S3-4' },
-    { from: 'KM1-A2', to: 'N' },
-    { from: 'KM2-A2', to: 'N' },
+  // Power Circuit
+  { from: 'L1', to: 'Q1-1' }, { from: 'L2', to: 'Q1-3' }, { from: 'L3', to: 'Q1-5' },
+  { from: 'Q1-2', to: 'KM1-1' }, { from: 'Q1-4', to: 'KM1-3' }, { from: 'Q1-6', to: 'KM1-5' },
+  { from: 'Q1-2', to: 'KM2-1' }, { from: 'Q1-4', to: 'KM2-5' }, { from: 'Q1-6', to: 'KM2-3' }, // Inversion L2/L3 on KM2
+  { from: 'KM1-2', to: 'KM2-2' }, { from: 'KM1-4', to: 'KM2-4' }, { from: 'KM1-6', to: 'KM2-6' },
+  { from: 'KM2-2', to: 'F1-1' }, { from: 'KM2-4', to: 'F1-3' }, { from: 'KM2-6', to: 'F1-5' },
+  // Control Circuit
+  { from: 'L1-control', to: 'F1-95' },
+  { from: 'F1-96', to: 'S1-1' },
+  { from: 'S1-2', to: 'S2-3' }, { from: 'S1-2', to: 'S3-3' }, { from: 'S1-2', to: 'KM1-13' }, { from: 'S1-2', to: 'KM2-13' },
+  { from: 'S2-4', to: 'KM2-21' }, // NC interlock
+  { from: 'KM2-22', to: 'KM1-A1' },
+  { from: 'S3-4', to: 'KM1-21' }, // NC interlock
+  { from: 'KM1-22', to: 'KM2-A1' },
+  { from: 'KM1-14', to: 'S2-4' },
+  { from: 'KM2-14', to: 'S3-4' },
+  { from: 'KM1-A2', to: 'N' },
+  { from: 'KM2-A2', to: 'N' },
 ];
+
+import { I18nPipe } from '../../../pipes/i18n.pipe';
 
 @Component({
   selector: 'app-cableado-maestro',
   templateUrl: './cableado-maestro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [RouterLink, I18nPipe],
 })
 export class CableadoMaestroComponent {
   gameState = signal<GameState>('start');
   selectedTerminal = signal<Terminal | null>(null);
   userConnections = signal<Connection[]>([]);
   errorState = signal(false);
-  
+
   // Expose helper and constant to the template
   public objectValues = Object.values;
   public readonly requiredConnectionsCount = REQUIRED_CONNECTIONS.length;
 
-  constructor(private progressService: ProgressService) {}
+  constructor(private progressService: ProgressService) { }
 
   // Define terminals with their positions
   terminals: Record<string, Terminal> = {
     'L1': { id: 'L1', x: 40, y: 20 }, 'L2': { id: 'L2', x: 80, y: 20 }, 'L3': { id: 'L3', x: 120, y: 20 },
     'Q1-1': { id: 'Q1-1', x: 40, y: 80 }, 'Q1-3': { id: 'Q1-3', x: 80, y: 80 }, 'Q1-5': { id: 'Q1-5', x: 120, y: 80 },
     'Q1-2': { id: 'Q1-2', x: 40, y: 120 }, 'Q1-4': { id: 'Q1-4', x: 80, y: 120 }, 'Q1-6': { id: 'Q1-6', x: 120, y: 120 },
-    
+
     'KM1-1': { id: 'KM1-1', x: 40, y: 160 }, 'KM1-3': { id: 'KM1-3', x: 80, y: 160 }, 'KM1-5': { id: 'KM1-5', x: 120, y: 160 },
     'KM1-2': { id: 'KM1-2', x: 40, y: 200 }, 'KM1-4': { id: 'KM1-4', x: 80, y: 200 }, 'KM1-6': { id: 'KM1-6', x: 120, y: 200 },
     'KM1-13': { id: 'KM1-13', x: 140, y: 160 }, 'KM1-14': { id: 'KM1-14', x: 140, y: 180 },
@@ -71,7 +73,7 @@ export class CableadoMaestroComponent {
     'KM2-13': { id: 'KM2-13', x: 280, y: 160 }, 'KM2-14': { id: 'KM2-14', x: 280, y: 180 },
     'KM2-21': { id: 'KM2-21', x: 160, y: 160 }, 'KM2-22': { id: 'KM2-22', x: 160, y: 180 },
     'KM2-A1': { id: 'KM2-A1', x: 200, y: 210 }, 'KM2-A2': { id: 'KM2-A2', x: 240, y: 210 },
-    
+
     'F1-1': { id: 'F1-1', x: 180, y: 240 }, 'F1-3': { id: 'F1-3', x: 220, y: 240 }, 'F1-5': { id: 'F1-5', x: 260, y: 240 },
     'F1-95': { id: 'F1-95', x: 400, y: 80 }, 'F1-96': { id: 'F1-96', x: 400, y: 100 },
 
@@ -105,7 +107,7 @@ export class CableadoMaestroComponent {
       if (isCorrect && !isDuplicate) {
         this.userConnections.update(conns => [...conns, { from: startTerminal.id, to: clickedTerminal.id }]);
         if (this.userConnections().length === this.requiredConnectionsCount) {
-            this.finishGame();
+          this.finishGame();
         }
       } else {
         this.triggerErrorState();
@@ -119,9 +121,9 @@ export class CableadoMaestroComponent {
       (conn.from === from && conn.to === to) || (conn.from === to && conn.to === from)
     );
   }
-  
+
   isConnectionDuplicate(from: string, to: string): boolean {
-     return this.userConnections().some(conn =>
+    return this.userConnections().some(conn =>
       (conn.from === from && conn.to === to) || (conn.from === to && conn.to === from)
     );
   }
@@ -133,6 +135,7 @@ export class CableadoMaestroComponent {
 
   finishGame() {
     this.progressService.completeGame(this.userConnections().length, this.requiredConnectionsCount);
+    this.progressService.checkAndUnlockAchievement('master_wirer', true);
     setTimeout(() => this.gameState.set('finished'), 500);
   }
 

@@ -9,6 +9,10 @@ export interface ExamQuestion {
     explanation: string;
     category: string;
     options?: string[]; // Opcional para preguntas de opción múltiple
+    question_fr?: string;
+    correct_answer_fr?: string;
+    explanation_fr?: string;
+    options_fr?: string[]; // Opciones en francés
 }
 
 @Injectable({

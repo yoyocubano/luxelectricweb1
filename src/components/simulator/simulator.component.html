@@ -21,12 +21,23 @@
         <aside
             class="hidden lg:flex w-80 flex-col border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a222c]">
             <div class="flex flex-col h-full">
+                <!-- Sync Button (Nuclear) -->
+                <div class="p-4 bg-indigo-600/10 border-b border-indigo-500/20">
+                    <button (click)="syncInitialData()"
+                        class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-2xl text-sm font-black shadow-xl shadow-indigo-600/40 transition-all hover:scale-[1.02] active:scale-95">
+                        <span class="material-symbols-outlined text-xl">database_sync</span>
+                        SINCRONIZAR 50+ PREGUNTAS REALES
+                    </button>
+                    <p class="text-[10px] text-center mt-2 text-indigo-400 font-bold uppercase tracking-tighter">Esto
+                        borrará el "Ciclo del Agua" y basura de prueba</p>
+                </div>
+
                 <div class="p-4 border-b border-gray-200 dark:border-gray-800">
                     <h1 class="text-base font-bold">Preguntas del Examen</h1>
                     <p class="text-sm text-gray-500 dark:text-gray-400">Exámenes Anteriores</p>
                 </div>
 
-                <!-- Year Filter and Sync -->
+                <!-- Year Filter -->
                 <div
                     class="flex flex-wrap items-center justify-between gap-4 py-4 px-4 border-b border-gray-100 dark:border-gray-800">
                     <div class="flex gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
@@ -39,18 +50,10 @@
                         }
                     </div>
 
-                    @if (exams().length === 0 && !isLoading()) {
-                    <button (click)="syncInitialData()"
-                        class="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-lg shadow-purple-600/20 transition-all active:scale-95">
-                        <span class="material-symbols-outlined text-sm">sync</span>
-                        Sincronizar Material PIFQU
-                    </button>
-                    }
-
                     @if (isLoading()) {
                     <div class="flex items-center gap-2 text-blue-600 animate-pulse">
                         <span class="material-symbols-outlined animate-spin">refresh</span>
-                        <span class="text-xs font-bold">Conectando con Supabase...</span>
+                        <span class="text-xs font-bold">Conectando...</span>
                     </div>
                     }
                 </div>
@@ -86,21 +89,58 @@
                             {{ currentQuestion().year }}</span>
                         <p class="text-xl md:text-2xl font-semibold leading-snug mt-4">{{ currentQuestion().question }}
                         </p>
+
+                        <!-- Opciones de Respuesta (MCQ) -->
+                        <div class="mt-8 grid grid-cols-1 gap-3">
+                            <label class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Selecciona la
+                                respuesta correcta:</label>
+
+                            @for (option of questionOptions(); track option) {
+                            <button (click)="selectOption(option)" [disabled]="hasChecked()"
+                                class="w-full p-4 rounded-xl text-left border-2 transition-all flex items-center justify-between group"
+                                [class.border-blue-500]="userAnswer() === option && !hasChecked()"
+                                [class.bg-blue-50/50]="userAnswer() === option && !hasChecked()"
+                                [class.border-green-500]="hasChecked() && option === currentQuestion().correct_answer"
+                                [class.bg-green-50/10]="hasChecked() && option === currentQuestion().correct_answer"
+                                [class.border-red-500]="hasChecked() && userAnswer() === option && option !== currentQuestion().correct_answer"
+                                [class.bg-red-50/10]="hasChecked() && userAnswer() === option && option !== currentQuestion().correct_answer"
+                                [class.border-gray-200]="userAnswer() !== option && !hasChecked()"
+                                [class.dark:border-gray-800]="userAnswer() !== option && !hasChecked()">
+
+                                <span class="text-base font-medium"
+                                    [class.text-green-600]="hasChecked() && option === currentQuestion().correct_answer">
+                                    {{ option }}
+                                </span>
+
+                                @if (hasChecked() && option === currentQuestion().correct_answer) {
+                                <span class="material-symbols-outlined text-green-500">check_circle</span>
+                                } @else if (hasChecked() && userAnswer() === option && option !==
+                                currentQuestion().correct_answer) {
+                                <span class="material-symbols-outlined text-red-500">cancel</span>
+                                }
+                            </button>
+                            }
+                        </div>
                     </div>
 
                     @if (showAnswer()) {
                     <div
                         class="mt-6 pt-6 border-t border-dashed border-gray-300 dark:border-gray-700 space-y-4 animate-fade-in">
-                        <div>
-                            <h3 class="text-sm font-bold text-green-600 dark:text-green-400 mb-2">Respuesta Correcta:
-                            </h3>
-                            <p class="text-base text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{{
-                                currentQuestion().answer }}</p>
+
+                        <div class="flex items-center gap-2 font-black mb-4" [class.text-green-500]="isCorrect()"
+                            [class.text-red-500]="!isCorrect()">
+                            <span class="material-symbols-outlined">{{ isCorrect() ? 'sentiment_very_satisfied' :
+                                'sentiment_dissatisfied' }}</span>
+                            {{ isCorrect() ? '¡LO CLAVASTE, ASERE!' : 'POR POQUITO... ¡MIRA BIEN!' }}
                         </div>
-                        <div>
-                            <h3 class="text-sm font-bold text-sky-600 dark:text-sky-400 mb-2">Explicación (¡El Chisme!):
+
+                        <div
+                            class="bg-sky-50 dark:bg-sky-900/20 p-4 rounded-xl border border-sky-100 dark:border-sky-800">
+                            <h3
+                                class="text-sm font-bold text-sky-600 dark:text-sky-400 mb-2 uppercase tracking-widest flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">lightbulb</span> El Chisme Técnico:
                             </h3>
-                            <p class="text-base text-gray-600 dark:text-gray-400 leading-relaxed">{{
+                            <p class="text-base text-gray-700 dark:text-gray-300 leading-relaxed">{{
                                 currentQuestion().explanation }}</p>
                         </div>
                     </div>

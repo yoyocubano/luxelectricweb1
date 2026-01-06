@@ -1,7 +1,14 @@
 import { ChangeDetectionStrategy, Component, computed, signal, OnDestroy } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { GAME_QUESTIONS, GameQuestion } from './questions';
 import { ProgressService } from '../../../services/progress.service';
+import { DatabaseService } from '../../../services/database.service';
+import { I18nService } from '../../../services/i18n.service';
+
+export interface GameQuestion {
+  question: string;
+  options: string[];
+  correctAnswerIndex: number;
+}
 
 type GameState = 'start' | 'playing' | 'finished';
 
@@ -18,10 +25,15 @@ export class VoltajeVelozComponent implements OnDestroy {
   score = signal(0);
   timeLeft = signal(15);
   selectedAnswer = signal<number | null>(null);
-  
+
   private timerInterval: any;
 
-  constructor(private progressService: ProgressService) {}
+
+  constructor(
+    private progressService: ProgressService,
+    private db: DatabaseService,
+    private i18n: I18nService
+  ) { }
 
   // Derived state
   currentQuestion = computed(() => this.questions()[this.currentQuestionIndex()]);
@@ -30,7 +42,7 @@ export class VoltajeVelozComponent implements OnDestroy {
     if (!this.isAnswered()) return false;
     return this.selectedAnswer() === this.currentQuestion()?.correctAnswerIndex;
   });
-  
+
   finalScoreMessage = computed(() => {
     const finalScore = this.score();
     if (finalScore === 10) return "¡Perfecto! Eres un maestro eléctrico.";
@@ -43,11 +55,34 @@ export class VoltajeVelozComponent implements OnDestroy {
     this.clearTimer();
   }
 
-  startGame() {
-    this.questions.set(this.shuffleArray([...GAME_QUESTIONS]).slice(0, 10));
-    this.currentQuestionIndex.set(0);
-    this.score.set(0);
+  async startGame() {
     this.gameState.set('playing');
+    this.score.set(0);
+    this.currentQuestionIndex.set(0);
+
+    // 1. Fetch questions from DB
+    const dbQuestions = await this.db.fetchQuestions('GAME_VV');
+
+    // 2. Localize and Map
+    const isFr = this.i18n.lang() === 'fr';
+    const mappedQuestions: GameQuestion[] = dbQuestions.map(q => {
+      const questionText = isFr && q.question_fr ? q.question_fr : q.question;
+      const options = isFr && q.options_fr ? q.options_fr : q.options || [];
+      const correctAnswer = isFr && q.correct_answer_fr ? q.correct_answer_fr : q.correct_answer;
+
+      // Shuffle options for randomness
+      const shuffledOptions = this.shuffleArray([...options]);
+      const correctIndex = shuffledOptions.indexOf(correctAnswer);
+
+      return {
+        question: questionText,
+        options: shuffledOptions,
+        correctAnswerIndex: correctIndex
+      };
+    });
+
+    // 3. Set Game State
+    this.questions.set(this.shuffleArray(mappedQuestions).slice(0, 10));
     this.loadNextQuestion();
   }
 
@@ -86,21 +121,21 @@ export class VoltajeVelozComponent implements OnDestroy {
     if (this.isCorrect()) {
       this.score.update(s => s + 1);
     }
-    
+
     setTimeout(() => {
-        this.currentQuestionIndex.update(i => i + 1);
-        this.loadNextQuestion();
+      this.currentQuestionIndex.update(i => i + 1);
+      this.loadNextQuestion();
     }, 1500);
   }
 
   private handleTimeUp() {
     this.clearTimer();
     // Mark as answered with a non-existent index to show it as incorrect
-    this.selectedAnswer.set(-1); 
-    
+    this.selectedAnswer.set(-1);
+
     setTimeout(() => {
-        this.currentQuestionIndex.update(i => i + 1);
-        this.loadNextQuestion();
+      this.currentQuestionIndex.update(i => i + 1);
+      this.loadNextQuestion();
     }, 1500);
   }
 
@@ -112,7 +147,12 @@ export class VoltajeVelozComponent implements OnDestroy {
 
   private endGame() {
     this.gameState.set('finished');
-    this.progressService.completeGame(this.score(), this.questions().length);
+    const totalQuestions = this.questions().length;
+    this.progressService.completeGame(this.score(), totalQuestions);
+
+    if (this.score() === totalQuestions) {
+      this.progressService.checkAndUnlockAchievement('perfect_score_vv', true);
+    }
   }
 
   restartGame() {

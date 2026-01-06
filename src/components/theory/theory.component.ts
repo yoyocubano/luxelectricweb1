@@ -11,10 +11,10 @@ import { I18nService, Language } from '../../services/i18n.service';
 })
 export class TheoryComponent {
   activeTab = signal('general');
-  activeTopic = signal('motors');
+  activeTopic = signal('dashboard');
   isLangMenuOpen = signal(false);
 
-  constructor(public i18n: I18nService) {}
+  constructor(public i18n: I18nService) { }
 
   selectTab(tab: string) {
     this.activeTab.set(tab);

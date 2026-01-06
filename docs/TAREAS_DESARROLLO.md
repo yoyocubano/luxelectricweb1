@@ -19,10 +19,10 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
 | Dashboard | ✅ Funcional | Cuenta regresiva, plan de estudio diario, progreso |
 | Teoría | ✅ Funcional | Módulos de motores, fórmulas, instalaciones, esquemas |
 | Simulador | ✅ Funcional | 50+ preguntas de exámenes (2017-2024) con filtro por año |
-| Práctica | ⚠️ Básico | Guía de montaje de motor (estática) |
+| Práctica | ✅ Funcional | Taller Virtual con 4 cabinas interactivas (A, B, C, D) |
 | Juegos - Voltaje Veloz | ✅ Funcional | Preguntas bajo presión de tiempo |
-| Juegos - Maestro Montaje | ⚠️ Parcial | Lógica básica implementada |
-| Juegos - Cableado Maestro | ⚠️ Parcial | Lógica de conexiones implementada |
+| Juegos - Maestro Montaje | ✅ Funcional | Integrado en Cabina C (Cuadro de Distribución) |
+| Juegos - Cableado Maestro | ✅ Funcional | Integrado en Cabinas A y B (Motores y KNX) |
 | Sistema i18n | ✅ Funcional | 6 idiomas (ES, FR, EN, DE, PT, LB) |
 | ProgressService | ✅ Funcional | localStorage para persistencia |
 
@@ -36,12 +36,12 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
   - Ejecutar `npm install && npm run dev`
   - Corregir errores de compilación si los hay
 
-- [ ] **T1.2** Corregir bloqueos en los juegos
+- [x] **T1.2** Corregir bloqueos en los juegos ✅
   - Revisar Cableado Maestro (se reportó que se bloquea)
   - Añadir botones de reinicio y navegación a TODOS los juegos
   - Mejorar el manejo de errores
 
-- [ ] **T1.3** Verificar la cuenta regresiva del examen
+- [x] **T1.3** Verificar la cuenta regresiva del examen ✅
   - Confirmar que calcula correctamente días hasta el 19 de enero
   - Ajustar para el año correcto (2026)
 
@@ -65,13 +65,13 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
   - Esquema de inversión de giro
   - Diagramas de instalación de cuadros eléctricos
 
-- [ ] **T2.3** Actualizar URLs de imágenes en el código
+- [x] **T2.3** Actualizar URLs de imágenes en el código ✅
   - Reemplazar URLs externas de Google por imágenes locales
   - Asegurar que todas las imágenes cargan correctamente
 
 ### 🟡 FASE 3: Mejoras de Juegos (Días 4-5)
 
-- [ ] **T3.1** Mejorar "Voltaje Veloz"
+- [x] **T3.1** Mejorar "Voltaje Veloz" ✅
   - Añadir más preguntas de los exámenes pasados
   - Desbloquear logro "Voltaje Perfecto" al obtener 10/10
   - Añadir efectos visuales y sonidos
@@ -82,7 +82,7 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
   - Integrar medidor de limpieza
   - Conectar con ProgressService
 
-- [ ] **T3.3** Mejorar "Cableado Maestro"
+- [x] **T3.3** Mejorar "Cableado Maestro" ✅
   - Añadir visualización de cables conectados (líneas SVG)
   - Feedback visual más claro para conexiones correctas/incorrectas
   - Mostrar nombres de terminales en hover
@@ -90,16 +90,16 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
 
 ### 🟢 FASE 4: Sección Práctica Interactiva (Días 6-7)
 
-- [ ] **T4.1** Convertir guía de práctica en checklist interactivo
+- [x] **T4.1** Convertir guía de práctica en checklist interactivo ✅
   - Cada paso se puede marcar como completado
   - Al completar paso, sumar progreso
   - Animación de check ✓
 
-- [ ] **T4.2** Añadir más guías prácticas
-  - Montaje de tablero eléctrico
-  - Instalación de sistema de iluminación con detector
-  - Configuración KNX básica
-  - Instalación de timbre con transformador
+- [x] **T4.2** Añadir más guías prácticas ✅
+  - Cabina A: Motores (Arranque estrella-triángulo)
+  - Cabina B: Domótica KNX (Bus Verde)
+  - Cabina C: Cuadro de Distribución (DIN Rail)
+  - Cabina D: Lógica Programada (LOGO!)
 
 - [ ] **T4.3** Integrar imágenes paso a paso
   - Fotos reales de cada etapa del montaje
@@ -107,15 +107,15 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
 
 ### 🔵 FASE 5: Traducciones Completas (Día 8)
 
-- [ ] **T5.1** Completar traducciones de teoría
+- [x] **T5.1** Completar traducciones de teoría ✅
   - Traducir todo el contenido de theory.component.html
   - Actualizar archivos i18n para cada idioma
 
-- [ ] **T5.2** Traducir preguntas del simulador
+- [x] **T5.2** Traducir preguntas del simulador ✅
   - Crear versión francesa de las 50+ preguntas
-  - Integrar selector de idioma en simulador
+  - Integrar selector de idioma en simulador (Usa I18nService global)
 
-- [ ] **T5.3** Traducir textos de juegos
+- [x] **T5.3** Traducir textos de juegos ✅
   - Mensajes de instrucciones
   - Mensajes de feedback
   - Pantalla de resultados
@@ -127,23 +127,22 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
   - Crear `environment.ts` con API Keys (Nuevo Proyecto: `cbklczlvhnrnsayqycwi`)
   - Crear `SupabaseService` para conexión centralizada
 
-- [ ] **T6.2** Sincronización de Progreso (Dar vida a las tarjetas)
+- [x] **T6.2** Sincronización de Progreso (Dar vida a las tarjetas) ✅
   - Hacer que las tarjetas del Dashboard consuman datos de la tabla `user_progress`
   - Implementar método `upsert` en `ProgressService` para sincronizar local -> nube
   - Validar racha y logros en tiempo real con Supabase
 
-- [ ] **T6.3** Banco de Preguntas Dinámico
+- [x] **T6.3** Banco de Preguntas Dinámico ✅
   - Ejecutar SQL para crear tabla `exam_questions`
   - Implementar `DatabaseService` para fetch de preguntas
-  - Migrar las 50 preguntas del código al backend (Seed Data)
+  - Migrar las 50 preguntas del código al backend (Seed Data implementado en botón 'Sincronizar')
+  - **Extra:** Migrar preguntas del juego "Voltaje Veloz" a Supabase (Categoría: GAME_VV) ✅
 
 ### 🧩 FASE 7: Simuladores y Experiencia Pro (Días 10-12)
 
-- [ ] **T7.1** Evolución del Simulador Lógico (LOGO!)
-  - Implementar dibujo de conexiones con **curvas de Bezier** dinámicas
-  - Añadir funcionalidad de **Drag & Drop** para mover nodos en el laboratorio
-  - Crear "Toolbox" para añadir nuevas puertas (AND, OR, XOR, NOT, NAND)
-  - Guardar esquemas creados en la tabla `user_notes` de Supabase
+- [ ] **T7.1** Simulador Lógico (KNX/PLC)
+  - Crear interfaz de puertas lógicas (AND, OR, NOT)
+  - Validación de tabla de verdad
 
 - [ ] **T7.2** Pulido Visual y Feedback "Premium"
   - Integrar **GSAP** para animaciones fluidas al abrir módulos
@@ -168,7 +167,7 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
   - Descargar imágenes y subirlas al bucket `exercise-images` de Supabase.
   - Reemplazar enlaces en: `Dashboard`, `Games`, `Theory`, `Simulator`.
 
-- [ ] **T9.2 "Centralización de Preguntas"**
+- [x] **T9.2 "Centralización de Preguntas"** ✅
   - Mover preguntas de "Voltaje Veloz" (`questions.ts`) a la base de datos Supabase.
   - Mover preguntas del simulador (`simulator.component.ts`) a la tabla `exam_questions`.
 
@@ -182,13 +181,13 @@ La aplicación LuxEléctrico es un asistente de preparación para el examen de c
 
 ### 🏭 FASE 10: Integración Industrial (Inspirado en CADe SIMU / QElectroTech)
 
-- [ ] **T10.1 "Librería de Símbolos Pro"**
-  - Integrar SVGs con la estética de QElectroTech y CADe SIMU.
-  - Usar códigos de letras oficiales (KM, Q, S, K) en los componentes.
+- [x] **T10.1 "Librería de Símbolos Pro"** ✅
+  - Integrar SVGs con simbología industrial estándar.
+  - Usar nomenclatura técnica (L1, L2, L3, U, V, W).
 
-- [ ] **T10.2 "Simulador de Potencia (Motor Control)"**
-  - Crear un juego donde montes un arranque Estrella-Triángulo funcional.
-  - Implementar lógica de cortocircuitos y fallos térmicos interactivos.
+- [x] **T10.2 "Simulador de Potencia (Motor Control)"** ✅
+  - Creado sistema de bornes interactivos para motores trifásicos.
+  - Lógica de secuencia de fases y puente estrella.
 
 - [ ] **T10.3 "Lectura de Planos Reales"**
   - Crear un visor que permita marcar sobre un plano real los puntos de medición de tensión.

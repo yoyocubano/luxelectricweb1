@@ -24,6 +24,8 @@
                 'header.nav.games' | i18n }}</a>
               <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/simulator">{{
                 'header.nav.simulator' | i18n }}</a>
+              <a class="text-sm font-bold text-pink-600 animate-pulse" routerLink="/trainer">{{ 'dashboard.trainer_nav'
+                | i18n }}</a>
               <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/resources">{{
                 'header.nav.resources' | i18n }}</a>
               <a class="text-sm font-medium hover:text-blue-600 transition-colors" routerLink="/calculators">{{
@@ -207,8 +209,7 @@
           <div
             class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1a2632] shadow-md border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all cursor-pointer"
             [routerLink]="['/theory']">
-            <div class="h-32 bg-cover bg-center"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCS7CZG7oK7w5PH2eEjPrYOR-aaxJbA76O4A88lGU6VAqlkRbhsAWEaGcx2Zph_pSEgfOTf_9Xc5yMXqWNvjRs_yalb4StHA_eun0_sGCAAhTtqYWb3KtXDSUfy3yG6HC4RRh4kqMUBwvGkVw9OcSsBiocXcp8_q530wPVYY52CvNBXqNKgm2LlO8xwXJkuElkv5G3JqSU5SmVra1J4S40_AduVGk0as03Rj9ZINlCak0iu2-NdMie6A0BmaCS-K2zDWosdse_UXic");'>
+            <div class="h-32 bg-cover bg-center" style='background-image: url("assets/images/premium/formulas.png");'>
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             </div>
             <div class="p-5 flex flex-col grow">
@@ -224,8 +225,7 @@
           <div
             class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1a2632] shadow-md border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all cursor-pointer"
             [routerLink]="['/practice']">
-            <div class="h-32 bg-cover bg-center"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCxpftwAIvVxKB7ck1qw22jvzs0EZn4qJQo0XNZXcXQ_9gR4_Z2rsjxK346YFojPRvnj-4FNx-DC0Z44M6xqLREPAkQ7LX9m7fiQSYhu5w-SvsPH8ekBTxxzt15AdNoD8uh0ELRx0DpQolTp3cHP3s1GzYfQ5LnO3ibevUy5YG700DieLHq-ujmKlqUSWfA98aTY_rNzxcYIBjBt-nOkMNHsF5GicVJVI4kq7XsWENnhgW5mJr6vo5PtRWCh1LbZu1FlaFDGV1Ox2Q");'>
+            <div class="h-32 bg-cover bg-center" style='background-image: url("assets/images/premium/cabinet.png");'>
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             </div>
             <div class="p-5 flex flex-col grow">
@@ -241,8 +241,7 @@
           <div
             class="group relative flex flex-col overflow-hidden rounded-xl bg-white dark:bg-[#1a2632] shadow-md border border-gray-100 dark:border-gray-800 hover:shadow-lg transition-all cursor-pointer"
             [routerLink]="['/games']">
-            <div class="h-32 bg-cover bg-center"
-              style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDh9HuV1jkvlcBrysO8iNVUfj3xsMX1rYpKlEjoOiAq-4stLP0M4A6ZROuoPWM2P8RnpS-kvXDmPQ6v9x2vzPJjid9jbXa_1AmsVk1F21M4P8hBTGzz0tHciJa2eJ0shFDutl3RE2MD_MqGWzeTaVQdmgHGdWsIiW51OSar_dcZRwo_ua-ZVNKc_PBgKwAA90kBjhvA2aeGrIwwf4eTjbQJ2OMwOT9WWCCK9BgD4qMyrtVDZnGYg6A-ChezzdcS1ebCfJQPKntmOt0");'>
+            <div class="h-32 bg-cover bg-center" style='background-image: url("assets/images/exercises/IMG_0930.PNG");'>
               <div class="absolute inset-0 bg-gradient-to-tr from-red-600/30 to-blue-600/30 mix-blend-multiply"></div>
               <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
             </div>
@@ -289,6 +288,29 @@
                 'dashboard.modules.calculators.cta' | i18n }}</button>
             </div>
           </div>
+          <!-- AI Trainer Card -->
+          <div
+            class="group relative flex flex-col overflow-hidden rounded-2xl bg-[#0a0f14] shadow-2xl border-2 border-blue-500/20 hover:border-blue-500/50 transition-all cursor-pointer scale-105 z-10"
+            [routerLink]="['/trainer']">
+            <div class="h-32 bg-cover bg-center relative"
+              style='background-image: url("https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1000");'>
+              <div class="absolute inset-0 bg-blue-600/20 mix-blend-overlay"></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-[#0a0f14] to-transparent"></div>
+              <div
+                class="absolute top-2 right-2 bg-pink-600 text-white text-[8px] font-black px-2 py-0.5 rounded-full animate-pulse uppercase">
+                HOT</div>
+            </div>
+            <div class="p-5 flex flex-col grow">
+              <h3 class="text-sm font-black mb-2 text-white italic tracking-tighter uppercase">{{
+                'dashboard.ai_coach.title' | i18n }}
+              </h3>
+              <p class="text-gray-400 text-[10px] mb-6 flex-grow leading-relaxed">{{ 'dashboard.ai_coach.subtitle' |
+                i18n }}</p>
+              <button
+                class="w-full h-10 rounded-xl bg-blue-600 text-white font-black text-[10px] hover:bg-blue-500 transition-all shadow-lg shadow-blue-900/40 uppercase tracking-widest">{{
+                'dashboard.ai_coach.cta' | i18n }}</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -310,8 +332,9 @@
               <span class="material-symbols-outlined">{{ ach.unlocked ? ach.icon : 'lock' }}</span>
             </div>
             <div>
-              <p class="text-sm font-bold">{{ ach.title }}</p>
-              <p class="text-xs text-gray-500">{{ ach.unlocked ? ach.description : ('dashboard.achievements.locked' |
+              <p class="text-sm font-bold">{{ 'dashboard.achievements.' + ach.id + '.title' | i18n }}</p>
+              <p class="text-xs text-gray-500">{{ ach.unlocked ? ('dashboard.achievements.' + ach.id + '.description' |
+                i18n) : ('dashboard.achievements.locked' |
                 i18n) }}</p>
             </div>
           </div>

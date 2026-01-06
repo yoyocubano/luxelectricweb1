@@ -79,5 +79,30 @@ export const GAME_QUESTIONS: GameQuestion[] = [
     question: 'Para conmutar una luz desde tres puntos, necesitas dos conmutadores y un...',
     options: ['Pulsador', 'Telerruptor', 'Conmutador de cruzamiento', 'Otro conmutador simple'],
     correctAnswerIndex: 2
+  },
+  {
+    question: '¿Cuál es la altura de montaje estándar recomendada para interruptores en viviendas?',
+    options: ['90 cm', '105-110 cm', '125-130 cm', '150 cm'],
+    correctAnswerIndex: 1
+  },
+  {
+    question: 'La distancia mínima de separación entre una tubería de gas y una conducción eléctrica es...',
+    options: ['1 cm', '3 cm', '5 cm', '10 cm'],
+    correctAnswerIndex: 1
+  },
+  {
+    question: '¿Qué dispositivo es esencial para proteger la instalación contra rayos (sobretensiones transitorias)?',
+    options: ['Magnetotérmico', 'Diferencial', 'SPD (Descargador de Sobretensiones)', 'Relé de fase'],
+    correctAnswerIndex: 2
+  },
+  {
+    question: 'En un plano unifilar, ¿qué indican las pequeñas líneas oblicuas sobre un conductor?',
+    options: ['La longitud del cable', 'El tipo de aislamiento', 'El número de conductores', 'La corriente máxima'],
+    correctAnswerIndex: 2
+  },
+  {
+    question: '¿Cuál es la sección mínima obligatoria para el conductor de conexión equipotencial principal?',
+    options: ['2,5 mm²', '4 mm²', '6 mm²', '10 mm²'],
+    correctAnswerIndex: 2
   }
 ];

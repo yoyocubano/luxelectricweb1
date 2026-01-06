@@ -48,6 +48,9 @@ export class ProgressService {
       this.saveProgress();
       this.syncWithSupabase();
     });
+
+    // Intentar recuperar de la nube (por si se borró caché local pero persiste el ID o si añadimos login futuro)
+    this.loadFromCloud();
   }
 
   private initUser() {
@@ -169,6 +172,33 @@ export class ProgressService {
       console.error('❌ Error sincronizando con Supabase:', error.message, error.details);
     } else {
       console.log('✅ Progreso sincronizado con Supabase');
+    }
+  }
+
+  private async loadFromCloud() {
+    if (!this.userId) return;
+
+    const { data, error } = await this.supabase.client
+      .from('user_progress')
+      .select('*')
+      .eq('user_local_id', this.userId)
+      .single();
+
+    if (data && !error) {
+      // Si la nube tiene datos más recientes o locales están vacíos, actualizamos
+      // Por simplicidad, asumimos que la nube manda si existe
+      this.progresoGeneral.set(data.progreso_general);
+      this.rachaActual.set(data.racha_actual);
+      this.examenesAprobados.set(data.examenes_aprobados);
+      this.lastPlayedDate.set(data.last_played_date);
+      this.completedTheoryTopics.set(new Set(data.completed_theory_topics || []));
+
+      const unlockedIds = new Set(data.unlocked_achievements || []);
+      this.achievements.update(achs =>
+        achs.map(ach => ({ ...ach, unlocked: unlockedIds.has(ach.id) }))
+      );
+
+      console.log('✅ Progreso restaurado desde Supabase');
     }
   }
 }

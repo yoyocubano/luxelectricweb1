@@ -10,12 +10,14 @@ import { CableadoMaestroComponent } from './components/games/cableado-maestro/ca
 import { SimuladorLogicoComponent } from './components/games/simulador-logico/simulador-logico.component';
 import { ResourcesComponent } from './components/resources/resources.component';
 import { CalculatorsComponent } from './components/calculators/calculators.component';
+import { TrainerComponent } from './components/trainer/trainer.component';
 
 export const APP_ROUTES: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'theory', component: TheoryComponent },
   { path: 'practice', component: PracticeComponent },
+  { path: 'trainer', component: TrainerComponent },
   { path: 'resources', component: ResourcesComponent },
   { path: 'calculators', component: CalculatorsComponent },
   { path: 'games', component: GamesComponent },

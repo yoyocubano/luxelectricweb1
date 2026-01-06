@@ -23,6 +23,13 @@ interface Telegram {
     type: string;
 }
 
+interface Challenge {
+    id: string;
+    title: string;
+    description: string;
+    targetLogic: (nodes: Node[]) => boolean;
+}
+
 @Component({
     selector: 'app-simulador-logico',
     standalone: true,
@@ -31,17 +38,55 @@ interface Telegram {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SimuladorLogicoComponent {
+    activeChallenge = signal<Challenge | null>(null);
+    challenges: Challenge[] = [
+        {
+            id: 'star-delta',
+            title: 'Arranque Estrella-Triángulo',
+            description: 'Logra que KM1 y KM3 se activen primero, y tras unos segundos KM3 se apague y KM2 se encienda.',
+            targetLogic: (nodes) => {
+                const km1 = nodes.find(n => n.label === 'KM1')?.output;
+                const km2 = nodes.find(n => n.label === 'KM2')?.output;
+                const km3 = nodes.find(n => n.label === 'KM3')?.output;
+                return (km1 && km3 && !km2) || (km1 && km2 && !km3);
+            }
+        },
+        {
+            id: 'interlock',
+            title: 'Enclavamiento Eléctrico',
+            description: 'Asegura que KM1 y KM2 NUNCA puedan estar activos al mismo tiempo (Protección de Cortocircuito).',
+            targetLogic: (nodes) => {
+                const km1 = nodes.find(n => n.id === 'km1')?.output;
+                const km2 = nodes.find(n => n.id === 'km2')?.output;
+                return !(km1 && km2);
+            }
+        }
+    ];
+
     busHistory = signal<Telegram[]>([]);
     nodes = signal<Node[]>([
-        { id: 'in1', type: 'INPUT', x: 80, y: 150, label: 'I1', output: false, connections: [], knxAddress: '1/1/1' },
-        { id: 'in2', type: 'INPUT', x: 80, y: 300, label: 'I2', output: false, connections: [], knxAddress: '1/1/2' },
-        { id: 'gate1', type: 'AND', x: 300, y: 225, label: 'B001 (AND)', output: false, connections: ['in1', 'in2'] },
-        { id: 'out1', type: 'OUTPUT', x: 550, y: 225, label: 'Q1', output: false, connections: ['gate1'], knxAddress: '1/1/10' }
+        { id: 'in1', type: 'INPUT', x: 80, y: 150, label: 'S1 (Marcha)', output: false, connections: [], knxAddress: '1/1/1' },
+        { id: 'in2', type: 'INPUT', x: 80, y: 300, label: 'S0 (Paro)', output: false, connections: [], knxAddress: '1/1/2' },
+        { id: 'km1', type: 'CONTACTOR', x: 350, y: 150, label: 'KM1', output: false, connections: ['in1'] },
+        { id: 'km2', type: 'CONTACTOR', x: 350, y: 300, label: 'KM2', output: false, connections: [] },
+        { id: 'out1', type: 'OUTPUT', x: 600, y: 225, label: 'H1 (Motor)', output: false, connections: ['km1'], knxAddress: '1/1/10' }
     ]);
 
     draggingNodeId = signal<string | null>(null);
     hoverNodeId = signal<string | null>(null);
     dragOffset = { x: 0, y: 0 };
+
+    // Sistema de validación de STEAM Simulator
+    isChallengePassed = computed(() => {
+        const challenge = this.activeChallenge();
+        if (!challenge) return false;
+        return challenge.targetLogic(this.nodes());
+    });
+
+    loadChallenge(id: string) {
+        const ch = this.challenges.find(c => c.id === id);
+        if (ch) this.activeChallenge.set(ch);
+    }
 
     evaluateLogic() {
         const currentNodes = JSON.parse(JSON.stringify(this.nodes()));
