@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación Examen ETE - Luxemburgo</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- MathJax for rendering formulas -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8; /* Electric Blue */
+            --danger-color: #ef4444;
+            --success-color: #22c55e;
+            --warning-color: #f59e0b;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            letter-spacing: -0.05em;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background-color: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 12px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border: 1px solid #334155;
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .data-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .data-label {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 5px;
+        }
+
+        .data-value {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .question-block {
+            margin-bottom: 30px;
+        }
+
+        .question-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .explanation-box {
+            background-color: rgba(34, 197, 94, 0.1); /* Green tint */
+            border-left: 4px solid var(--success-color);
+            padding: 16px;
+            margin-top: 12px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .explanation-title {
+            color: var(--success-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display:  block;
+        }
+
+        .formula-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .formula-card {
+            background: #0f172a;
+            border: 1px solid #475569;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .formula-name {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .formula-math {
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-top: 60px;
+            font-size: 0.9rem;
+        }
+        
+        strong {
+            color: var(--accent-color);
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Simulación Examen BTS/PIF</h1>
+        <h2>Étude Technique Électrique - Luxembourg</h2>
+        <span class="badge">Predicción Basada en Datos 2019-2024</span>
+    </header>
+
+    <!-- CONTEXTO -->
+    <section>
+        <h2 class="section-title">1. L'Enoncé (El Contexto)</h2>
+        <div class="card">
+            <p>Se le encarga validar la instalación eléctrica de un <strong>"Atelier de Mécanique" (Taller Mecánico)</strong> en Esch-sur-Alzette.</p>
+            <div class="data-grid">
+                <div class="data-item">
+                    <span class="data-label">Suministro (Réseau)</span>
+                    <span class="data-value">3x400V + N + PE</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Frecuencia</span>
+                    <span class="data-value">50 Hz</span>
+                </div>
+                <div class="data-item">
+                    <span class="data-label">Régimen de Neutro</span>
+                    <span class="data-value">TN-C-S</span>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Cargas Instaladas (Bilan de Puissance)</h3>
+            <div class="data-grid">
+                <!-- Carga 1 -->
+                <div class="data-item" style="border-left: 3px solid #f59e0b;">
+                    <span class="data-label">1. Motor-Compresor ($M_1$)</span>
+                    <div style="font-size: 0.9rem; margin-top: 5px;">
+                        <div>$P_{nom} = 15 \text{ kW}$</div>
+                        <div>$\cos \phi = 0.82$</div>
+                        <div>$\eta = 0.91$</div>
+                        <div>$U_{motor} = 400V/690V$</div>
+                    </div>
+                </div>
+                <!-- Carga 2 -->
+                <div class="data-item" style="border-left: 3px solid #ef4444;">
+                    <span class="data-label">2. Horno ($R_{four}$)</span>
+                    <div style="font-size: 0.9rem; margin-top: 5px;">
+                        <div>Resistivo Puro</div>
+                        <div>$P = 12 \text{ kW}$</div>
+                        <div>Trifásico Equilibrado</div>
+                    </div>
+                </div>
+                <!-- Carga 3 -->
+                <div class="data-item" style="border-left: 3px solid #22c55e;">
+                    <span class="data-label">3. Iluminación ($Aux$)</span>
+                    <div style="font-size: 0.9rem; margin-top: 5px;">
+                        <div>$P_{aux} = 4.5 \text{ kW}$</div>
+                        <div>$\cos \phi \approx 1$</div>
+                        <div>Equilibrado</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREGUNTAS Y TEORÍA -->
+    <section>
+        <h2 class="section-title">2. Questionnaire & Théorie</h2>
+        
+        <!-- PARTE A -->
+        <div class="card">
+            <h3>Parte A: Motores y Conexión</h3>
+            
+            <div class="question-block">
+                <div class="question-title">1. Determinación de Acoplamiento (Couplage)</div>
+                <p>Dada la red de 400V (Línea-Línea) y el motor con placa 400V/690V, ¿cómo debe conectarse el estator? Calcule y justifique.</p>
+                
+                <div class="explanation-box">
+                    <span class="explanation-title">Explicación Teórica:</span>
+                    <p>La placa de características del motor indica las tensiones nominales que puede soportar cada bobina individual. La notación <strong>400V/690V</strong> significa:</p>
+                    <ul>
+                        <li><strong>400V:</strong> Tensión máxima que soporta una bobina (conexión Triángulo $\Delta$).</li>
+                        <li><strong>690V:</strong> Tensión que tendría que haber entre fases para conectar en Estrella (Y), ya que en Estrella la bobina ve $U_{linea} / \sqrt{3}$.</li>
+                    </ul>
+                    <p>Como nuestra red es de <strong>400V</strong> entre fases, coincide con la tensión menor de la placa. Por tanto, cada bobina debe recibir 400V directamente.</p>
+                    <p><strong>Conclusión:</strong> Conexión en <strong>Triángulo ($\Delta$)</strong>.</p>
+                </div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-title">2. Corriente Nominal ($I_n$)</div>
+                <p>Calcule la corriente nominal consumida por el motor.</p>
+                <div class="formula-card" style="max-width: 400px; margin: 10px 0;">
+                    $$I_n = \frac{P_{nom}}{\sqrt{3} \cdot U \cdot \cos \phi \cdot \eta}$$
+                </div>
+                <div class="explanation-box">
+                    <span class="explanation-title">Razón:</span>
+                    La potencia de placa ($P_{nom}$) es siempre la <strong>potencia mecánica útil en el eje</strong>. Para hallar la corriente eléctrica absorbida, debemos considerar el rendimiento ($\eta$) y el factor de potencia ($\cos \phi$).
+                </div>
+            </div>
+        </div>
+
+        <!-- PARTE B -->
+        <div class="card">
+            <h3>Parte B: Balance de Potencias</h3>
+            <p>Calcule las potencias totales del taller.</p>
+            
+            <div class="question-block">
+                <div class="question-title">Teorema de Boucherot</div>
+                <p>Las potencias activas ($P$) y reactivas ($Q$) se suman aritméticamente. Las potencias aparentes ($S$) <strong>NO</strong> se suman directamente; se calculan al final vectorialmente.</p>
+                <div class="formula-grid">
+                   <div class="formula-card">
+                       <div class="formula-name">Suma Potencia Activa</div>
+                       $$P_{tal} = \sum P_i = P_{mot} + P_{horno} + P_{luz}$$
+                   </div>
+                   <div class="formula-card">
+                       <div class="formula-name">Suma Potencia Reactiva</div>
+                       $$Q_{tal} = \sum Q_i = Q_{mot} + 0 + 0$$
+                   </div>
+                   <div class="formula-card">
+                       <div class="formula-name">Potencia Aparente Total</div>
+                       $$S_{tot} = \sqrt{P_{tot}^2 + Q_{tot}^2}$$
+                   </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PARTE C -->
+        <div class="card">
+            <h3>Parte C: Compensación ($\cos \phi$)</h3>
+            <div class="question-block">
+                <div class="question-title">Cálculo de Batería de Condensadores</div>
+                <p>Objetivo: Elevar el factor de potencia a 0.94.</p>
+                
+                <div class="formula-card" style="text-align: center;">
+                    <div class="formula-name">Potencia Reactiva del Condensador ($Q_c$)</div>
+                    $$Q_c = P_{tot} \cdot (\tan(\varphi_{inicial}) - \tan(\varphi_{objetivo}))$$
+                </div>
+
+                <div class="explanation-box">
+                    <span class="explanation-title">Concepto:</span>
+                    Los condensadores generan energía reactiva negativa (capacitiva) que contrarresta la energía reactiva positiva (inductiva) de los motores. Esto reduce la corriente total ($I$) sin cambiar la potencia activa ($P$) consumida, lo que reduce pérdidas en los cables y evita multas de la compañía eléctrica.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOJA DE FÓRMULAS MASTER -->
+    <section>
+        <h2 class="section-title">3. Resumen Maestro de Fórmulas</h2>
+        <div class="data-grid" style="grid-template-columns: 1fr;">
+            
+            <!-- Trifásica Básica -->
+            <div class="card">
+                <h3>Sistemas Trifásicos (Équilibré)</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-name">Tensión Compuesta vs Simple</div>
+                        $$U = \sqrt{3} \cdot V$$
+                        <small>U: Fase-Fase (400V), V: Fase-Neutro (230V)</small>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-name">Potencia Activa</div>
+                        $$P = \sqrt{3} \cdot U \cdot I \cdot \cos \phi$$
+                        <small>[Watts]</small>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-name">Potencia Reactiva</div>
+                        $$Q = \sqrt{3} \cdot U \cdot I \cdot \sin \phi$$
+                        <small>[VAR]</small>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-name">Potencia Aparente</div>
+                        $$S = \sqrt{3} \cdot U \cdot I$$
+                        <small>[VA]</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caída de Tensión -->
+            <div class="card">
+                <h3>Dimensionamiento de Cables</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        <div class="formula-name">Caída de Tensión (Simplificada)</div>
+                        $$\Delta U \approx \sqrt{3} \cdot I \cdot L \cdot (R \cos \phi + X \sin \phi)$$
+                        <small>Para $\cos \phi=1$ (aprox):</small>
+                    </div>
+                    <div class="formula-card">
+                        <div class="formula-name">Sección de Cable (Cobre)</div>
+                        $$S = \frac{\sqrt{3} \cdot \rho \cdot L \cdot I}{\Delta U_{max}}$$
+                        <small>$\rho_{Cu} \approx 0.0225 \ \Omega mm^2/m$</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Matemáticas -->
+            <div class="card">
+                <h3>Trigonometría Recurrente</h3>
+                <div class="formula-grid">
+                    <div class="formula-card">
+                        $$S^2 = P^2 + Q^2$$
+                    </div>
+                    <div class="formula-card">
+                        $$\cos \phi = \frac{P}{S}$$
+                    </div>
+                    <div class="formula-card">
+                        $$\tan \phi = \frac{Q}{P}$$
+                    </div>
+                    <div class="formula-card">
+                        $$\sin \phi = \sqrt{1 - \cos^2 \phi}$$
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>Generado para Preparación PIF/BTS Luxemburgo - 2026</p>
+    </footer>
+</div>
+
+</body>
+</html>
