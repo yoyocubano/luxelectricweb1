@@ -1,0 +1,23 @@
+ Courant alternatif triphasé (courant triphasé)
+3.1 Introduction
+	•	En pratique, la distribution de l'énergie électrique ne se fait pas avec un courant alternatif
+	•	monophasé, mais avec un courant alternatif triphasé (courant triphasé).
+	•	Une tension alternative triphasée se compose de trois tensions alternatives déphasées de 120°.
+	•	Une tension alternative triphasée peut être transmise avec 3 ou 4 conducteurs. 
+	•	Pour leraccordement électrique d'une maison, on utilise généralement 4 conducteurs, les trois
+	•	conducteurs exterieurs (phases) L1, L2 et L3, ainsi que le conducteur neutre N.
+	•	La tension entre deux conducteurs extérieurs (2 phases), par exemple entre L1 et L2, est appelée tension de ligne UL. Dans le réseau triphasé de 400V que nous utilisons habituellement, UL = 400V. 
+	•	La tension entre un conducteur extérieur (phase) et le conducteur neutre (U1N, U2N, U3N) est alors de 230V.
+	•	Les relations suivantes s'appliquent :
+
+￼
+
+
+
+
+￼
+
+
+
+
+￼
